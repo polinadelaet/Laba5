@@ -14,7 +14,7 @@ public class SimpleQueryBuilder extends QueryBuilder {
     }
 
     @Override
-    public Query create(){
+    public Query create(String [] subStrings){
         return new Query(commandName, new ArrayList<String>());
     }
 }
