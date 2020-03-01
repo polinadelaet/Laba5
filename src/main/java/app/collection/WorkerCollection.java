@@ -17,11 +17,6 @@ public class WorkerCollection {
        collectionInfo = new CollectionInfo(ZonedDateTime.now(),
                                            LinkedList.class,
                                            0);
-
-//        for (Worker worker : workers) {
-//            save(worker);
-//        }
-//        save(collectionInfo);
     }
 
     public void add() {

@@ -1,13 +1,9 @@
 package app.console;
 
 import app.query.Query;
-import app.query.queryBuilder.AddQueryBuilder;
-import app.query.queryBuilder.QueryBuilder;
-import app.query.queryBuilder.SimpleQueryBuilder;
-import app.query.queryBuilder.UpdateIdQueryBuilder;
+import app.query.queryBuilder.*;
 import app.query.queryCreationException.QueryCreationException;
 
-import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -30,6 +26,9 @@ public final class ConsoleWork {
         queryBuilderMap.put("show", new SimpleQueryBuilder("show", this));
         queryBuilderMap.put("add", new AddQueryBuilder(this));
         queryBuilderMap.put("updateId", new UpdateIdQueryBuilder(this));
+        queryBuilderMap.put("clear", new ClearQueryBuilder(this));
+        queryBuilderMap.put("save", new SaveQueryBuilder(this));
+
 
 
     }

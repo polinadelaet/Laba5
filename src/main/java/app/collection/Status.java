@@ -1,7 +1,8 @@
 package app.collection;
 
-enum Status {
+public enum Status {
     HIRED,
     REGULAR,
     PROBATION;
+
 }

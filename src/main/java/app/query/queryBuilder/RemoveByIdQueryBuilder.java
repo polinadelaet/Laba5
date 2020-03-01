@@ -13,7 +13,7 @@ public class RemoveByIdQueryBuilder extends QueryBuilder {
     }
 
     @Override
-    public Query create(String [] subStrings) throws QueryCreationException {
+    public Query processCreation(String [] subStrings) throws QueryCreationException {
         if (subStrings.length != 2) {
             throw new QueryCreationException("Вам нужно ввести ТОЛЬКО один аргумент");
         }
