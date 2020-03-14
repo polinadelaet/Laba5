@@ -5,17 +5,17 @@ import app.query.Query;
 
 import java.util.Map;
 
-public class AddQueryBuilder extends CompositeQueryBuilder{
+public class AddIfMaxQueryBuilder extends CompositeQueryBuilder{
 
-    public AddQueryBuilder(ConsoleWork consoleWork){
-       super(consoleWork);
-
+    public AddIfMaxQueryBuilder(ConsoleWork consoleWork){
+        super(consoleWork);
     }
 
     @Override
     protected int getSubStringsLegalLength() {
         return 1;
     }
+
 
     @Override
     public Query processCreation(String [] subStrings) {
@@ -24,6 +24,7 @@ public class AddQueryBuilder extends CompositeQueryBuilder{
             String targetField = entry.getKey();
             readFieldValueIntoArguments(targetField);
         }
-        return new Query("add", arguments);
+
+        return new Query("add_if_max", arguments);
     }
 }

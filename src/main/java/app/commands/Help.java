@@ -1,9 +1,19 @@
 package app.commands;
 
-public class Help implements Command {
+import app.response.Response;
+import app.response.Status;
 
-    public void execute(){
-        System.out.println("info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)" + System.lineSeparator() +
+import java.util.List;
+
+public class Help extends Command {
+
+
+    public Help(List<String> inputArguments) {
+        super(inputArguments);
+    }
+    @Override
+    public Response execute(){
+        String message = "info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)" + System.lineSeparator() +
                 "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении" + System.lineSeparator() +
                 "add {element} : добавить новый элемент в коллекцию" + System.lineSeparator() +
                 "update id {element} : обновить значение элемента коллекции, id которого равен заданному" + System.lineSeparator() +
@@ -17,6 +27,8 @@ public class Help implements Command {
                 "remove_lower {element} : удалить из коллекции все элементы, меньшие, чем заданный" + System.lineSeparator() +
                 "count_by_end_date endDate : вывести количество элементов, значение поля endDate которых равно заданному" + System.lineSeparator() +
                 "filter_by_person person : вывести элементы, значение поля person которых равно заданному" + System.lineSeparator() +
-                "print_field_descending_end_date endDate : вывести значения поля endDate в порядке убывания");
+                "print_field_descending_end_date endDate : вывести значения поля endDate в порядке убывания";
+        return new Response(Status.OK,message);
+
     }
 }

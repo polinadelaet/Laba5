@@ -5,11 +5,10 @@ import app.query.Query;
 
 import java.util.Map;
 
-public class AddQueryBuilder extends CompositeQueryBuilder{
+public class RemoveLowerQueryBuilder extends CompositeQueryBuilder {
 
-    public AddQueryBuilder(ConsoleWork consoleWork){
-       super(consoleWork);
-
+    public RemoveLowerQueryBuilder(ConsoleWork consoleWork){
+        super(consoleWork);
     }
 
     @Override
@@ -24,6 +23,7 @@ public class AddQueryBuilder extends CompositeQueryBuilder{
             String targetField = entry.getKey();
             readFieldValueIntoArguments(targetField);
         }
-        return new Query("add", arguments);
+
+        return new Query("remove_lower", arguments);
     }
 }

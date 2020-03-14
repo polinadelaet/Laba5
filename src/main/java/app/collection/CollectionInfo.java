@@ -1,13 +1,10 @@
 package app.collection;
 
-import app.commands.Command;
-import app.commands.Help;
-
 import java.time.ZonedDateTime;
 import java.util.Collection;
-import java.util.List;
 
 public class CollectionInfo {
+
     private ZonedDateTime creationDate;
     private Class<? extends Collection> collectionType;
     private int size;

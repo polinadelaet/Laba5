@@ -3,12 +3,18 @@ import app.console.ConsoleWork;
 import app.query.Query;
 import app.query.queryCreationException.QueryCreationException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class QueryBuilder {
 
     protected final ConsoleWork consoleWork;
 
+    protected final List<String> arguments;
+
     public QueryBuilder(ConsoleWork consoleWork) {
         this.consoleWork = consoleWork;
+        arguments = new ArrayList<>();
     }
 
     protected abstract int getSubStringsLegalLength();
@@ -21,7 +27,7 @@ public abstract class QueryBuilder {
         }
     }
 
-    protected abstract Query processCreation(String[] subStrings) throws QueryCreationException;
+    protected abstract Query processCreation(String[] subStrings);
 
     // Template method шаблонный метод
     public Query create(String[] subStrings) throws QueryCreationException {

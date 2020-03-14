@@ -3,9 +3,9 @@ package app.query.queryBuilder;
 import app.console.ConsoleWork;
 import app.query.Query;
 
-public class RemoveByIdQueryBuilder extends CompositeQueryBuilder {
+public class CountByEndDateQueryBuilder extends CompositeQueryBuilder{
 
-    public RemoveByIdQueryBuilder(ConsoleWork consoleWork){
+    public CountByEndDateQueryBuilder(ConsoleWork consoleWork){
         super(consoleWork);
     }
 
@@ -13,13 +13,14 @@ public class RemoveByIdQueryBuilder extends CompositeQueryBuilder {
     protected int getSubStringsLegalLength() {
         return 2;
     }
+
     @Override
     public Query processCreation(String [] subStrings) {
 
-        String id = subStrings[1];
+        String endDate = subStrings[1];
 
-        arguments.add(id);
-        return new Query("remove_by_id", arguments);
+        arguments.add(endDate);
+        return new Query("count_by_end_date", arguments);
 
     }
 }

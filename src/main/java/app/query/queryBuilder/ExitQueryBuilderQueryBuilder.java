@@ -3,9 +3,9 @@ package app.query.queryBuilder;
 import app.console.ConsoleWork;
 import app.query.Query;
 
-public class ClearQueryBuilder extends CompositeQueryBuilder {
+public class ExitQueryBuilderQueryBuilder extends CompositeQueryBuilder {
 
-    public ClearQueryBuilder(ConsoleWork consoleWork){
+    public ExitQueryBuilderQueryBuilder(ConsoleWork consoleWork){
         super(consoleWork);
     }
 
@@ -13,8 +13,9 @@ public class ClearQueryBuilder extends CompositeQueryBuilder {
     protected int getSubStringsLegalLength() {
         return 1;
     }
+
     @Override
     public Query processCreation(String[] subStrings) {
-        return new Query("clear", arguments);
+        return new Query("exit", arguments);
     }
 }

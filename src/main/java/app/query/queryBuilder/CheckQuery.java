@@ -1,23 +1,15 @@
 package app.query.queryBuilder;
 
 
-import app.collection.Status;
+import app.collection.worker.Color;
+import app.collection.worker.Country;
+import app.collection.worker.Status;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 
 public class CheckQuery {
-
-
-    private static boolean isInputNull(String userInput){
-        return userInput == null;
-    }
-
-    private static boolean isInputIsEmptyLIne(String userInput){
-        return userInput.trim().isEmpty();
-    }
 
     private static boolean isIntFormatIncorrect(String userInput){
         try {
@@ -27,7 +19,6 @@ public class CheckQuery {
             return true;
         }
     }
-
 
     private static boolean isDoubleFormatIncorrect(String userInput){
         try {
@@ -65,7 +56,7 @@ public class CheckQuery {
         }
     }
 
-    private static boolean isStatucIncorrect(String userInput){
+    private static boolean isStatusIncorrect(String userInput){
         try {
             Status.valueOf(userInput);
             return false;
@@ -74,7 +65,28 @@ public class CheckQuery {
         }
     }
 
-    //TODO написать методы для каждой команды(вынести из эддкверибилдерсюда)
+    private static boolean InvalidPersonWeightNull(String userInput){
+        return userInput != null;
+    }
+
+    private static boolean isPersonHairColorIncorrect(String userInput){
+        try {
+            Color.valueOf(userInput);
+            return false;
+        } catch (IllegalArgumentException e){
+            return true;
+        }
+    }
+
+    private static boolean isPersonCountryIncorrect(String userInput){
+        try {
+            Country.valueOf(userInput);
+            return false;
+        } catch (IllegalArgumentException e){
+            return true;
+        }
+    }
+
     public static boolean invalidName(String userInput){
         return userInput == null || userInput.trim().isEmpty();
     }
@@ -96,10 +108,22 @@ public class CheckQuery {
     }
 
     public static boolean invalidEndDate(String userInput){
-        return userInput == null || userInput.trim().isEmpty() || isLocalDateFormatIncorrect(userInput);
+        return userInput.trim().isEmpty() || isLocalDateFormatIncorrect(userInput);
     }
 
     public static boolean invalidStatus(String userInput){
-        return isStatucIncorrect(userInput);
+        return isStatusIncorrect(userInput);
+    }
+
+    public static boolean invalidPersonWeight(String userInput){
+        return isDoubleFormatIncorrect(userInput) || Double.parseDouble(userInput) > 0;
+    }
+
+    public static boolean invalidPersonHairColor(String userInput){
+        return isPersonHairColorIncorrect(userInput) || userInput.trim().isEmpty();
+    }
+
+    public static boolean invalidPersonCountry(String userInput){
+        return isPersonCountryIncorrect(userInput);
     }
 }

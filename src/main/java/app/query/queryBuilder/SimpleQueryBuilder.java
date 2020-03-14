@@ -2,9 +2,7 @@ package app.query.queryBuilder;
 import app.console.ConsoleWork;
 import app.query.Query;
 
-import java.util.ArrayList;
-
-public class SimpleQueryBuilder extends QueryBuilder {
+public class SimpleQueryBuilder extends CompositeQueryBuilder {
 
     private final String commandName;
 
@@ -14,7 +12,12 @@ public class SimpleQueryBuilder extends QueryBuilder {
     }
 
     @Override
-    public Query processCreation(String [] subStrings){
-        return new Query(commandName, new ArrayList<String>());
+    protected int getSubStringsLegalLength() {
+        return 1;
+    }
+
+    @Override
+    public Query processCreation(String [] subStrings) {
+        return new Query(commandName, arguments);
     }
 }

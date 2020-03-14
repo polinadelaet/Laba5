@@ -1,8 +1,16 @@
 package app.commands;
 
-import app.console.ConsoleWork;
+import app.response.Response;
 
-public interface Command {
+import java.util.List;
 
-    public void execute();
+public abstract class Command {
+
+    protected final List<String> inputArguments;
+
+    public Command(List<String> inputArguments) {
+        this.inputArguments = inputArguments;
+    }
+
+    public abstract Response execute();
 }
