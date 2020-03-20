@@ -108,5 +108,5 @@ public class WorkerCollection {
     public List<Worker> executeGetQuery(GetQuery getQuery) throws WorkerCollectionException{
         return getQuery.execute(workers);
     }
-
+//todo обращается к новому классу для сохранения воркера
 }

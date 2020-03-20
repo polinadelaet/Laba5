@@ -5,7 +5,9 @@ import app.collection.worker.Color;
 import app.collection.worker.Coordinates;
 import app.collection.worker.Country;
 import app.collection.worker.Person;
+import app.collection.worker.workerCollectionException.WorkerCollectionException;
 import app.response.Response;
+import app.response.Status;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -36,8 +38,12 @@ public class InsertAtIndex extends WorkerCollectionCommand {
         Country nationality = Country.valueOf(iterator.next());
         Person person = new Person(weight, hairColor, nationality);
 
-        workerCollection.addByIndex(name, coordinates, salary, startDate, endDate, status, person, index);
+        try {
+            workerCollection.addByIndex(name, coordinates, salary, startDate, endDate, status, person, index);
+        } catch (WorkerCollectionException e) {
+            return new Response(Status.INTERNAL_SERVER_ERROR,"");
+        }
 
-        return null;
+        return new Response(Status.OK, "Элемент успешно добавлен в коллекцию");
     }
 }

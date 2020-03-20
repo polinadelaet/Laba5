@@ -6,9 +6,9 @@ import app.response.Status;
 
 import java.util.List;
 
-public class Exit extends WorkerCollectionCommand {
-    public Exit(List<String> inputArguments, WorkerCollection workerCollection) {
-        super(inputArguments, workerCollection);
+public class Exit extends Command {
+    public Exit(List<String> inputArguments) {
+        super(inputArguments);
     }
 
     @Override
