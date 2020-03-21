@@ -16,6 +16,7 @@ public final class ScriptReader {
     public Script read(String filePath) throws FileCreationException {
 
         try (Scanner scanner = new Scanner(new File(filePath))){
+
             while (scanner.hasNextLine()){
                 lines.add(scanner.nextLine());
             }
@@ -23,5 +24,7 @@ public final class ScriptReader {
         } catch (FileNotFoundException e){
             throw new FileCreationException("Такого файла не существует.");
         }
+
+
     }
 }
