@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public final class ScriptReader {
 
+    //TODO: что это за lines?????
     private List<String> lines;
 
     public ScriptReader(List<String> lines) {

@@ -4,6 +4,7 @@ import app.collection.worker.Worker;
 
 import java.util.Comparator;
 
+//TODO: зачем он тебе?
 public class EndDateComparator implements Comparator<Worker> {
 
     @Override
