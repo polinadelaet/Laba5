@@ -16,7 +16,7 @@ import java.time.ZonedDateTime;
 import java.util.Iterator;
 import java.util.List;
 
-public class UpdateId extends WorkerCollectionCommand {
+public final class UpdateId extends WorkerCollectionCommand {
     public UpdateId(List<String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }

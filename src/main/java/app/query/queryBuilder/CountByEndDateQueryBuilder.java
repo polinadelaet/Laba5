@@ -3,7 +3,7 @@ package app.query.queryBuilder;
 import app.console.ConsoleWork;
 import app.query.Query;
 
-public class CountByEndDateQueryBuilder extends CompositeQueryBuilder{
+public final class CountByEndDateQueryBuilder extends CompositeQueryBuilder{
 
     public CountByEndDateQueryBuilder(ConsoleWork consoleWork){
         super(consoleWork);

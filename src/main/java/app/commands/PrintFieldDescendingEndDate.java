@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class PrintFieldDescendingEndDate extends WorkerCollectionCommand {
+public final class PrintFieldDescendingEndDate extends WorkerCollectionCommand {
     public PrintFieldDescendingEndDate(List<String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }

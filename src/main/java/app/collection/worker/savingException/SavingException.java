@@ -1,6 +1,6 @@
 package app.collection.worker.savingException;
 
-public class SavingException extends Exception {
+public final class SavingException extends Exception {
     public SavingException(String message) {
         super(message);
     }

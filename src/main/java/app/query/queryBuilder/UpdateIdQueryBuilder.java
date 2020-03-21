@@ -6,7 +6,7 @@ import app.query.Query;
 import java.util.Map;
 
 
-public class UpdateIdQueryBuilder extends CompositeQueryBuilder{
+public final class UpdateIdQueryBuilder extends CompositeQueryBuilder{
 
     public UpdateIdQueryBuilder(ConsoleWork consoleWork){
         super(consoleWork);
@@ -20,11 +20,6 @@ public class UpdateIdQueryBuilder extends CompositeQueryBuilder{
     public Query processCreation(String [] subStrings) {
 
         String id = subStrings[1];
-
-        // 1)Вывести список всех полей
-        // 2) нужно считать конкретное поле которое я буду обновлять
-        // 3) считать новое значение поля
-        // 4) предусмотреть выход из команды создания(команда стоп(stop))
 
         arguments.add(id);
         for (Map.Entry<String, String> entry : fields.entrySet()){

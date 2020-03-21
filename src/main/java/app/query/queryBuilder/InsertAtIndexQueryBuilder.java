@@ -5,7 +5,7 @@ import app.query.Query;
 
 import java.util.Map;
 
-public class InsertAtIndexQueryBuilder extends CompositeQueryBuilder{
+public final class InsertAtIndexQueryBuilder extends CompositeQueryBuilder{
     public InsertAtIndexQueryBuilder(ConsoleWork consoleWork){
         super(consoleWork);
     }

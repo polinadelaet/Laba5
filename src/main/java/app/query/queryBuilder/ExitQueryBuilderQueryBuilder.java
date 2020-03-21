@@ -3,7 +3,7 @@ package app.query.queryBuilder;
 import app.console.ConsoleWork;
 import app.query.Query;
 
-public class ExitQueryBuilderQueryBuilder extends CompositeQueryBuilder {
+public final class ExitQueryBuilderQueryBuilder extends CompositeQueryBuilder {
 
     public ExitQueryBuilderQueryBuilder(ConsoleWork consoleWork){
         super(consoleWork);

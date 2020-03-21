@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 
-public class CheckQuery {
+public final class CheckQuery {
 
     private static boolean isIntFormatIncorrect(String userInput){
         try {

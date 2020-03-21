@@ -3,7 +3,7 @@ package app.query.queryBuilder;
 import app.console.ConsoleWork;
 import app.query.Query;
 
-public class PrintFieldDescendingEndDateQueryBuilder extends CompositeQueryBuilder {
+public final class PrintFieldDescendingEndDateQueryBuilder extends CompositeQueryBuilder {
 
     public PrintFieldDescendingEndDateQueryBuilder(ConsoleWork consoleWork){
         super(consoleWork);

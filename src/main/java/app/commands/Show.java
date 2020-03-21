@@ -6,7 +6,7 @@ import app.response.Status;
 
 import java.util.List;
 
-public class Show extends WorkerCollectionCommand {
+public final class Show extends WorkerCollectionCommand {
 
     public Show(List<String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);

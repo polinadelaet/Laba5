@@ -3,7 +3,7 @@ package app.query.queryBuilder;
 import app.console.ConsoleWork;
 import app.query.Query;
 
-public class ClearQueryBuilder extends CompositeQueryBuilder {
+public final class ClearQueryBuilder extends CompositeQueryBuilder {
 
     public ClearQueryBuilder(ConsoleWork consoleWork){
         super(consoleWork);

@@ -15,7 +15,7 @@ import java.time.ZonedDateTime;
 import java.util.Iterator;
 import java.util.List;
 
-public class Add extends WorkerCollectionCommand {
+public final class Add extends WorkerCollectionCommand {
 
     public Add(List<String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);

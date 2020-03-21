@@ -5,7 +5,7 @@ import app.response.Response;
 
 import java.util.List;
 //TODO сделать эту хуету, тут сериализация
-public class Save extends Command {
+public final class Save extends Command {
     public Save(List<String> inputArguments) {
         super(inputArguments);
     }

@@ -1,6 +1,6 @@
 package app.collection.worker.workerCollectionException;
 
-public class WorkerCollectionException extends Exception {
+public final class WorkerCollectionException extends Exception {
     public WorkerCollectionException(String message) {
         super(message);
     }

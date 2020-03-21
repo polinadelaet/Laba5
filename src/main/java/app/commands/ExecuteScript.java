@@ -1,7 +1,30 @@
 package app.commands;
 
-public class ExecuteScript extends Command{
-    //todo 1) создать класс скрипт, в него положить массив(коллекцию) строчек через конструктор
-    //todo 2) создать класс и пророчитать из файла строчки. путь к файлу абсолютный. создает объект скрипта и закидывает туда строчки из файла
-    //todo 3( я курил меня бухали
+import app.collection.WorkerCollection;
+import app.commands.script.FileCreationException;
+import app.commands.script.ScriptException;
+import app.commands.script.ScriptExecutor;
+import app.commands.script.ScriptReader;
+import app.response.Response;
+import app.response.Status;
+
+import java.util.List;
+
+public final class ExecuteScript extends WorkerCollectionCommand {
+
+    public ExecuteScript(List<String> inputArguments, WorkerCollection workerCollection) {
+        super(inputArguments, workerCollection);
+    }
+
+    @Override
+    public Response execute() {
+        ScriptReader scriptReader = new ScriptReader();
+        try {
+            scriptReader.read(inputArguments.get(1));
+            ScriptExecutor scriptExecutor = new ScriptExecutor(workerCollection);
+        } catch (FileCreationException e){
+            return new Response(Status.BAD_REQUEST, e.getMessage());
+        }
+        return null;
+    }
 }

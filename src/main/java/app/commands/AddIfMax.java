@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 import java.util.Iterator;
 import java.util.List;
 
-public class AddIfMax extends WorkerCollectionCommand {
+public final class AddIfMax extends WorkerCollectionCommand {
     public AddIfMax(List<String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }

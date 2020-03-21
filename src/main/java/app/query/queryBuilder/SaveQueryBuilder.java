@@ -4,7 +4,7 @@ import app.console.ConsoleWork;
 import app.query.Query;
 
 
-public class SaveQueryBuilder extends CompositeQueryBuilder{
+public final class SaveQueryBuilder extends CompositeQueryBuilder{
 
 
     public SaveQueryBuilder(ConsoleWork consoleWork){

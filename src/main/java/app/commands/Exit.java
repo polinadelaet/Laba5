@@ -6,7 +6,7 @@ import app.response.Status;
 
 import java.util.List;
 
-public class Exit extends Command {
+public final class Exit extends Command {
     public Exit(List<String> inputArguments) {
         super(inputArguments);
     }

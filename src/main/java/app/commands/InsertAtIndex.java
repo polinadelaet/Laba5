@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 import java.util.Iterator;
 import java.util.List;
 
-public class InsertAtIndex extends WorkerCollectionCommand {
+public final class InsertAtIndex extends WorkerCollectionCommand {
     public InsertAtIndex(List<String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }

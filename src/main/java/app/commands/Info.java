@@ -6,7 +6,7 @@ import app.response.Status;
 
 import java.util.List;
 
-public class Info extends WorkerCollectionCommand {
+public final class Info extends WorkerCollectionCommand {
 
 
     public Info (List<String> inputArguments, WorkerCollection workerCollection) {

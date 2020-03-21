@@ -1,4 +1,4 @@
 package app.commands.factory;
 
-public class CommandCreationException extends Exception {
+public final class CommandCreationException extends Exception {
 }

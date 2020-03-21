@@ -6,7 +6,7 @@ import app.response.Status;
 
 import java.util.List;
 
-public class CLear extends WorkerCollectionCommand {
+public final class CLear extends WorkerCollectionCommand {
     public CLear(List<String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }

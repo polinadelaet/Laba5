@@ -1,7 +1,5 @@
 package app.response;
 
-
-
 public enum Status {
     OK(200),
     BAD_REQUEST(400),

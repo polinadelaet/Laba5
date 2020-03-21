@@ -11,7 +11,7 @@ import app.response.Status;
 import java.time.LocalDate;
 import java.util.List;
 
-public class CountByEndDate extends WorkerCollectionCommand {
+public final class CountByEndDate extends WorkerCollectionCommand {
     public CountByEndDate(List<String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }

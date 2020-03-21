@@ -1,6 +1,6 @@
 package app.collection.worker;
 
-public class Coordinates {
+public final class Coordinates {
     private Double x; //Поле не может быть null
     private Integer y; //Поле не может быть null
 

@@ -3,7 +3,7 @@ package app.collection;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 
-public class CollectionInfo {
+public final class CollectionInfo {
 
     private ZonedDateTime creationDate;
     private Class<? extends Collection> collectionType;

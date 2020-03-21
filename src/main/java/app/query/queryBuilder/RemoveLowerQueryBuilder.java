@@ -5,7 +5,7 @@ import app.query.Query;
 
 import java.util.Map;
 
-public class RemoveLowerQueryBuilder extends CompositeQueryBuilder {
+public final class RemoveLowerQueryBuilder extends CompositeQueryBuilder {
 
     public RemoveLowerQueryBuilder(ConsoleWork consoleWork){
         super(consoleWork);

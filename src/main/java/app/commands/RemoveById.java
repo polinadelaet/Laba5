@@ -9,7 +9,7 @@ import app.response.Status;
 import java.util.Iterator;
 import java.util.List;
 
-public class RemoveById extends WorkerCollectionCommand {
+public final class RemoveById extends WorkerCollectionCommand {
     public RemoveById(List<String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }

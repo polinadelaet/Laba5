@@ -2,21 +2,16 @@ package app.commands.script;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public final class ScriptReader {
 
-    //TODO: что это за lines?????
-    private List<String> lines;
-
-    public ScriptReader(List<String> lines) {
-        this.lines = lines;
-    }
-
     public Script read(String filePath) throws FileCreationException {
 
         try (Scanner scanner = new Scanner(new File(filePath))){
+            List<String> lines = new ArrayList<>();
 
             while (scanner.hasNextLine()){
                 lines.add(scanner.nextLine());

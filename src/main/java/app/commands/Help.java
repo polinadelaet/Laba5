@@ -5,7 +5,7 @@ import app.response.Status;
 
 import java.util.List;
 
-public class Help extends Command {
+public final class Help extends Command {
 
 
     public Help(List<String> inputArguments) {

@@ -5,7 +5,7 @@ import app.query.Query;
 
 import java.util.Map;
 
-public class AddQueryBuilder extends CompositeQueryBuilder{
+public final class AddQueryBuilder extends CompositeQueryBuilder{
 
     public AddQueryBuilder(ConsoleWork consoleWork){
        super(consoleWork);

@@ -3,7 +3,7 @@ package app.query.queryBuilder;
 import app.console.ConsoleWork;
 import app.query.Query;
 
-public class FilterByPersonQueryBuilder extends CompositeQueryBuilder{
+public final class FilterByPersonQueryBuilder extends CompositeQueryBuilder{
 
     public FilterByPersonQueryBuilder(ConsoleWork consoleWork){
         super(consoleWork);

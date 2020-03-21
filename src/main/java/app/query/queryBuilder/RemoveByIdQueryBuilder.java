@@ -3,7 +3,7 @@ package app.query.queryBuilder;
 import app.console.ConsoleWork;
 import app.query.Query;
 
-public class RemoveByIdQueryBuilder extends CompositeQueryBuilder {
+public final class RemoveByIdQueryBuilder extends CompositeQueryBuilder {
 
     public RemoveByIdQueryBuilder(ConsoleWork consoleWork){
         super(consoleWork);

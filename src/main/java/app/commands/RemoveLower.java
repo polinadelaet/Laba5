@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 import java.util.Iterator;
 import java.util.List;
 
-public class RemoveLower extends WorkerCollectionCommand {
+public final class RemoveLower extends WorkerCollectionCommand {
     public RemoveLower(List<String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CommandsFactory {
+public final class CommandsFactory {
     private final Map<String, Class<? extends WorkerCollectionCommand>> workerCollectionCommandsMap
             = new HashMap<String, Class<? extends WorkerCollectionCommand>>(){{
         put("add", Add.class);
@@ -24,6 +24,7 @@ public class CommandsFactory {
         put("show", Show.class);
         put("update", UpdateId.class);
         put("info", Info.class);
+        put("execute_script", ExecuteScript.class);
     }};
 
     private final Map<String, Class<? extends Command>> simpleCommandsMap
@@ -31,7 +32,6 @@ public class CommandsFactory {
         put("save", Save.class);
         put("exit", Exit.class);
         put("help", Help.class);
-        put("execute_script", ExecuteScript.class);
     }};
 
     private final WorkerCollection workerCollection;

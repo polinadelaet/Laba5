@@ -5,7 +5,7 @@ import app.query.Query;
 
 import java.util.Map;
 
-public class AddIfMaxQueryBuilder extends CompositeQueryBuilder{
+public final class AddIfMaxQueryBuilder extends CompositeQueryBuilder{
 
     public AddIfMaxQueryBuilder(ConsoleWork consoleWork){
         super(consoleWork);
