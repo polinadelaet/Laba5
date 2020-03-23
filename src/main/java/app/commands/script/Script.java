@@ -15,6 +15,9 @@ public final class Script {
         this.currentIndex = 0;
     }
 
+    public boolean hasNextLine(){
+        return currentIndex < lines.size() & lines.size() != 0;
+    }
     public String getNextLine() throws ScriptException {
         try {
             return lines.get(currentIndex);

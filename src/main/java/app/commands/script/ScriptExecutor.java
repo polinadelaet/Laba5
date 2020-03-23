@@ -1,7 +1,11 @@
 package app.commands.script;
 
 import app.collection.WorkerCollection;
+import app.commands.factory.CommandCreationException;
 import app.commands.factory.CommandsFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class ScriptExecutor {
 
@@ -13,10 +17,23 @@ public final class ScriptExecutor {
 
     public void execute(Script script) {
         try {
-            script.getNextLine();
-            CommandsFactory commandsFactory = new CommandsFactory(workerCollection);
-            //commandsFactory.create()
-        } catch (ScriptException e){
+            while (true) {
+
+                String line = script.getNextLine();
+                CommandsFactory commandsFactory = new CommandsFactory(workerCollection);
+
+
+                String [] subStrings = line.split(" +");
+                List<String> arguments = new ArrayList<>();
+                if (subStrings.length != 1){
+                    arguments.add(subStrings[1]);
+                }
+                commandsFactory.create(subStrings[0],arguments);
+
+                //String [] subStrings2 = script.getNextLine().split(" +");
+
+            }
+        } catch (ScriptException | CommandCreationException e){
             e.getMessage();
         }
     }
