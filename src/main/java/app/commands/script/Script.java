@@ -15,9 +15,8 @@ public final class Script {
         this.currentIndex = 0;
     }
 
-    //TODO: двойной эндперсант вместо одинарного
     public boolean hasNextLine(){
-        return (currentIndex < lines.size()) & (lines.size() != 0);
+        return (currentIndex < lines.size()) && (lines.size() != 0);
     }
     public String getNextLine() throws ScriptException {
         try {
@@ -25,21 +24,28 @@ public final class Script {
             currentIndex++;
             return line;
         } catch (IndexOutOfBoundsException e){
-            //TODO: не обязательно ошибка в этом, может быть еще currentIndex >= lines.size()
-            throw new ScriptException("Файл со скриптом пуст.");
+            throw new ScriptException("Неправильный скрипт.");
 
         }
     }
 
-    //TODO: даже несмотря на ошибку, currentIndex будет все равно изменяться, что испортит тебе малину
     public String getPreviousLine() throws ScriptException {
         try {
+            if (currentIndex == 0){
+                return null;
+            }
+            String previousLine = lines.get(currentIndex - 1);
             currentIndex--;
-            return lines.get(currentIndex);
+            return previousLine;
         } catch (IndexOutOfBoundsException e){
-            throw new ScriptException("Держи червя");
-
+            throw new ScriptException("Неправильный скрипт.");
         }
+    }
 
+    @Override
+    public int hashCode() {
+        int result = lines != null ? lines.hashCode() : 0;
+        result = 31 * result + currentIndex;
+        return result;
     }
 }

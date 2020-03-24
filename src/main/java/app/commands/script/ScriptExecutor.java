@@ -1,21 +1,18 @@
 package app.commands.script;
 
 import app.collection.WorkerCollection;
+import app.commands.Command;
 import app.commands.factory.CommandCreationException;
 import app.commands.factory.CommandsFactory;
 import app.commands.script.argumentFormer.ArgumentFormer;
 import app.commands.script.argumentFormer.CompositeArgumentFormer;
 import app.commands.script.argumentFormer.SimpleArgumentFormer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class ScriptExecutor {
 
-    //TODO: плохое название, не отображает сути
-    protected final Map<String, ArgumentFormer> commands = new HashMap<String, ArgumentFormer>(){{
+    protected final Map<String, ArgumentFormer> choiceArgumentFormer = new HashMap<String, ArgumentFormer>(){{
         put("help", new SimpleArgumentFormer());
         put("info", new SimpleArgumentFormer());
         put("show", new SimpleArgumentFormer());
@@ -34,8 +31,7 @@ public final class ScriptExecutor {
         put("print_field_descending_end_date", new SimpleArgumentFormer());
     }};
 
-    //TODO: плохое название, добавь s
-    private List<String> commandName = new ArrayList<String>(){{
+    private List<String> commandsName = new ArrayList<String>(){{
         add("help");
         add("info");
         add("show");
@@ -55,30 +51,38 @@ public final class ScriptExecutor {
     }};
 
     private final WorkerCollection workerCollection;
+    private final Set<Integer> scriptsHashCodes;
 
-
-    public ScriptExecutor(WorkerCollection workerCollection) {
+    public ScriptExecutor(WorkerCollection workerCollection, Set<Integer> scriptsHashCodes) {
         this.workerCollection = workerCollection;
+        this.scriptsHashCodes = scriptsHashCodes;
     }
 
-    public String execute(Script script) {
+    public String execute(Script script) throws ScriptException {
+        //todo че за пиздец...
+        if (!scriptsHashCodes.add(script.hashCode())){
+            throw new ScriptException("kkdkskdi");
+        }
         String message = "";
         try {
             while (script.hasNextLine()) {
                 String firstLine = script.getNextLine();
                 String[] subStrings = firstLine.split(" +");
-                if (commandName.contains(subStrings[0])) {
-                    ArgumentFormer argumentFormer = commands.get(subStrings[0]);
+                if (commandsName.contains(subStrings[0])) {
+
+                    ArgumentFormer argumentFormer = choiceArgumentFormer.get(subStrings[0]);
                     CommandsFactory commandsFactory = new CommandsFactory(workerCollection);
-                    //TODO: нечитаемо: в столбик или переменные вынести
-                    message += commandsFactory.create(subStrings[0], argumentFormer.collectArguments(script)).execute().toString() + System.lineSeparator();
-                } //TODO: лишнее else
-                else throw new ScriptException("Неправильный скрипт.");
+                    Command command = commandsFactory.create(subStrings[0], argumentFormer.collectArguments(script));
+
+                    message += command.execute().toString() + System.lineSeparator();
+                    continue;
+                }
+                throw new ScriptException("Неправильный скрипт.");
             }
-        } catch (ScriptException | CommandCreationException e){
-            //TODO: это что?
-            e.getMessage();
+        } catch (CommandCreationException e) {
+            throw new ScriptException(e);
         }
         return message;
+
     }
 }
