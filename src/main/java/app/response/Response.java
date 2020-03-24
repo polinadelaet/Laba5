@@ -17,4 +17,11 @@ public final class Response {
         return message;
     }
 
+    @Override
+    public String toString() {
+        return "Response{" +
+                "status=" + status +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

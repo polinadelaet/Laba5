@@ -16,14 +16,27 @@ public final class Script {
     }
 
     public boolean hasNextLine(){
-        return currentIndex < lines.size() & lines.size() != 0;
+        return (currentIndex < lines.size()) & (lines.size() != 0);
     }
     public String getNextLine() throws ScriptException {
         try {
-            return lines.get(currentIndex);
+            String line = lines.get(currentIndex);
+            currentIndex++;
+            return line;
         } catch (IndexOutOfBoundsException e){
             throw new ScriptException("Файл со скриптом пуст.");
 
         }
+    }
+
+    public String getPreviousLine() throws ScriptException {
+        try {
+            currentIndex--;
+            return lines.get(currentIndex);
+        } catch (IndexOutOfBoundsException e){
+            throw new ScriptException("Держи червя");
+
+        }
+
     }
 }

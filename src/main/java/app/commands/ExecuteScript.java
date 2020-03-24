@@ -1,10 +1,7 @@
 package app.commands;
 
 import app.collection.WorkerCollection;
-import app.commands.script.FileCreationException;
-import app.commands.script.ScriptException;
-import app.commands.script.ScriptExecutor;
-import app.commands.script.ScriptReader;
+import app.commands.script.*;
 import app.response.Response;
 import app.response.Status;
 
@@ -20,11 +17,10 @@ public final class ExecuteScript extends WorkerCollectionCommand {
     public Response execute() {
         ScriptReader scriptReader = new ScriptReader();
         try {
-            scriptReader.read(inputArguments.get(1));
             ScriptExecutor scriptExecutor = new ScriptExecutor(workerCollection);
+            return new Response(Status.OK, scriptExecutor.execute(scriptReader.read(inputArguments.get(1))));
         } catch (FileCreationException e){
             return new Response(Status.BAD_REQUEST, e.getMessage());
         }
-        return null;
     }
 }
