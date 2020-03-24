@@ -15,6 +15,7 @@ public final class Script {
         this.currentIndex = 0;
     }
 
+    //TODO: двойной эндперсант вместо одинарного
     public boolean hasNextLine(){
         return (currentIndex < lines.size()) & (lines.size() != 0);
     }
@@ -24,11 +25,13 @@ public final class Script {
             currentIndex++;
             return line;
         } catch (IndexOutOfBoundsException e){
+            //TODO: не обязательно ошибка в этом, может быть еще currentIndex >= lines.size()
             throw new ScriptException("Файл со скриптом пуст.");
 
         }
     }
 
+    //TODO: даже несмотря на ошибку, currentIndex будет все равно изменяться, что испортит тебе малину
     public String getPreviousLine() throws ScriptException {
         try {
             currentIndex--;

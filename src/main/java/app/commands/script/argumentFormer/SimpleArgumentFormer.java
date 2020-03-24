@@ -17,10 +17,12 @@ public class SimpleArgumentFormer extends ArgumentFormer{
         try {
             String firstLine = script.getPreviousLine();
             String [] subStrings  = firstLine.split(" +");
+            //TODO: бредовое условие
             if (subStrings.length != 1 & subStrings.length < 3){
                 arguments.add(subStrings[1]);
             } throw new ScriptException("Неправильный скрипт.");
         }catch (ScriptException e){
+            //TODO: это че за хуйня??? Ты кидаешь ошибку в трай и тут же ловишь в катч???
             e.getMessage();
         }
         return arguments;

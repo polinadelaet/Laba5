@@ -14,6 +14,7 @@ import java.util.Map;
 
 public final class ScriptExecutor {
 
+    //TODO: плохое название, не отображает сути
     protected final Map<String, ArgumentFormer> commands = new HashMap<String, ArgumentFormer>(){{
         put("help", new SimpleArgumentFormer());
         put("info", new SimpleArgumentFormer());
@@ -33,6 +34,7 @@ public final class ScriptExecutor {
         put("print_field_descending_end_date", new SimpleArgumentFormer());
     }};
 
+    //TODO: плохое название, добавь s
     private List<String> commandName = new ArrayList<String>(){{
         add("help");
         add("info");
@@ -68,10 +70,13 @@ public final class ScriptExecutor {
                 if (commandName.contains(subStrings[0])) {
                     ArgumentFormer argumentFormer = commands.get(subStrings[0]);
                     CommandsFactory commandsFactory = new CommandsFactory(workerCollection);
+                    //TODO: нечитаемо: в столбик или переменные вынести
                     message += commandsFactory.create(subStrings[0], argumentFormer.collectArguments(script)).execute().toString() + System.lineSeparator();
-                } else throw new ScriptException("Неправильный скрипт.");
+                } //TODO: лишнее else
+                else throw new ScriptException("Неправильный скрипт.");
             }
         } catch (ScriptException | CommandCreationException e){
+            //TODO: это что?
             e.getMessage();
         }
         return message;
