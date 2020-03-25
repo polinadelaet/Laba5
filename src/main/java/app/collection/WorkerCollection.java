@@ -21,6 +21,7 @@ public final class WorkerCollection {
     private final CollectionInfo collectionInfo;
     private final WorkersFactory workersFactory;
 
+    //TODO: реализовать второй конструктор с сигнатурой (WorkersFactory, File), в нем должна быть загрузка коллекции из файла
     public WorkerCollection(WorkersFactory workersFactory){
        workers = new LinkedList<>();
        collectionInfo = new CollectionInfo(ZonedDateTime.now(),
@@ -108,4 +109,6 @@ public final class WorkerCollection {
     public List<Worker> executeGetQuery(GetQuery getQuery) throws WorkerCollectionException{
         return getQuery.execute(workers);
     }
+
+    //TODO: реализвоать метод save(File file), который сохранял бы всю коллекцию в 1 файл.
 }

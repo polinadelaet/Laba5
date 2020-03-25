@@ -20,6 +20,7 @@ public class IdGenerator implements Serializable {
         idCollection = new ArrayDeque<>();
         createIdCollection();
 
+        //TODO: что за дичь ниже? Она лишняя, была написана мной тебе лишь как часть минилекции.
         ClassLoader classLoader = IdGenerator.class.getClassLoader();
         URL fileURL = classLoader.getResource("file");
 

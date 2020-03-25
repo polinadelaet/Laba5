@@ -63,4 +63,6 @@ public class CompositeArgumentFormer extends ArgumentFormer {
             currentIndexOfLine++;
         } throw new ScriptException("Неправильный скрипт!");
     }
+
+    //TODO: не хватает валидации по типу salary must be больше 0.
 }

@@ -4,7 +4,6 @@ import app.collection.WorkerCollection;
 import app.response.Response;
 
 import java.util.List;
-//TODO сделать эту хуету, тут сериализация
 public final class Save extends Command {
     public Save(List<String> inputArguments) {
         super(inputArguments);
@@ -12,7 +11,7 @@ public final class Save extends Command {
 
     @Override
     public Response execute() {
-        //todo сделать сохранение воркера в файл и загрузку
+        //TODO: после того, как будут выполнены тудушки в Worker, IdGenerator и в WorkerCollection реализовать команду
         return null;
     }
 }

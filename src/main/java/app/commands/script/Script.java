@@ -23,6 +23,7 @@ public final class Script {
             currentIndex++;
             return line;
         } catch (IndexOutOfBoundsException e){
+            //TODO: неправильная обработка ошибки
             throw new ScriptException("Неправильный скрипт.");
 
         }
@@ -37,6 +38,7 @@ public final class Script {
             currentIndex--;
             return previousLine;
         } catch (IndexOutOfBoundsException e){
+            //TODO: неправильная обработка ошибки
             throw new ScriptException("Неправильный скрипт.");
         }
     }

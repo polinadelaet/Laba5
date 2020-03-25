@@ -18,6 +18,7 @@ public class SimpleArgumentFormer extends ArgumentFormer{
             }
             String[] firstLine = previousLine.split(" +");
 
+            //TODO: дичь какая-то
             if (firstLine.length != 1 || firstLine.length != 2){
                 throw new ScriptException("Неправильный скрипт.");
             }

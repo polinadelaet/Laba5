@@ -141,5 +141,10 @@ public final class Worker implements Comparable<Worker>{
     public int hashCode() {
         return id;
     }
+
+
+    //TODO: 1) Найти библиотеку для работы с желаемым форматом хранения данных.
+    //TODO: 2) Реализовать метод load(File file)
+    //TODO: 3) Реализовать метод save(File file)
 }
 

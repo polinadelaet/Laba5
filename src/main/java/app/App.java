@@ -9,5 +9,7 @@ public class App {
         String j = "24";
         Integer a = Integer.parseInt(j);
         System.out.println(a);
+
+        //TODO: создать здесь объект Console и запустить его бесконечный цикл
     }
 }
