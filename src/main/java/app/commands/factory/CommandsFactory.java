@@ -26,11 +26,11 @@ public final class CommandsFactory {
         put("update", UpdateId.class);
         put("info", Info.class);
         put("execute_script", ExecuteScript.class);
+        put("save", Save.class);
     }};
 
     private final Map<String, Class<? extends Command>> simpleCommandsMap
             = new HashMap<String, Class<? extends Command>>() {{
-        put("save", Save.class);
         put("exit", Exit.class);
         put("help", Help.class);
     }};

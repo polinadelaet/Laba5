@@ -1,5 +1,8 @@
 package app.console;
 
+import app.collection.WorkerCollection;
+import app.collection.worker.factory.WorkersFactory;
+import app.controller.Controller;
 import app.query.Query;
 import app.query.queryBuilder.*;
 import app.query.queryCreationException.QueryCreationException;
@@ -61,6 +64,10 @@ public final class ConsoleWork {
 
             try {
                 Query query = queryBuilder.create(subStrings);
+
+                WorkerCollection workerCollection;
+                //Controller controller = new Controller()
+
                 //TODO: 1) передать запрос контроллеру
                 //TODO: 2) получить Response от контроллера
                 //TODO: 3) обработать Response.

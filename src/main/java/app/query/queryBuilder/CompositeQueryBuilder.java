@@ -3,7 +3,6 @@ package app.query.queryBuilder;
 import app.console.ConsoleWork;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class CompositeQueryBuilder extends QueryBuilder {
@@ -111,7 +110,7 @@ public abstract class CompositeQueryBuilder extends QueryBuilder {
                 }
             }
             if (targetField.equals(personCountry)) {
-                if (CheckQuery.invalidPersonCountry(userInput)){
+                if (CheckQuery.invalidPersonNationality(userInput)){
                     consoleWork.printLine("Неверные данные, дата начала не должна быть пустой строкой, не должна быть null");
                     continue;
                 }

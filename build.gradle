@@ -3,6 +3,7 @@ plugins {
     id "application"
 }
 
+
 group 'org.example'
 version '1.0-SNAPSHOT'
 
@@ -17,5 +18,6 @@ dependencies {
 }
 
 application {
+    run.jvmArgs("-DtargetFile=path here")
     mainClassName = "app.App"
 }

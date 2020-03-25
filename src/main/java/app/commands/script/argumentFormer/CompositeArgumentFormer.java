@@ -18,7 +18,7 @@ public class CompositeArgumentFormer extends ArgumentFormer {
         add("status");
         add("person_weight");
         add("person_hair_color");
-        add("person_country");
+        add("person_nationality");
     }};
 
     private int currentIndexOfLine = 0;
@@ -34,11 +34,25 @@ public class CompositeArgumentFormer extends ArgumentFormer {
 
             //TODO: рефакторинг, нечитаемо
             //TODO: эти if-ы можно скрыть в иерархии ArgumentFormer, то есть сделать два аргумент формера вместо Composite
+            if (firstLine[0].equals("filter_by_person")){
+                String line = script.getNextLine();
+                while (line.contains("=")){
+                    String[] subStrings = line.split("=");
+                    checkArgumentFilterByPerson(subStrings);
+
+                    currentIndexOfLine++;
+                    arguments.add(subStrings[1]);
+                    line = script.getNextLine();
+                }
+            }
             if (firstLine[0].equals("add") | firstLine[0].equals("add_if_max") | firstLine[0].equals("remove_lower")){
                 String line = script.getNextLine();
                 while (line.contains("=")){
-                    String[] field = line.split("=");
-                    arguments.add(field[1]);
+                    String[] subStrings = line.split("=");
+                    checkArgument(subStrings);
+
+                    currentIndexOfLine++;
+                    arguments.add(subStrings[1]);
                     line = script.getNextLine();
                 }
             }
@@ -48,8 +62,9 @@ public class CompositeArgumentFormer extends ArgumentFormer {
 
                 while (line.contains("=")){
                     String[] subStrings = line.split("=");
-                    checkArguments(subStrings);
+                    checkArgument(subStrings);
 
+                    currentIndexOfLine++;
                     arguments.add(subStrings[1]);
                     line = script.getNextLine();
                 }
@@ -57,12 +72,48 @@ public class CompositeArgumentFormer extends ArgumentFormer {
         return arguments;
     }
 
-
-    private void checkArguments(String[] field) throws ScriptException {
-        if (field[0].equals(fields.get(currentIndexOfLine))){
-            currentIndexOfLine++;
-        } throw new ScriptException("Неправильный скрипт!");
+    private void checkArgumentFilterByPerson(String[] field) throws ScriptException {
+        if (field[0].equals(fields.get(currentIndexOfLine+7))){
+            if (fields.get(currentIndexOfLine+7).equals("person_weight") && CheckField.invalidPersonWeight(field[1]) == true){
+                throw new ScriptException("Неправильный скрипт.");
+            }
+            if (fields.get(currentIndexOfLine+7).equals("person_hair_color") && CheckField.invalidPersonHairColor(field[1]) == true){
+                throw new ScriptException("Неправильный скрипт.");
+            }
+            if (fields.get(currentIndexOfLine+7).equals("person_nationality") && CheckField.invalidPersonNationality(field[1]) == true){
+                throw new ScriptException("Неправильный скрипт.");
+            }
+        }
     }
-
-    //TODO: не хватает валидации по типу salary must be больше 0.
+    private void checkArgument(String[] field) throws ScriptException {
+        if (field[0].equals(fields.get(currentIndexOfLine))){
+            if (fields.get(currentIndexOfLine).equals("name") && CheckField.invalidName(field[1]) == true){
+                throw new ScriptException("Неправильный скрипт.");
+            }
+            if (fields.get(currentIndexOfLine).equals("coordinate_x") && CheckField.invalidCoordinateX(field[1]) == true){
+                throw new ScriptException("Неправильный скрипт.");
+            }
+            if (fields.get(currentIndexOfLine).equals("coordinate_y") && CheckField.invalidCoordinateY(field[1]) == true){
+                throw new ScriptException("Неправильный скрипт.");
+            }
+            if (fields.get(currentIndexOfLine).equals("salary") && CheckField.invalidSalary(field[1]) == true){
+                throw new ScriptException("Неправильный скрипт.");
+            }
+            if (fields.get(currentIndexOfLine).equals("end_date") && CheckField.invalidEndDate(field[1]) == true){
+                throw new ScriptException("Неправильный скрипт.");
+            }
+            if (fields.get(currentIndexOfLine).equals("status") && CheckField.invalidStatus(field[1]) == true){
+                throw new ScriptException("Неправильный скрипт.");
+            }
+            if (fields.get(currentIndexOfLine).equals("person_weight") && CheckField.invalidPersonWeight(field[1]) == true){
+                throw new ScriptException("Неправильный скрипт.");
+            }
+            if (fields.get(currentIndexOfLine).equals("person_hair_color") && CheckField.invalidPersonHairColor(field[1]) == true){
+                throw new ScriptException("Неправильный скрипт.");
+            }
+            if (fields.get(currentIndexOfLine).equals("person_nationality") && CheckField.invalidPersonNationality(field[1]) == true){
+                throw new ScriptException("Неправильный скрипт.");
+            }
+        }
+    }
 }

@@ -1,16 +1,25 @@
 package app.collection.worker;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+@XmlType(name = "Worker")
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public final class Worker implements Comparable<Worker>{
+
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
+    @XmlJavaTypeAdapter(DateFormatter.class)
     private java.util.Date creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     private long salary; //Значение поля должно быть больше 0
+    @XmlJavaTypeAdapter(ZonedDateTimeFormatter.class)
     private java.time.ZonedDateTime startDate; //Поле не может быть null
+    @XmlJavaTypeAdapter(LocalDateFormatter.class)
     private java.time.LocalDate endDate; //Поле может быть null
     private Status status; //Поле не может быть null
     private Person person; //Поле не может быть null
@@ -41,6 +50,8 @@ public final class Worker implements Comparable<Worker>{
         this.status = status;
         this.person = person;
     }
+
+    public Worker(){};
 
     public Worker(long salary){
         this.salary = salary;
@@ -142,9 +153,5 @@ public final class Worker implements Comparable<Worker>{
         return id;
     }
 
-
-    //TODO: 1) Найти библиотеку для работы с желаемым форматом хранения данных.
-    //TODO: 2) Реализовать метод load(File file)
-    //TODO: 3) Реализовать метод save(File file)
 }
 

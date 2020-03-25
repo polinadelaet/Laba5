@@ -1,5 +1,4 @@
-package app.query.queryBuilder;
-
+package app.commands.script.argumentFormer;
 
 import app.collection.worker.Color;
 import app.collection.worker.Country;
@@ -9,7 +8,8 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 
-public final class CheckQuery {
+public final class CheckField {
+
 
     private static boolean isIntFormatIncorrect(String userInput){
         try {
@@ -87,6 +87,10 @@ public final class CheckQuery {
         }
     }
 
+    public static boolean invalidId(String userInput){
+        return isIntFormatIncorrect(userInput);
+    }
+
     public static boolean invalidName(String userInput){
         return userInput == null || userInput.trim().isEmpty();
     }
@@ -100,7 +104,7 @@ public final class CheckQuery {
     }
 
     public static boolean invalidSalary(String userInput){
-        return userInput == null || isLongFormatIncorrect(userInput) || Long.parseLong(userInput) > 0;
+        return userInput == null || isLongFormatIncorrect(userInput) || Long.parseLong(userInput) > 0 ;
     }
 
     public static boolean invalidStartDate(String userInput){
@@ -127,3 +131,5 @@ public final class CheckQuery {
         return isPersonNationalityIncorrect(userInput);
     }
 }
+
+

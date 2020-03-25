@@ -7,21 +7,26 @@ import app.collection.worker.Status;
 import app.collection.worker.Worker;
 import app.collection.worker.factory.WorkerCreationException;
 import app.collection.worker.factory.WorkersFactory;
+import app.collection.worker.savingException.SavingException;
 import app.collection.worker.workerCollectionException.WorkerCollectionException;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 //Паттерн Repository (Репозиторий)
+@XmlRootElement
 public final class WorkerCollection {
     private final List<Worker> workers;
     private final CollectionInfo collectionInfo;
     private final WorkersFactory workersFactory;
 
-    //TODO: реализовать второй конструктор с сигнатурой (WorkersFactory, File), в нем должна быть загрузка коллекции из файла
     public WorkerCollection(WorkersFactory workersFactory){
        workers = new LinkedList<>();
        collectionInfo = new CollectionInfo(ZonedDateTime.now(),
@@ -29,6 +34,7 @@ public final class WorkerCollection {
                                            0);
        this.workersFactory = workersFactory;
     }
+
 
     @Override
     public String toString() {
@@ -110,5 +116,26 @@ public final class WorkerCollection {
         return getQuery.execute(workers);
     }
 
-    //TODO: реализвоать метод save(File file), который сохранял бы всю коллекцию в 1 файл.
+    public void save (File file) throws SavingException {
+        try{
+            JAXBContext jaxbContext = JAXBContext.newInstance(WorkerCollection.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.marshal(this, file);
+        } catch (javax.xml.bind.JAXBException | IllegalArgumentException e ){
+           throw new SavingException("Ошибка сохранения в файл.");
+        }
+    }
+
+    public WorkerCollection load(File file) throws SavingException {
+        WorkerCollection workerCollection = null;
+        try{
+            JAXBContext jaxbContext = JAXBContext.newInstance(WorkerCollection.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            workerCollection = (WorkerCollection) unmarshaller.unmarshal(file);
+        } catch (javax.xml.bind.JAXBException | IllegalArgumentException e){
+            throw new SavingException("Ошибка сохранения в файл.");
+        }
+        return workerCollection;
+    }
 }
