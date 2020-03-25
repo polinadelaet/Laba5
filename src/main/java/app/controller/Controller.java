@@ -28,4 +28,7 @@ public final class Controller {
             return new Response(Status.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
+    //TODO: 1) Создать по запросу команду через фабрику. Раз ты не валидируешь запросы к серверу, то проверок здесь не нужно.
+    //TODO: 2) Выполнить команду и получить ее ответ.
+    //TODO: 3) Вернуть ответ из метода
 }
