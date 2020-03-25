@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public final class CommandsFactory {
     private final Map<String, Class<? extends WorkerCollectionCommand>> workerCollectionCommandsMap
@@ -35,10 +36,11 @@ public final class CommandsFactory {
     }};
 
     private final WorkerCollection workerCollection;
+    private final Set<Integer> scriptsHashCodes;
 
-
-    public CommandsFactory(WorkerCollection workerCollection) {
+    public CommandsFactory(WorkerCollection workerCollection, Set<Integer> scriptsHashCodes) {
         this.workerCollection = workerCollection;
+        this.scriptsHashCodes = scriptsHashCodes;
     }
 
     public Command create(String commandName, List<String> inputArguments) throws CommandCreationException {

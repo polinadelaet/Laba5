@@ -1,7 +1,6 @@
 package app.commands.script;
 
-import app.response.Response;
-import app.response.Status;
+import app.commands.script.scriptException.ScriptException;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package app.commands.script.argumentFormer;
 
 import app.commands.script.Script;
-import app.commands.script.ScriptException;
+import app.commands.script.scriptException.ScriptException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,8 @@ public class CompositeArgumentFormer extends ArgumentFormer {
     private int currentIndexOfLine = 0;
 
     @Override
-    public List<String> collectArguments(Script script) {
-        try {
+    public List<String> collectArguments(Script script) throws ScriptException {
+
             String previousLine = script.getPreviousLine();
             if (previousLine == null){
                 throw new ScriptException("Неправильный скрипт. Держи червя");
@@ -54,9 +54,6 @@ public class CompositeArgumentFormer extends ArgumentFormer {
                     line = script.getNextLine();
                 }
             }
-        } catch (ScriptException e){
-            e.getMessage();
-        }
         return arguments;
     }
 

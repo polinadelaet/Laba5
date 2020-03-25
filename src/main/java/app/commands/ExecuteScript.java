@@ -2,10 +2,11 @@ package app.commands;
 
 import app.collection.WorkerCollection;
 import app.commands.script.*;
+import app.commands.script.scriptException.RecursionException;
+import app.commands.script.scriptException.ScriptException;
 import app.response.Response;
 import app.response.Status;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,12 +21,16 @@ public final class ExecuteScript extends WorkerCollectionCommand {
 
     @Override
     public Response execute() {
-        ScriptReader scriptReader = new ScriptReader();
+
         try {
+            ScriptReader scriptReader = new ScriptReader();
             ScriptExecutor scriptExecutor = new ScriptExecutor(workerCollection, scriptsHashCodes);
-            
-            return new Response(Status.OK, scriptExecutor.execute(scriptReader.read(inputArguments.get(1))));
-        } catch (FileCreationException | ScriptException e){
+            String message = scriptExecutor.execute(scriptReader.read(inputArguments.get(1)));
+            return new Response(Status.OK, message);
+        }catch (RecursionException e){
+            return new Response(Status.BAD_REQUEST,"Рекурсия.");
+        }
+        catch (FileCreationException | ScriptException e){
             return new Response(Status.BAD_REQUEST, e.getMessage());
         }
     }

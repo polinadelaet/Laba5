@@ -7,6 +7,8 @@ import app.commands.factory.CommandsFactory;
 import app.commands.script.argumentFormer.ArgumentFormer;
 import app.commands.script.argumentFormer.CompositeArgumentFormer;
 import app.commands.script.argumentFormer.SimpleArgumentFormer;
+import app.commands.script.scriptException.RecursionException;
+import app.commands.script.scriptException.ScriptException;
 
 import java.util.*;
 
@@ -59,9 +61,8 @@ public final class ScriptExecutor {
     }
 
     public String execute(Script script) throws ScriptException {
-        //todo че за пиздец...
         if (!scriptsHashCodes.add(script.hashCode())){
-            throw new ScriptException("kkdkskdi");
+            throw new RecursionException();
         }
         String message = "";
         try {
@@ -71,10 +72,16 @@ public final class ScriptExecutor {
                 if (commandsName.contains(subStrings[0])) {
 
                     ArgumentFormer argumentFormer = choiceArgumentFormer.get(subStrings[0]);
-                    CommandsFactory commandsFactory = new CommandsFactory(workerCollection);
-                    Command command = commandsFactory.create(subStrings[0], argumentFormer.collectArguments(script));
+                    CommandsFactory commandsFactory = new CommandsFactory(workerCollection,scriptsHashCodes);
+                    Command command;
 
-                    message += command.execute().toString() + System.lineSeparator();
+                    try {
+                        command = commandsFactory.create(subStrings[0],argumentFormer.collectArguments(script));
+                        message += command.execute().toString() + System.lineSeparator();
+                    }catch (RecursionException e){
+                        message += "Обнаруженно зацикливание" + System.lineSeparator();
+                    }
+
                     continue;
                 }
                 throw new ScriptException("Неправильный скрипт.");
@@ -82,6 +89,7 @@ public final class ScriptExecutor {
         } catch (CommandCreationException e) {
             throw new ScriptException(e);
         }
+        scriptsHashCodes.remove(script.hashCode());
         return message;
 
     }

@@ -8,23 +8,24 @@ import app.query.Query;
 import app.response.Response;
 import app.response.Status;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public final class Controller {
     private final WorkerCollection workerCollection;
-    private final CommandsFactory commandsFactory;
 
-    public Controller(WorkerCollection workerCollection, CommandsFactory commandsFactory) {
+    public Controller(WorkerCollection workerCollection) {
         this.workerCollection = workerCollection;
-        this.commandsFactory = commandsFactory;
     }
 
     public Response handleQuery(Query query){
         try {
+            Set<Integer> scriptsHashCodes = new HashSet<>();
+            CommandsFactory commandsFactory = new CommandsFactory(workerCollection, scriptsHashCodes);
             Command command = commandsFactory.create(query.getCommandName(),query.getArguments());
-            Response response = command.execute();
             return command.execute();
         } catch (CommandCreationException | NullPointerException e){
-            e.getMessage();
+            return new Response(Status.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-        return new Response(Status.INTERNAL_SERVER_ERROR, "Ошибка сервера.");
     }
 }
