@@ -18,7 +18,6 @@ public final class ExecuteScript extends WorkerCollectionCommand {
         super(inputArguments, workerCollection);
         this.scriptsHashCodes = scriptsHashCodes;
     }
-
     @Override
     public Response execute() {
 
