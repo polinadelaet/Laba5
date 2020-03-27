@@ -7,6 +7,7 @@ import app.collection.worker.Status;
 import app.collection.worker.Worker;
 import app.collection.worker.factory.WorkerCreationException;
 import app.collection.worker.factory.WorkersFactory;
+import app.collection.worker.loadingException.LoadingException;
 import app.collection.worker.savingException.SavingException;
 import app.collection.worker.workerCollectionException.WorkerCollectionException;
 
@@ -42,6 +43,7 @@ public final class WorkerCollection {
                 "workers=" + workers +
                 '}';
     }
+
 
     public void add(String name,
                     Coordinates coordinates,
@@ -127,14 +129,14 @@ public final class WorkerCollection {
         }
     }
 
-    public WorkerCollection load(File file) throws SavingException {
+    public WorkerCollection load(File file) throws LoadingException {
         WorkerCollection workerCollection = null;
         try{
             JAXBContext jaxbContext = JAXBContext.newInstance(WorkerCollection.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             workerCollection = (WorkerCollection) unmarshaller.unmarshal(file);
         } catch (javax.xml.bind.JAXBException | IllegalArgumentException e){
-            throw new SavingException("Ошибка сохранения в файл.");
+            throw new LoadingException("Ошибка выгрузки коллекции из файла");
         }
         return workerCollection;
     }

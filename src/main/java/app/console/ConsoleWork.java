@@ -2,14 +2,17 @@ package app.console;
 
 import app.collection.WorkerCollection;
 import app.collection.worker.factory.WorkersFactory;
+import app.collection.worker.loadingException.LoadingException;
+import app.collection.worker.savingException.SavingException;
+import app.commands.Command;
 import app.controller.Controller;
 import app.query.Query;
 import app.query.queryBuilder.*;
 import app.query.queryCreationException.QueryCreationException;
+import app.response.Response;
+import app.response.Status;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 public final class ConsoleWork {
@@ -17,11 +20,13 @@ public final class ConsoleWork {
     private final PrintWriter printWriter;
     private final Scanner skan;
     private final Map<String, QueryBuilder> queryBuilderMap = new HashMap<>();
+    private final Controller controller;
 
-    public ConsoleWork(InputStream inputStream, OutputStream outputStream) {
+    public ConsoleWork(InputStream inputStream, OutputStream outputStream, Controller controller) {
 
         this.printWriter = new PrintWriter(outputStream);
         skan = new Scanner(inputStream);
+        this.controller = controller;
 
         queryBuilderMap.put("help", new SimpleQueryBuilder("help", this));
         queryBuilderMap.put("info", new SimpleQueryBuilder("info", this));
@@ -65,9 +70,23 @@ public final class ConsoleWork {
             try {
                 Query query = queryBuilder.create(subStrings);
 
-                WorkerCollection workerCollection;
-                //Controller controller = new Controller()
+                String value = System.getenv("collection");
 
+
+                controller.handleQuery(query);
+                Response response = controller.handleQuery(query);
+                if (response.getStatus()==Status.OK){
+                    printLine("Команда успешно выполнена.");
+                }
+                if (response.getStatus()==Status.TIME_TO_EXIT){
+                    System.exit(0);
+                }
+                if (response.getStatus()==Status.BAD_REQUEST){
+                    printLine(response.getMessage());
+                }
+                if (response.getStatus()==Status.INTERNAL_SERVER_ERROR){
+                    printLine("Внутренняя ошибка сервера.");
+                }
                 //TODO: 1) передать запрос контроллеру
                 //TODO: 2) получить Response от контроллера
                 //TODO: 3) обработать Response.
