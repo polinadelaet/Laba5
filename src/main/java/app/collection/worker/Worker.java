@@ -1,7 +1,15 @@
 package app.collection.worker;
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import app.collection.worker.xmlAdapters.DateFormatter;
+import app.collection.worker.xmlAdapters.LocalDateFormatter;
+import app.collection.worker.xmlAdapters.StatusAdapter;
+import app.collection.worker.xmlAdapters.ZonedDateTimeFormatter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -21,6 +29,7 @@ public final class Worker implements Comparable<Worker>{
     private java.time.ZonedDateTime startDate; //Поле не может быть null
     @XmlJavaTypeAdapter(LocalDateFormatter.class)
     private java.time.LocalDate endDate; //Поле может быть null
+    @XmlJavaTypeAdapter(StatusAdapter.class)
     private Status status; //Поле не может быть null
     private Person person; //Поле не может быть null
 

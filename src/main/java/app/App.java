@@ -9,27 +9,35 @@ import app.collection.worker.savingException.SavingException;
 import app.console.ConsoleWork;
 import app.controller.Controller;
 
-import java.io.*;
+import java.io.File;
 
 public class App {
+    private static final String PATH_TO_ID_GENERATOR = "./files/idGenerator";
+
+
     public static void main(String[] args) {
        try {
-           IdGenerator idGenerator = new IdGenerator();
-           WorkersFactory workersFactory = new WorkersFactory(idGenerator);
-           WorkerCollection workerCollection = new WorkerCollection(workersFactory);
-           String path = System.getenv("переменная окружения");
+           String path = System.getenv("WC_FILE");
            File file = new File(path);
-           Controller controller = new Controller(workerCollection.load(file));
+
+           IdGenerator idGenerator = IdGenerator.createIdGenerator(PATH_TO_ID_GENERATOR);
+           WorkersFactory workersFactory = new WorkersFactory(idGenerator);
+           WorkerCollection workerCollection;
+
+           if (file.exists()) {
+               workerCollection = WorkerCollection.load(file, workersFactory);
+           } else {
+               workerCollection = new WorkerCollection(workersFactory);
+           }
+
+           Controller controller = new Controller(workerCollection);
            ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, controller);
 
-           while (true) {
-               consoleWork.start();
-           }
+           consoleWork.start();
        } catch ( LoadingException | SecurityException e) {
            System.out.println("Файл не найден.");
        } catch (SavingException e){
            System.out.println("Айди не сохранены.");
        }
     }
-        //TODO: создать здесь объект Console и запустить его бесконечный цикл
 }

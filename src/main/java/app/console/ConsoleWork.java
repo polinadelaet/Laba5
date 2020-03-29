@@ -1,20 +1,18 @@
 package app.console;
 
-import app.collection.WorkerCollection;
-import app.collection.worker.factory.WorkersFactory;
-import app.collection.worker.loadingException.LoadingException;
-import app.collection.worker.savingException.SavingException;
-import app.commands.Command;
 import app.controller.Controller;
 import app.query.Query;
 import app.query.queryBuilder.*;
 import app.query.queryCreationException.QueryCreationException;
 import app.response.Response;
 import app.response.Status;
-import com.sun.org.apache.bcel.internal.generic.FSUB;
 
-import java.io.*;
-import java.util.*;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public final class ConsoleWork {
 
@@ -57,39 +55,44 @@ public final class ConsoleWork {
     }
     public void printLine(String string){
         printWriter.println(string);
+        printWriter.flush();
     }
 
     public void start() {
         while (true) {
             printLine("Введите интересующую команду: ");
+
             String line = readLine();
             String [] subStrings = line.split(" +");
+
             if (subStrings.length == 0){
-                continue; }
+                continue;
+            }
+
             QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
+
             try {
                 Query query = queryBuilder.create(subStrings);
                 controller.handleQuery(query);
+
                 Response response = controller.handleQuery(query);
+                //TODO: сравнение через equals
+
                 if (response.getStatus() == Status.OK){
                     printLine("Команда успешно выполнена.");
                 }
+
                 if (response.getStatus() == Status.TIME_TO_EXIT){
                     System.exit(0);
                 }
+
                 if (response.getStatus() == Status.BAD_REQUEST){
                     printLine(response.getMessage());
                 }
+
                 if (response.getStatus() == Status.INTERNAL_SERVER_ERROR){
                     printLine("Внутренняя ошибка сервера.");
                 }
-                //TODO: 1) передать запрос контроллеру
-                //TODO: 2) получить Response от контроллера
-                //TODO: 3) обработать Response.
-                // Если ошибка внутренняя, просто асбтрактное сообщение об ошибке.
-                // Если статус время выхода, завершить приложение.
-                // Если ошибка ввода, вывести подробное сообщение, описывающее проблему.
-                // Если все ок, вывести сообщение, что команда успешно выполнена.
             } catch (QueryCreationException e) {
                 print("Вы неправильно ввели данные, введите еще раз ");
             }

@@ -1,10 +1,7 @@
-package app.collection.worker;
+package app.collection.worker.xmlAdapters;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.SimpleTimeZone;
 
 public class ZonedDateTimeFormatter extends XmlAdapter<String, ZonedDateTime> {
 

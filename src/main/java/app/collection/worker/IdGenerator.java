@@ -4,32 +4,20 @@ import app.collection.worker.idGeneratorException.IdGeneratorException;
 import app.collection.worker.savingException.SavingException;
 
 import java.io.*;
-import java.net.URL;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 public class IdGenerator implements Serializable {
     private static final int MIN_ID = 1, MAX_ID = 10000;
-    private static final String FILE_PATH = " ";
 
     private final Queue<Integer> idCollection;
 
     /**
      * Когда создаешь IdGenerator новый, не из файла.
      */
-    public IdGenerator() throws SavingException{
+    private IdGenerator() {
         idCollection = new ArrayDeque<>();
         createIdCollection();
-
-        //TODO: что за дичь ниже? Она лишняя, была написана мной тебе лишь как часть минилекции.
-        ClassLoader classLoader = IdGenerator.class.getClassLoader();
-        URL fileURL = classLoader.getResource("file");
-
-        if (fileURL == null) {
-            throw new SavingException(new FileNotFoundException());
-        } else {
-            String pathToFile = fileURL.getFile();
-            File file = new File(pathToFile);
-        }
     }
 
     private void createIdCollection() {
@@ -41,11 +29,17 @@ public class IdGenerator implements Serializable {
     /**
      * Когда есть уже файл с сохранением пула id.
      */
-    public static IdGenerator readIdGenerator(String filePath) throws SavingException {
-        try(ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(new File(filePath)))){
-            return (IdGenerator) objectInputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            throw new SavingException(e);
+    public static IdGenerator createIdGenerator(String filePath) throws SavingException {
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            try(ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(new File(filePath)))){
+                return (IdGenerator) objectInputStream.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new SavingException(e);
+            }
+        } else {
+            return new IdGenerator();
         }
     }
 

@@ -1,7 +1,6 @@
 package app.commands;
 
 import app.collection.WorkerCollection;
-import app.collection.getQuery.GetByField;
 import app.collection.getQuery.GetMax;
 import app.collection.worker.*;
 import app.collection.worker.workerCollectionException.WorkerCollectionException;

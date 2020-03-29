@@ -1,12 +1,11 @@
-package app.collection.worker;
+package app.collection.worker.xmlAdapters;
 
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-
 public class DateFormatter extends XmlAdapter<String, Date> {
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
 
     public Date unmarshal(String date) throws Exception {

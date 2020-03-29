@@ -1,7 +1,6 @@
 package app.collection.getQuery;
 
 import app.collection.worker.Worker;
-import app.collection.worker.workerCollectionException.WorkerCollectionException;
 
 import java.util.List;
 

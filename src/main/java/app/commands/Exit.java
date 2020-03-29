@@ -1,6 +1,5 @@
 package app.commands;
 
-import app.collection.WorkerCollection;
 import app.response.Response;
 import app.response.Status;
 

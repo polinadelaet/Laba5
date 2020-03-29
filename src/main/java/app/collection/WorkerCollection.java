@@ -14,19 +14,23 @@ import app.collection.worker.workerCollectionException.WorkerCollectionException
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
-//Паттерн Repository (Репозиторий)
-@XmlRootElement
 public final class WorkerCollection {
-    private final List<Worker> workers;
-    private final CollectionInfo collectionInfo;
-    private final WorkersFactory workersFactory;
+    private List<Worker> workers;
+    private CollectionInfo collectionInfo;
+    private WorkersFactory workersFactory;
+
+    public WorkerCollection(WorkerCollectionDTO workerCollectionDTO,
+                            WorkersFactory workersFactory) {
+        workers = workerCollectionDTO.workers;
+        collectionInfo = workerCollectionDTO.collectionInfo;
+        this.workersFactory = workersFactory;
+    }
 
     public WorkerCollection(WorkersFactory workersFactory){
        workers = new LinkedList<>();
@@ -119,25 +123,29 @@ public final class WorkerCollection {
     }
 
     public void save (File file) throws SavingException {
+        WorkerCollectionDTO workerCollectionDTO = new WorkerCollectionDTO();
+        workerCollectionDTO.collectionInfo = collectionInfo;
+        workerCollectionDTO.workers = workers;
         try{
-            JAXBContext jaxbContext = JAXBContext.newInstance(WorkerCollection.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(WorkerCollectionDTO.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.marshal(this, file);
+            jaxbMarshaller.marshal(workerCollectionDTO, file);
         } catch (javax.xml.bind.JAXBException | IllegalArgumentException e ){
            throw new SavingException("Ошибка сохранения в файл.");
         }
     }
 
-    public WorkerCollection load(File file) throws LoadingException {
-        WorkerCollection workerCollection = null;
+    public static WorkerCollection load(File file, WorkersFactory workersFactory) throws LoadingException {
+        WorkerCollectionDTO workerCollectionDTO;
         try{
-            JAXBContext jaxbContext = JAXBContext.newInstance(WorkerCollection.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(WorkerCollectionDTO.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            workerCollection = (WorkerCollection) unmarshaller.unmarshal(file);
+            workerCollectionDTO = (WorkerCollectionDTO) unmarshaller.unmarshal(file);
         } catch (javax.xml.bind.JAXBException | IllegalArgumentException e){
             throw new LoadingException("Ошибка выгрузки коллекции из файла");
         }
-        return workerCollection;
+
+        return new WorkerCollection(workerCollectionDTO, workersFactory);
     }
 }

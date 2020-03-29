@@ -1,9 +1,7 @@
-package app.collection.worker;
+package app.collection.worker.xmlAdapters;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 public class LocalDateFormatter extends XmlAdapter<String, LocalDate> {
 
