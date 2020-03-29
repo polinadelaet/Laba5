@@ -11,6 +11,7 @@ import app.query.queryBuilder.*;
 import app.query.queryCreationException.QueryCreationException;
 import app.response.Response;
 import app.response.Status;
+import com.sun.org.apache.bcel.internal.generic.FSUB;
 
 import java.io.*;
 import java.util.*;
@@ -60,31 +61,26 @@ public final class ConsoleWork {
 
     public void start() {
         while (true) {
-
             printLine("Введите интересующую команду: ");
             String line = readLine();
-            //if (line == "") line = null;
             String [] subStrings = line.split(" +");
+            if (subStrings.length == 0){
+                continue; }
             QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
-
             try {
                 Query query = queryBuilder.create(subStrings);
-
-                String value = System.getenv("collection");
-
-
                 controller.handleQuery(query);
                 Response response = controller.handleQuery(query);
-                if (response.getStatus()==Status.OK){
+                if (response.getStatus() == Status.OK){
                     printLine("Команда успешно выполнена.");
                 }
-                if (response.getStatus()==Status.TIME_TO_EXIT){
+                if (response.getStatus() == Status.TIME_TO_EXIT){
                     System.exit(0);
                 }
-                if (response.getStatus()==Status.BAD_REQUEST){
+                if (response.getStatus() == Status.BAD_REQUEST){
                     printLine(response.getMessage());
                 }
-                if (response.getStatus()==Status.INTERNAL_SERVER_ERROR){
+                if (response.getStatus() == Status.INTERNAL_SERVER_ERROR){
                     printLine("Внутренняя ошибка сервера.");
                 }
                 //TODO: 1) передать запрос контроллеру
@@ -96,7 +92,6 @@ public final class ConsoleWork {
                 // Если все ок, вывести сообщение, что команда успешно выполнена.
             } catch (QueryCreationException e) {
                 print("Вы неправильно ввели данные, введите еще раз ");
-                continue;
             }
         }
     }
