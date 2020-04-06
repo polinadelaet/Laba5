@@ -2,7 +2,9 @@ package app.query.queryBuilder;
 
 import app.console.ConsoleWork;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class CompositeQueryBuilder extends QueryBuilder {
@@ -16,24 +18,37 @@ public abstract class CompositeQueryBuilder extends QueryBuilder {
     private final String personWeight = "person weight";
     private final String personHairColor = "person hairColor";
     private final String personCountry = "person country";
-    protected final Map<String, String> fields = new HashMap<String,String>(){{
+    protected final List<String> nameOfField = new ArrayList<String>(){{
+        add(name);
+        add(coordinateX);
+        add(coordinateY);
+        add(salary);
+        add(startDate);
+        add(endDate);
+        add(status);
+        add(personWeight);
+        add(personHairColor);
+        add(personCountry);
+
+    }};
+    protected final Map<String, String> fields = new HashMap<String, String>(){{
         put(name, "Введите имя: ");
-        put(coordinateX, "Введите вещественное число: ");
-        put(coordinateY, "Введите целое число: ");
+        put(coordinateX, "Введите вещественное число(координату х): ");
+        put(coordinateY, "Введите целое число(координату y): ");
         put(salary, "Введите заработную плату: ");
-        put(startDate, "Введите дату начала: ");
-        put(endDate, "Введите дату окончания: ");
-        put(status, "Выберите статус из " +
+        put(startDate, "Введите дату начала в формате 2007-12-03T10:15:30+01:00[Europe/Paris]: ");
+        put(endDate, "Введите дату окончания в формате ГОД-МЕСЯЦ-ДЕНЬ: ");
+        put(status, "Выберите статус из предложенных:" + System.lineSeparator() +
                 "HIRED" + System.lineSeparator() +
                 "REGULAR" + System.lineSeparator() +
                 "PROBATION" + System.lineSeparator());
-        put(personWeight, "Введите вещественное число: ");
-        put(personHairColor, "Выберите цвет волос из " +
+        put(personWeight, "Введите вещественное число(вес): ");
+        put(personHairColor, "Выберите цвет волос из предложенных:" + System.lineSeparator() +
                 "GREEN" + System.lineSeparator() +
                 "YELLOW" + System.lineSeparator() +
                 "WHITE" + System.lineSeparator() +
                 "BROWN" + System.lineSeparator());
-        put(personCountry, "Введите страну из " +
+        put(personCountry, "Введите страну из предложенных:" + System.lineSeparator() +
                 "RUSSIA" + System.lineSeparator() +
                 "INDIA" + System.lineSeparator() +
                 "ITALY" + System.lineSeparator());
@@ -49,11 +64,9 @@ public abstract class CompositeQueryBuilder extends QueryBuilder {
      */
     protected boolean readFieldValueIntoArguments(String targetField){
         while (true) {
+
             String userInput = consoleWork.readLine();
 
-            if (userInput.equals("exit")) {
-                return true;
-            }
 
             if (targetField.equals(name)) {
                 if (CheckQuery.invalidName(userInput)) {
@@ -99,7 +112,7 @@ public abstract class CompositeQueryBuilder extends QueryBuilder {
             }
             if (targetField.equals(personWeight)) {
                 if (CheckQuery.invalidPersonWeight(userInput)){
-                    consoleWork.printLine("Неверные данные, вес должен быть дробным числом больге 0.");
+                    consoleWork.printLine("Неверные данные, вес должен быть дробным числом больше 0.");
                     continue;
                 }
             }

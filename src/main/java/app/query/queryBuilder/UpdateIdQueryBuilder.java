@@ -22,10 +22,13 @@ public final class UpdateIdQueryBuilder extends CompositeQueryBuilder{
         String id = subStrings[1];
 
         arguments.add(id);
-        for (Map.Entry<String, String> entry : fields.entrySet()){
-            consoleWork.printLine(entry.getKey());
-        }
 
+        for (int i = 0; i<10; i++){
+            String targetField = nameOfField.get(i);
+            consoleWork.printLine(fields.get(targetField));
+            readFieldValueIntoArguments(targetField);
+        }
+/*
         while (true) {
             String targetField = readTargetField();
 
@@ -39,7 +42,7 @@ public final class UpdateIdQueryBuilder extends CompositeQueryBuilder{
                 break;
             }
         }
-
+*/
         return new Query("update", arguments);
     }
 }

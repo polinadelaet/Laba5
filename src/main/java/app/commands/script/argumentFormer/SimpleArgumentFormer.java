@@ -13,7 +13,7 @@ public class SimpleArgumentFormer extends ArgumentFormer{
     public List<String> collectArguments(Script script) throws ScriptException {
         List<String> arguments = new ArrayList<>();
             String previousLine = script.getPreviousLine();
-            if (previousLine == null){
+            if (previousLine == null || previousLine.isEmpty()){
                 throw new ScriptException("Неправильный скрипт. Держи червя");
             }
             String[] firstLine = previousLine.split(" +");
@@ -22,6 +22,7 @@ public class SimpleArgumentFormer extends ArgumentFormer{
                 throw new ScriptException("Неправильный скрипт.");
             }
             if (firstLine.length == 2){
+                checkArgument(firstLine);
                 arguments.add(firstLine[1]);
             }
         return arguments;

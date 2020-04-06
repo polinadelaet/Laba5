@@ -100,7 +100,7 @@ public final class CheckQuery {
     }
 
     public static boolean invalidSalary(String userInput){
-        return userInput == null || isLongFormatIncorrect(userInput) || Long.parseLong(userInput) > 0;
+        return userInput == null || isLongFormatIncorrect(userInput) || Long.parseLong(userInput) < 0 || Long.parseLong(userInput) == 0;
     }
 
     public static boolean invalidStartDate(String userInput){
@@ -116,7 +116,7 @@ public final class CheckQuery {
     }
 
     public static boolean invalidPersonWeight(String userInput){
-        return isDoubleFormatIncorrect(userInput) || Double.parseDouble(userInput) > 0;
+        return isDoubleFormatIncorrect(userInput) || Double.parseDouble(userInput) < 0 || Double.parseDouble(userInput) == 0;
     }
 
     public static boolean invalidPersonHairColor(String userInput){

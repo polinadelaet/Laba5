@@ -20,7 +20,6 @@ public final class AddIfMax extends WorkerCollectionCommand {
     public Response execute() {
 
         Iterator<String> iterator = inputArguments.iterator();
-        iterator.next();
         String name = iterator.next();
         Double x = Double.parseDouble(iterator.next());
         Integer y = Integer.parseInt(iterator.next());
@@ -43,7 +42,7 @@ public final class AddIfMax extends WorkerCollectionCommand {
                 return new Response(app.response.Status.OK, "Элемент успешно добавлен в коллекцию.");
             }
 
-            return new Response(app.response.Status.BAD_REQUEST, "Элемент был не добавлен, так как он оказался меньше максимального.");
+            return new Response(app.response.Status.BAD_REQUEST, "Элемент не был добавлен, так как он оказался меньше максимального.");
         } catch (WorkerCollectionException e){
             return new Response(app.response.Status.BAD_REQUEST,e.getMessage());
         }

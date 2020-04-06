@@ -20,7 +20,6 @@ public final class RemoveLower extends WorkerCollectionCommand {
     public Response execute(){
 
         Iterator<String> iterator = inputArguments.iterator();
-        iterator.next();
         String name = iterator.next();
         Double x = Double.parseDouble(iterator.next());
         Integer y = Integer.parseInt(iterator.next());
@@ -34,16 +33,15 @@ public final class RemoveLower extends WorkerCollectionCommand {
         Country nationality = Country.valueOf(iterator.next());
         Person person = new Person(weight, hairColor, nationality);
         Worker worker = new Worker(salary);
-
         try {
             GetLower getLower = new GetLower(worker);
             List<Worker> resultWorkers = workerCollection.executeGetQuery(getLower);
-            if (resultWorkers != null){
+            if (resultWorkers.size() != 0){
                 for (Worker targetWorker: resultWorkers){
                     workerCollection.remove(targetWorker);
                 }
                 return new Response(app.response.Status.OK, "Элементы коллекции успешно удалены.");
-            } return new Response(app.response.Status.BAD_REQUEST, "Элементы не были удалены, так как они все больше заданного");
+            } return new Response(app.response.Status.BAD_REQUEST, "Элементы не были удалены, так как они все не меньше заданного");
         } catch (WorkerCollectionException e){
             return new Response(app.response.Status.BAD_REQUEST, e.getMessage());
         }

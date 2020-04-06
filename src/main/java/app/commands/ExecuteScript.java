@@ -26,7 +26,9 @@ public final class ExecuteScript extends WorkerCollectionCommand {
         try {
             ScriptReader scriptReader = new ScriptReader();
             ScriptExecutor scriptExecutor = new ScriptExecutor(workerCollection, scriptsHashCodes);
-            String message = scriptExecutor.execute(scriptReader.read(inputArguments.get(1)));
+            System.out.println(scriptReader.read(inputArguments.get(0)).toString());
+            String message = scriptExecutor.execute(scriptReader.read(inputArguments.get(0)));
+            System.out.println(message);
             return new Response(Status.OK, message);
         }catch (RecursionException e){
             return new Response(Status.BAD_REQUEST,"Рекурсия.");

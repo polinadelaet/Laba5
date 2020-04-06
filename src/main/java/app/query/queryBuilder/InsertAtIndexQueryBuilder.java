@@ -18,10 +18,12 @@ public final class InsertAtIndexQueryBuilder extends CompositeQueryBuilder{
     public Query processCreation(String [] subStrings) {
 
         String index = subStrings[1];
+        arguments.clear();
         arguments.add(index);
 
-        for (Map.Entry<String, String> entry : fields.entrySet()){
-            String targetField = entry.getKey();
+        for (int i = 0; i<10; i++){
+            String targetField = nameOfField.get(i);
+            consoleWork.printLine(fields.get(targetField));
             readFieldValueIntoArguments(targetField);
         }
         return new Query("insert_at", arguments);

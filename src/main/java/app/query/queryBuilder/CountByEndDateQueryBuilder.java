@@ -16,7 +16,7 @@ public final class CountByEndDateQueryBuilder extends CompositeQueryBuilder{
 
     @Override
     public Query processCreation(String [] subStrings) {
-
+        arguments.clear();
         String endDate = subStrings[1];
 
         arguments.add(endDate);

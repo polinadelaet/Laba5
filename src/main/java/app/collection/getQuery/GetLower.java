@@ -14,9 +14,8 @@ public class GetLower extends GetQuery {
 
     @Override
     public List<Worker> execute(List<Worker> workers) {
-        List<Worker> result = null;
+        List<Worker> result = new ArrayList<>();
         for (Worker worker : workers) {
-            result = new ArrayList<>();
             if (worker.compareTo(targetWorker) < 0) {
                 result.add(worker);
             }

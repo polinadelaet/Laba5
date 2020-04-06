@@ -15,8 +15,8 @@ public final class Save extends WorkerCollectionCommand {
     @Override
     public Response execute() {
         try {
-            String value = System.getenv("ver");
-            workerCollection.save(new File(value));
+            String path = System.getenv("WC_FILE");
+            workerCollection.save(new File(path));
         }catch (SavingException e){
             return new Response(Status.BAD_REQUEST, e.getMessage());
         }

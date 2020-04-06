@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlRootElement
 @XmlType(name = "person")
 @XmlAccessorType(XmlAccessType.FIELD)
-public final class Person {
+public final class Person implements Comparable<Person>{
     private Double weight; //Поле может быть null, Значение поля должно быть больше 0
     @XmlJavaTypeAdapter(ColorAdapter.class)
     private Color hairColor; //Поле не может быть null
@@ -49,5 +49,17 @@ public final class Person {
 
     public void setNationality(Country nationality) {
         this.nationality = nationality;
+    }
+
+    @Override
+    public int compareTo(Person o) {
+        if (this.weight == o.weight) {
+            return 0;
+        }
+        if (this.weight < o.weight) {
+            return -1;
+        }
+        else
+            return 1;
     }
 }

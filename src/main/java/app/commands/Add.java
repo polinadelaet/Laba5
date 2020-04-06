@@ -25,7 +25,7 @@ public final class Add extends WorkerCollectionCommand {
     @Override
     public Response execute() {
         Iterator <String> iterator = inputArguments.iterator();
-        iterator.next();
+        //iterator.next();
         String name = iterator.next();
         Double x = Double.parseDouble(iterator.next());
         Integer y = Integer.parseInt(iterator.next());

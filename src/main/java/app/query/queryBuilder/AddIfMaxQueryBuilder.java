@@ -19,12 +19,12 @@ public final class AddIfMaxQueryBuilder extends CompositeQueryBuilder{
 
     @Override
     public Query processCreation(String [] subStrings) {
-
-        for (Map.Entry<String, String> entry : fields.entrySet()){
-            String targetField = entry.getKey();
+        arguments.clear();
+        for (int i = 0; i<10; i++){
+            String targetField = nameOfField.get(i);
+            consoleWork.printLine(fields.get(targetField));
             readFieldValueIntoArguments(targetField);
         }
-
         return new Query("add_if_max", arguments);
     }
 }

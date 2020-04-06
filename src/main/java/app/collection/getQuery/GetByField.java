@@ -19,16 +19,18 @@ public class GetByField extends GetQuery {
     @Override
     public List<Worker> execute(List<Worker> workers) throws WorkerCollectionException{
         try{
+            List<Worker> result = new ArrayList<>();
             for (Worker worker: workers){
                 targetField.setAccessible(true);
                 if (targetField.get(worker).equals(value)) {
-                    List<Worker> result = new ArrayList<>();
+                    //List<Worker> result = new ArrayList<>();
                     result.add(worker);
-                    return result;
+                    //return result;
                 }
                 targetField.setAccessible(false);
             }
-            return new ArrayList<>();
+            return result;
+            //return new ArrayList<>();
         }
         catch (IllegalAccessException |  IllegalArgumentException e){
             throw new WorkerCollectionException(e);

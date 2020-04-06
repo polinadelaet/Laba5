@@ -11,15 +11,18 @@ public final class FilterByPersonQueryBuilder extends CompositeQueryBuilder{
 
     @Override
     protected int getSubStringsLegalLength() {
-        return 2;
+        return 1;
     }
 
     @Override
     public Query processCreation(String [] subStrings) {
 
-        String person = subStrings[1];
-
-        arguments.add(person);
+        arguments.clear();
+        for (int i = 7; i<10; i++){
+            String targetField = nameOfField.get(i);
+            consoleWork.printLine(fields.get(targetField));
+            readFieldValueIntoArguments(targetField);
+        }
         return new Query("filter_by_person", arguments);
 
     }

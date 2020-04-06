@@ -76,27 +76,29 @@ public final class WorkerCollection {
         Worker worker;
         try {
             worker = workersFactory.create(name, coordinates, salary, startDate, endDate, status, person);
-        } catch (WorkerCreationException e) {
-            throw new WorkerCollectionException(e);
+            workers.add(index, worker);
+        } catch (IndexOutOfBoundsException | WorkerCreationException e) {
+            throw new WorkerCollectionException("По этому индексу нельзя добавить элемент.");
         }
-        workers.add(index, worker);
     }
 
     public void update(Worker targetWorker) throws WorkerCollectionException {
+        Worker currentWorker = null;
         for (Worker worker: workers){
             if (worker.getId() == targetWorker.getId()){
-                workers.remove(worker);
-                workers.add(targetWorker);
-                continue;
+                currentWorker = worker;
+                break;
             }
-            throw new WorkerCollectionException("Элемента коллекции с id = " + targetWorker.getId() + " не существует.");
         }
+        workers.remove(currentWorker);
+        workers.add(targetWorker);
     }
 
     public void removeAll() {
         workers.clear();
     }
 
+//TODO
 
     public void remove(Worker worker) throws WorkerCollectionException {
         Worker targetWorker = null;
@@ -104,6 +106,7 @@ public final class WorkerCollection {
             if (currentWorker.equals(worker)) {
 
                 targetWorker = currentWorker;
+
                 break;
             }
         }
@@ -111,7 +114,9 @@ public final class WorkerCollection {
         if (targetWorker == null) {
             throw new WorkerCollectionException("Элемента с такими id не существует.");
         }
+
         workers.remove(targetWorker);
+     //  workers.remove(worker);
     }
 
     public CollectionInfo getCollectionInfo() {
@@ -132,7 +137,8 @@ public final class WorkerCollection {
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             jaxbMarshaller.marshal(workerCollectionDTO, file);
         } catch (javax.xml.bind.JAXBException | IllegalArgumentException e ){
-           throw new SavingException("Ошибка сохранения в файл.");
+           e.printStackTrace();
+            //throw new SavingException("Ошибка сохранения в файл.");
         }
     }
 

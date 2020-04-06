@@ -16,6 +16,7 @@ public final class RemoveById extends WorkerCollectionCommand {
 
     @Override
     public Response execute() {
+        //todo
         try {
             Iterator<String> iterator = inputArguments.iterator();
             Integer id = Integer.parseInt(iterator.next());

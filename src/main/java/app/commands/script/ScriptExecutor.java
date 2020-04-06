@@ -29,7 +29,7 @@ public final class ScriptExecutor {
         put("add_if_max", new CompositeArgumentFormer());
         put("remove_lower", new CompositeArgumentFormer());
         put("count_by_end_date", new SimpleArgumentFormer());
-        put("filter_by_person", new SimpleArgumentFormer());
+        put("filter_by_person", new CompositeArgumentFormer());
         put("print_field_descending_end_date", new SimpleArgumentFormer());
     }};
 
@@ -78,14 +78,13 @@ public final class ScriptExecutor {
 
                     try {
                         command = commandsFactory.create(subStrings[0],argumentFormer.collectArguments(script));
-                        message += command.execute().toString() + System.lineSeparator();
+                        //message += command.execute().toString() + System.lineSeparator();
+                        message += command.execute().getMessage() + System.lineSeparator();
                     }catch (RecursionException e){
                         message += "Обнаруженно зацикливание" + System.lineSeparator();
                     }
-
                     continue;
-                }
-                throw new ScriptException("Неправильный скрипт.");
+                } throw new ScriptException("Неправильный скрипт.");
             }
         } catch (CommandCreationException e) {
             throw new ScriptException(e);

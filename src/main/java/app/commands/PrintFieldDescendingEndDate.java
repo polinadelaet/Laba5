@@ -22,14 +22,11 @@ public final class PrintFieldDescendingEndDate extends WorkerCollectionCommand {
     @Override
     public Response execute() {
 
-        Iterator<String> iterator = inputArguments.iterator();
-        iterator.next();
-
         try {
             GetQuery getAll = new GetAll();
             List<Worker> resultWorkers = workerCollection.executeGetQuery(getAll);
 
-            if (resultWorkers != null) {
+            if (resultWorkers.size() != 0) {
                 List<LocalDate> endDates = new ArrayList<>();
                 for (Worker worker : resultWorkers) {
                     endDates.add(worker.getEndDate());

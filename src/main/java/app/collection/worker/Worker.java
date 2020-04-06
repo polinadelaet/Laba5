@@ -62,6 +62,10 @@ public final class Worker implements Comparable<Worker>{
 
     public Worker(){};
 
+    public Worker(Person person){
+        this.person = person;
+    }
+
     public Worker(long salary){
         this.salary = salary;
     }
@@ -147,20 +151,6 @@ public final class Worker implements Comparable<Worker>{
         return (int) (this.salary-o.salary);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Worker worker = (Worker) o;
-
-        return id == worker.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
-    }
 
 }
 

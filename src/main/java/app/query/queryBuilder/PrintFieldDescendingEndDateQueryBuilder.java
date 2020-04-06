@@ -11,15 +11,12 @@ public final class PrintFieldDescendingEndDateQueryBuilder extends CompositeQuer
 
     @Override
     protected int getSubStringsLegalLength() {
-        return 2;
+        return 1;
     }
 
     @Override
     public Query processCreation(String [] subStrings) {
 
-        String endDate = subStrings[1];
-
-        arguments.add(endDate);
         return new Query("print_field_descending_end_date", arguments);
 
     }

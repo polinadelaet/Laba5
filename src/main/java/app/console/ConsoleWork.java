@@ -68,32 +68,29 @@ public final class ConsoleWork {
             if (subStrings.length == 0){
                 continue;
             }
-
-            QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
-
             try {
+                QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
                 Query query = queryBuilder.create(subStrings);
-                controller.handleQuery(query);
-
+                System.out.println("запрос создался");
+                System.out.println(query.toString());
                 Response response = controller.handleQuery(query);
-                //TODO: сравнение через equals
 
-                if (response.getStatus() == Status.OK){
-                    printLine("Команда успешно выполнена.");
+                if (response.getStatus().equals(Status.OK)){
+                    printLine(response.getMessage() + System.lineSeparator() +"Команда успешно выполнена.");
                 }
 
-                if (response.getStatus() == Status.TIME_TO_EXIT){
+                if (response.getStatus().equals(Status.TIME_TO_EXIT)){
                     System.exit(0);
                 }
 
-                if (response.getStatus() == Status.BAD_REQUEST){
+                if (response.getStatus().equals(Status.BAD_REQUEST)){
                     printLine(response.getMessage());
                 }
 
-                if (response.getStatus() == Status.INTERNAL_SERVER_ERROR){
+                if (response.getStatus().equals(Status.INTERNAL_SERVER_ERROR)){
                     printLine("Внутренняя ошибка сервера.");
                 }
-            } catch (QueryCreationException e) {
+            } catch (NullPointerException | QueryCreationException e) {
                 print("Вы неправильно ввели данные, введите еще раз ");
             }
         }

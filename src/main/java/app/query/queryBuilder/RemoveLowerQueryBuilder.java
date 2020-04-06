@@ -19,11 +19,13 @@ public final class RemoveLowerQueryBuilder extends CompositeQueryBuilder {
     @Override
     public Query processCreation(String [] subStrings) {
 
-        for (Map.Entry<String, String> entry : fields.entrySet()){
-            String targetField = entry.getKey();
+        arguments.clear();
+        for (int i = 0; i<10; i++){
+            String targetField = nameOfField.get(i);
+            consoleWork.printLine(fields.get(targetField));
             readFieldValueIntoArguments(targetField);
         }
-
+        System.out.println(arguments);
         return new Query("remove_lower", arguments);
     }
 }

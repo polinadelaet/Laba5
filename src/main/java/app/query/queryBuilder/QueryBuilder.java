@@ -10,7 +10,7 @@ public abstract class QueryBuilder {
 
     protected final ConsoleWork consoleWork;
 
-    protected final List<String> arguments;
+    protected List<String> arguments;
 
     public QueryBuilder(ConsoleWork consoleWork) {
         this.consoleWork = consoleWork;

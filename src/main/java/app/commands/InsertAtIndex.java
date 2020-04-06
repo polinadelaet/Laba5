@@ -22,7 +22,6 @@ public final class InsertAtIndex extends WorkerCollectionCommand {
     @Override
     public Response execute() {
         Iterator<String> iterator = inputArguments.iterator();
-        iterator.next();
         int index = Integer.parseInt(iterator.next());
 
         String name = iterator.next();
@@ -37,11 +36,10 @@ public final class InsertAtIndex extends WorkerCollectionCommand {
         Color hairColor = Color.valueOf(iterator.next());
         Country nationality = Country.valueOf(iterator.next());
         Person person = new Person(weight, hairColor, nationality);
-
         try {
             workerCollection.addByIndex(name, coordinates, salary, startDate, endDate, status, person, index);
         } catch (WorkerCollectionException e) {
-            return new Response(Status.INTERNAL_SERVER_ERROR,"");
+            return new Response(Status.BAD_REQUEST, e.getMessage());
         }
 
         return new Response(Status.OK, "Элемент успешно добавлен в коллекцию");

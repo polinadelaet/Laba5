@@ -27,7 +27,7 @@ public class CompositeArgumentFormer extends ArgumentFormer {
     public List<String> collectArguments(Script script) throws ScriptException {
 
             String previousLine = script.getPreviousLine();
-            if (previousLine == null){
+            if (previousLine == null || previousLine.isEmpty()){
                 throw new ScriptException("Неправильный скрипт. Держи червя");
             }
             String[] firstLine = previousLine.split(" +");

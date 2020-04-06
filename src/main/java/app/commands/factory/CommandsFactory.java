@@ -18,10 +18,10 @@ public final class CommandsFactory {
         put("clear", CLear.class);
         put("count_by_end_date", CountByEndDate.class);
         put("filter_by_person", FilterByPerson.class);
-        put("insert_at_index", InsertAtIndex.class);
+        put("insert_at", InsertAtIndex.class);
         put("print_field_descending_end_date", PrintFieldDescendingEndDate.class);
         put("remove_by_id", RemoveById.class);
-        put("remover_lower", RemoveLower.class);
+        put("remove_lower", RemoveLower.class);
         put("show", Show.class);
         put("update", UpdateId.class);
         put("info", Info.class);
@@ -45,6 +45,7 @@ public final class CommandsFactory {
 
     public Command create(String commandName, List<String> inputArguments) throws CommandCreationException {
         if (workerCollectionCommandsMap.containsKey(commandName)) {
+            System.out.println("скрипт в воркере");
             return createWorkerCollectionCommand(workerCollectionCommandsMap.get(commandName), inputArguments);
         }
         return createSimpleCommand(simpleCommandsMap.get(commandName), inputArguments);
@@ -54,8 +55,10 @@ public final class CommandsFactory {
                                                                   List<String> inputArguments) throws CommandCreationException {
         try {
             Constructor<? extends WorkerCollectionCommand> constructor = commandClass.getConstructor(List.class, WorkerCollection.class);
+            System.out.println("перед возвращением конструктор нью инстанс");
             return constructor.newInstance(inputArguments, workerCollection);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
             throw new CommandCreationException();
         }
     }
