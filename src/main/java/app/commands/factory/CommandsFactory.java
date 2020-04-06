@@ -25,8 +25,12 @@ public final class CommandsFactory {
         put("show", Show.class);
         put("update", UpdateId.class);
         put("info", Info.class);
-        put("execute_script", ExecuteScript.class);
         put("save", Save.class);
+    }};
+
+    private final Map<String, Class<? extends ExecuteScript>> executeScriptCommandsMap
+            = new HashMap<String, Class<? extends ExecuteScript>>() {{
+        put("execute_script", ExecuteScript.class);
     }};
 
     private final Map<String, Class<? extends Command>> simpleCommandsMap
@@ -48,6 +52,11 @@ public final class CommandsFactory {
             System.out.println("скрипт в воркере");
             return createWorkerCollectionCommand(workerCollectionCommandsMap.get(commandName), inputArguments);
         }
+
+        if (executeScriptCommandsMap.containsKey(commandName)) {
+            return createExecuteScriptCommand(executeScriptCommandsMap.get(commandName), inputArguments);
+        }
+
         return createSimpleCommand(simpleCommandsMap.get(commandName), inputArguments);
     }
 
@@ -63,8 +72,15 @@ public final class CommandsFactory {
         }
     }
 
-
-
+    private ExecuteScript createExecuteScriptCommand(Class<? extends ExecuteScript> commandClass,
+                                                     List<String> inputArguments) throws CommandCreationException {
+        try {
+            Constructor<? extends ExecuteScript> constructor = commandClass.getConstructor(List.class, WorkerCollection.class, Set.class);
+            return constructor.newInstance(inputArguments, workerCollection, scriptsHashCodes);
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            throw new CommandCreationException();
+        }
+    }
 
     private Command createSimpleCommand(Class<? extends Command> commandClass,
                                         List<String> inputArguments) throws CommandCreationException {
