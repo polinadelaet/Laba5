@@ -138,6 +138,7 @@ public final class WorkerCollection {
             jaxbMarshaller.marshal(workerCollectionDTO, file);
         } catch (javax.xml.bind.JAXBException | IllegalArgumentException e ){
            e.printStackTrace();
+            System.out.println(file.getAbsoluteFile());
             //throw new SavingException("Ошибка сохранения в файл.");
         }
     }
