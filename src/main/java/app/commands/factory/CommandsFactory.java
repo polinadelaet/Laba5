@@ -49,11 +49,11 @@ public final class CommandsFactory {
 
     public Command create(String commandName, List<String> inputArguments) throws CommandCreationException {
         if (workerCollectionCommandsMap.containsKey(commandName)) {
-            System.out.println("скрипт в воркере");
             return createWorkerCollectionCommand(workerCollectionCommandsMap.get(commandName), inputArguments);
         }
 
         if (executeScriptCommandsMap.containsKey(commandName)) {
+            System.out.println("скрипт в ЭкзекьютСкриптКоммандсМэп");
             return createExecuteScriptCommand(executeScriptCommandsMap.get(commandName), inputArguments);
         }
 

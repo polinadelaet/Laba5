@@ -6,7 +6,7 @@ import app.response.Status;
 
 import java.util.List;
 
-public final class Show extends WorkerCollectionCommand {
+public final class  Show extends WorkerCollectionCommand {
 
     public Show(List<String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
@@ -14,7 +14,7 @@ public final class Show extends WorkerCollectionCommand {
 
     @Override
     public Response execute(){
-        String message = workerCollection.toString();
+        String message = workerCollection.toString() + System.lineSeparator();
         return new Response(Status.OK, message);
     }
 

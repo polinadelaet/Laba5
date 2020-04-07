@@ -26,94 +26,119 @@ public class CompositeArgumentFormer extends ArgumentFormer {
     @Override
     public List<String> collectArguments(Script script) throws ScriptException {
 
+            arguments.clear();
             String previousLine = script.getPreviousLine();
+        System.out.println("Вывод предыдущей линии " + previousLine);
             if (previousLine == null || previousLine.isEmpty()){
                 throw new ScriptException("Неправильный скрипт. Держи червя");
             }
             String[] firstLine = previousLine.split(" +");
-
+            System.out.println("Вывод первой линии" + firstLine[0]);
             //TODO: рефакторинг, нечитаемо
             //TODO: эти if-ы можно скрыть в иерархии ArgumentFormer, то есть сделать два аргумент формера вместо Composite
             if (firstLine[0].equals("filter_by_person")){
+                script.increaseIndex();
                 String line = script.getNextLine();
-                while (line.contains("=")){
-                    String[] subStrings = line.split("=");
-                    checkArgumentFilterByPerson(subStrings);
 
-                    currentIndexOfLine++;
+                for (int i = 7 ; i<10; i++){
+                    System.out.println(line);
+                    String[] subStrings = line.split("=");
+                    checkArgument(subStrings, i);
+                    System.out.println(subStrings[1]);
                     arguments.add(subStrings[1]);
-                    line = script.getNextLine();
+                    if (script.hasNextLine()) {
+                        line = script.getNextLine();
+                    }System.out.println(arguments.toString());
                 }
+                script.decreaseIndex();
+                System.out.println(script.getCurrentIndex());
             }
             if (firstLine[0].equals("add") | firstLine[0].equals("add_if_max") | firstLine[0].equals("remove_lower")){
+                script.increaseIndex();
                 String line = script.getNextLine();
-                while (line.contains("=")){
-                    String[] subStrings = line.split("=");
-                    checkArgument(subStrings);
 
-                    currentIndexOfLine++;
+                for (int i = 0 ; i<10; i++){
+                    System.out.println(line);
+                    String[] subStrings = line.split("=");
+                    checkArgument(subStrings, i);
+                    System.out.println(subStrings[1]);
                     arguments.add(subStrings[1]);
-                    line = script.getNextLine();
+                    if (script.hasNextLine()) {
+                        line = script.getNextLine();
+                    }System.out.println(arguments.toString());
                 }
+                script.decreaseIndex();
             }
             if ((firstLine[0].equals("update") | firstLine[0].equals("insert_at")) & firstLine.length == 2){
                 arguments.add(firstLine[1]);
+                script.increaseIndex();
                 String line = script.getNextLine();
 
-                while (line.contains("=")){
+                for (int i = 0 ; i<10; i++){
+                    System.out.println(line);
                     String[] subStrings = line.split("=");
-                    checkArgument(subStrings);
-
-                    currentIndexOfLine++;
+                    checkArgument(subStrings, i);
+                    System.out.println(subStrings[1]);
                     arguments.add(subStrings[1]);
-                    line = script.getNextLine();
+                    if (script.hasNextLine()) {
+                        line = script.getNextLine();
+                    }System.out.println(arguments.toString());
                 }
+                script.decreaseIndex();
             }
+        System.out.println("перед возвращением аргументов");
+        System.out.println(arguments.toString());
+        System.out.println(script.getCurrentIndex());
+
         return arguments;
     }
 
-    private void checkArgumentFilterByPerson(String[] field) throws ScriptException {
-        if (field[0].equals(fields.get(currentIndexOfLine+7))){
-            if (fields.get(currentIndexOfLine+7).equals("person_weight") && CheckField.invalidPersonWeight(field[1]) == true){
+    private void checkArgumentFilterByPerson(String[] subStrings) throws ScriptException {
+        if (subStrings[0].equals(fields.get(currentIndexOfLine+7))){
+            if (fields.get(currentIndexOfLine+7).equals("person_weight") && CheckField.invalidPersonWeight(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
-            if (fields.get(currentIndexOfLine+7).equals("person_hair_color") && CheckField.invalidPersonHairColor(field[1]) == true){
+            if (fields.get(currentIndexOfLine+7).equals("person_hair_color") && CheckField.invalidPersonHairColor(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
-            if (fields.get(currentIndexOfLine+7).equals("person_nationality") && CheckField.invalidPersonNationality(field[1]) == true){
+            if (fields.get(currentIndexOfLine+7).equals("person_nationality") && CheckField.invalidPersonNationality(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
         }
     }
-    private void checkArgument(String[] field) throws ScriptException {
-        if (field[0].equals(fields.get(currentIndexOfLine))){
-            if (fields.get(currentIndexOfLine).equals("name") && CheckField.invalidName(field[1]) == true){
+
+    private void checkArgument(String[] subStrings, int i) throws ScriptException {
+        if (subStrings[0].equals(fields.get(i))){
+            if (fields.get(i).equals("name") && CheckField.invalidName(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
-            if (fields.get(currentIndexOfLine).equals("coordinate_x") && CheckField.invalidCoordinateX(field[1]) == true){
+            if (fields.get(i).equals("coordinate_x") && CheckField.invalidCoordinateX(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
-            if (fields.get(currentIndexOfLine).equals("coordinate_y") && CheckField.invalidCoordinateY(field[1]) == true){
+            if (fields.get(i).equals("coordinate_y") && CheckField.invalidCoordinateY(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
-            if (fields.get(currentIndexOfLine).equals("salary") && CheckField.invalidSalary(field[1]) == true){
+            if (fields.get(i).equals("salary") && CheckField.invalidSalary(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
-            if (fields.get(currentIndexOfLine).equals("end_date") && CheckField.invalidEndDate(field[1]) == true){
+            if (fields.get(i).equals("start_date") && CheckField.invalidStartDate(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
-            if (fields.get(currentIndexOfLine).equals("status") && CheckField.invalidStatus(field[1]) == true){
+            if (fields.get(i).equals("end_date") && CheckField.invalidEndDate(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
-            if (fields.get(currentIndexOfLine).equals("person_weight") && CheckField.invalidPersonWeight(field[1]) == true){
+            if (fields.get(i).equals("status") && CheckField.invalidStatus(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
-            if (fields.get(currentIndexOfLine).equals("person_hair_color") && CheckField.invalidPersonHairColor(field[1]) == true){
+            if (fields.get(i).equals("person_weight") && CheckField.invalidPersonWeight(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
-            if (fields.get(currentIndexOfLine).equals("person_nationality") && CheckField.invalidPersonNationality(field[1]) == true){
+            if (fields.get(i).equals("person_hair_color") && CheckField.invalidPersonHairColor(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
-        }
+            if (fields.get(i).equals("person_nationality") && CheckField.invalidPersonNationality(subStrings[1]) == true){
+                throw new ScriptException("Неправильный скрипт.");
+            }
+        }throw new ScriptException("Неправильный скрипт.");
     }
 }

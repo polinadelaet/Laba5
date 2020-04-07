@@ -66,31 +66,42 @@ public final class ScriptExecutor {
         }
 
         String message = "";
-        try {
-            while (script.hasNextLine()) {
-                String firstLine = script.getNextLine();
-                String[] subStrings = firstLine.split(" +");
-                if (commandsName.contains(subStrings[0])) {
+        int schet = 0;
+        while (script.hasNextLine()) {
+            System.out.println("Размер скрипта = " + script.getLines().size() + ". Сейчашний индекс" + script.getCurrentIndex());
+            schet++;
+            System.out.println(schet);
+            System.out.println(scriptsHashCodes.toString());
+            String firstLine = script.getNextLine();
+            System.out.println(firstLine);
+            String[] subStrings = firstLine.split(" +");
+            if (commandsName.contains(subStrings[0])) {
+                System.out.println("это вывелось бы если только show распозналась в листе команд");
+                ArgumentFormer argumentFormer = choiceArgumentFormer.get(subStrings[0]);
+                System.out.println(argumentFormer);
+                CommandsFactory commandsFactory = new CommandsFactory(workerCollection, scriptsHashCodes);
+                Command command;
 
-                    ArgumentFormer argumentFormer = choiceArgumentFormer.get(subStrings[0]);
-                    CommandsFactory commandsFactory = new CommandsFactory(workerCollection,scriptsHashCodes);
-                    Command command;
-
-                    try {
-                        command = commandsFactory.create(subStrings[0],argumentFormer.collectArguments(script));
-                        //message += command.execute().toString() + System.lineSeparator();
-                        message += command.execute().getMessage() + System.lineSeparator();
-                    }catch (RecursionException e){
-                        message += "Обнаруженно зацикливание" + System.lineSeparator();
-                    }
-                    continue;
-                } throw new ScriptException("Неправильный скрипт.");
-            }
-        } catch (CommandCreationException e) {
-            throw new ScriptException(e);
+                try {
+                    command = commandsFactory.create(subStrings[0], argumentFormer.collectArguments(script));
+                    System.out.println(command.toString());
+                    //message += command.execute().toString() + System.lineSeparator();
+                    System.out.println("Перед исполнением команды");
+                    //System.out.println(command.execute().getMessage());
+                    message += command.execute().getMessage() + System.lineSeparator();
+                    //System.out.println(message);
+                    System.out.println("Индекс после записи сообщения команд = " + script.getCurrentIndex());
+                } catch (RecursionException e) {
+                    message += "Обнаруженно зацикливание" + System.lineSeparator();
+                } catch (CommandCreationException e) {
+                    throw new ScriptException(e);
+                }
+                //continue;
+            } // throw new ScriptException("Неправильный скрипт.");
         }
+        System.out.println("дошли до удаления");
         scriptsHashCodes.remove(script.hashCode());
-        return message;
 
+        return message;
     }
 }

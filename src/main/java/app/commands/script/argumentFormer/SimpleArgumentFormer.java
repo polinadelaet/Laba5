@@ -12,7 +12,9 @@ public class SimpleArgumentFormer extends ArgumentFormer{
     @Override
     public List<String> collectArguments(Script script) throws ScriptException {
         List<String> arguments = new ArrayList<>();
+        System.out.println("__________"+script.getCurrentIndex());
             String previousLine = script.getPreviousLine();
+            System.out.println("Вывод превиоусЛайн: " + previousLine);
             if (previousLine == null || previousLine.isEmpty()){
                 throw new ScriptException("Неправильный скрипт. Держи червя");
             }
@@ -25,6 +27,8 @@ public class SimpleArgumentFormer extends ArgumentFormer{
                 checkArgument(firstLine);
                 arguments.add(firstLine[1]);
             }
+            script.increaseIndex();
+        System.out.println(script.getCurrentIndex());
         return arguments;
     }
 //TODO person убрать из симпл

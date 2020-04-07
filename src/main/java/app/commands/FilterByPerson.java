@@ -32,7 +32,7 @@ public final class FilterByPerson extends WorkerCollectionCommand {
             List<Worker> resultWorkers = workerCollection.executeGetQuery(getAll);
 
             if (resultWorkers.size() != 0){
-                String message = "Элементы коллекции, значение поля person которых равно " + person.toString() + ":" + System.lineSeparator();
+                String message = "Элементы коллекции, значения полей person которых равно заданным:" + System.lineSeparator();
                 for (Worker worker: resultWorkers){
 
                     if (weight.equals(worker.getPerson().getWeight())){

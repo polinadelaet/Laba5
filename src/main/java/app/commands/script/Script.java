@@ -14,8 +14,16 @@ public final class Script {
         this.currentIndex = 0;
     }
 
+    public void increaseIndex(){
+        currentIndex++;
+    }
+
+    public void decreaseIndex(){
+        currentIndex--;
+    }
+
     public boolean hasNextLine(){
-        return (currentIndex < lines.size()) && (lines.size() != 0);
+        return ((currentIndex < lines.size()) && (lines.size() != 0));
     }
     public String getNextLine() throws ScriptException {
         try {
@@ -46,5 +54,13 @@ public final class Script {
         int result = lines != null ? lines.hashCode() : 0;
         result = 31 * result + currentIndex;
         return result;
+    }
+
+    public List<String> getLines() {
+        return lines;
+    }
+
+    public int getCurrentIndex() {
+        return currentIndex;
     }
 }

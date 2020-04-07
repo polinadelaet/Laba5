@@ -7,25 +7,29 @@ import app.query.queryCreationException.QueryCreationException;
 import app.response.Response;
 import app.response.Status;
 
+import java.io.EOFException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public final class ConsoleWork {
 
     private final PrintWriter printWriter;
-    private final Scanner skan;
+    private Scanner skan;
     private final Map<String, QueryBuilder> queryBuilderMap = new HashMap<>();
     private final Controller controller;
+    private final InputStream inputStream;
 
     public ConsoleWork(InputStream inputStream, OutputStream outputStream, Controller controller) {
 
         this.printWriter = new PrintWriter(outputStream);
-        skan = new Scanner(inputStream);
         this.controller = controller;
+        this.inputStream = inputStream;
+        skan = new Scanner(this.inputStream);
 
         queryBuilderMap.put("help", new SimpleQueryBuilder("help", this));
         queryBuilderMap.put("info", new SimpleQueryBuilder("info", this));
@@ -61,37 +65,37 @@ public final class ConsoleWork {
     public void start() {
         while (true) {
             printLine("Введите интересующую команду: ");
-
-            String line = readLine();
-            String [] subStrings = line.split(" +");
-
-            if (subStrings.length == 0){
-                continue;
-            }
             try {
-                QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
-                Query query = queryBuilder.create(subStrings);
-                System.out.println("запрос создался");
-                System.out.println(query.toString());
-                Response response = controller.handleQuery(query);
-
-                if (response.getStatus().equals(Status.OK)){
-                    printLine(response.getMessage() + System.lineSeparator() +"Команда успешно выполнена.");
+                String line = readLine();
+                String[] subStrings = line.split(" +");
+                if (subStrings.length == 0) {
+                    continue;
                 }
+                try {
+                    QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
+                    Query query = queryBuilder.create(subStrings);
+                    System.out.println("запрос создался");
+                    System.out.println(query.toString());
+                    Response response = controller.handleQuery(query);
 
-                if (response.getStatus().equals(Status.TIME_TO_EXIT)){
-                    System.exit(0);
+                    if (response.getStatus().equals(Status.OK)) {
+                        printLine(response.getMessage() + System.lineSeparator() + "Команда успешно выполнена.");
+                    }
+                    if (response.getStatus().equals(Status.TIME_TO_EXIT)) {
+                        System.exit(0);
+                    }
+                    if (response.getStatus().equals(Status.BAD_REQUEST)) {
+                        printLine(response.getMessage());
+                    }
+                    if (response.getStatus().equals(Status.INTERNAL_SERVER_ERROR)) {
+                        printLine("Внутренняя ошибка сервера.");
+                    }
+                } catch (NullPointerException | QueryCreationException e) {
+                    print("Вы неправильно ввели данные, введите еще раз ");
                 }
-
-                if (response.getStatus().equals(Status.BAD_REQUEST)){
-                    printLine(response.getMessage());
-                }
-
-                if (response.getStatus().equals(Status.INTERNAL_SERVER_ERROR)){
-                    printLine("Внутренняя ошибка сервера.");
-                }
-            } catch (NullPointerException | QueryCreationException e) {
+            }catch (NoSuchElementException e){
                 print("Вы неправильно ввели данные, введите еще раз ");
+                skan = new Scanner(inputStream);
             }
         }
     }
