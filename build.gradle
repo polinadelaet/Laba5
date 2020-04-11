@@ -23,7 +23,7 @@ application {
     mainClassName = "app.App"
 }
 
-task executablejar(type: Jar){
+jar {
     manifest{
         attributes 'Main-Class':'app.App'
     }
