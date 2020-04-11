@@ -14,7 +14,7 @@ import java.util.Collection;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "collectionInfo")
 @XmlRootElement
-public final class CollectionInfo {
+public final class  CollectionInfo {
     @XmlJavaTypeAdapter(ZonedDateTimeFormatter.class)
     private ZonedDateTime creationDate;
     @XmlJavaTypeAdapter(ClassAdapter.class)

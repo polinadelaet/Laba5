@@ -17,6 +17,7 @@ public final class SaveQueryBuilder extends CompositeQueryBuilder{
     }
     @Override
     public Query processCreation(String[] subStrings) {
+        arguments.clear();
         return new Query("save", arguments);
     }
 }

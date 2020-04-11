@@ -26,8 +26,10 @@ public class App {
 
            if (file.exists()) {
                workerCollection = WorkerCollection.load(file, workersFactory);
+               System.out.println("Файл существует");
            } else {
                workerCollection = new WorkerCollection(workersFactory);
+               System.out.println("Файла не существовало и щас создали");
            }
 
            Controller controller = new Controller(workerCollection);

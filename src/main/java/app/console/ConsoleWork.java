@@ -77,6 +77,7 @@ public final class ConsoleWork {
                     System.out.println("запрос создался");
                     System.out.println(query.toString());
                     Response response = controller.handleQuery(query);
+                    System.out.println("получили респонз");
 
                     if (response.getStatus().equals(Status.OK)) {
                         printLine(response.getMessage() + System.lineSeparator() + "Команда успешно выполнена.");

@@ -18,6 +18,7 @@ public class SimpleQueryBuilder extends CompositeQueryBuilder {
 
     @Override
     public Query processCreation(String [] subStrings) {
+        arguments.clear();
         return new Query(commandName, arguments);
     }
 }

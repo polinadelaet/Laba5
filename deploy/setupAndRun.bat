@@ -1,4 +1,4 @@
-del /S /F /Q Laba5-1.0-SNAPSHOT Laba5-1.0-SNAPSHOT.tar Laba5-1.0-SNAPSHOT.zip
+del /S /F /Q Laba5-1.0-SNAPSHOT Laba-1.0-SHAPSHOT.tar Laba5-1.0-SHAPSHOT.zip
 cd ..\..\
 call gradlew build
 cd build\distributions\

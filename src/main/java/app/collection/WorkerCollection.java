@@ -49,6 +49,9 @@ public final class WorkerCollection {
     }
 
 
+    public int getSize(){
+        return workers.size();
+    }
     public void add(String name,
                     Coordinates coordinates,
                     long salary,
@@ -63,6 +66,7 @@ public final class WorkerCollection {
             throw new WorkerCollectionException(e);
         }
         workers.add(worker);
+        collectionInfo.increaseSize();
     }
 
     public void addByIndex(String name,
@@ -96,12 +100,15 @@ public final class WorkerCollection {
 
     public void removeAll() {
         workers.clear();
+        while (collectionInfo.getSize() > 0){
+            collectionInfo.decreaseSize();
+        }
     }
 
 //TODO
 
     public void remove(Worker worker) throws WorkerCollectionException {
-        Worker targetWorker = null;
+        /*Worker targetWorker = null;
         for (Worker currentWorker: workers) {
             if (currentWorker.equals(worker)) {
 
@@ -116,7 +123,9 @@ public final class WorkerCollection {
         }
 
         workers.remove(targetWorker);
-     //  workers.remove(worker);
+*/
+        workers.remove(worker);
+        collectionInfo.decreaseSize();
     }
 
     public CollectionInfo getCollectionInfo() {
@@ -132,14 +141,16 @@ public final class WorkerCollection {
         workerCollectionDTO.collectionInfo = collectionInfo;
         workerCollectionDTO.workers = workers;
         try{
+            System.out.println("зашли в сейв");
             JAXBContext jaxbContext = JAXBContext.newInstance(WorkerCollectionDTO.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             jaxbMarshaller.marshal(workerCollectionDTO, file);
+            System.out.println("сохранили");
         } catch (javax.xml.bind.JAXBException | IllegalArgumentException e ){
            e.printStackTrace();
             System.out.println(file.getAbsoluteFile());
-            //throw new SavingException("Ошибка сохранения в файл.");
+            throw new SavingException("Ошибка сохранения в файл.");
         }
     }
 

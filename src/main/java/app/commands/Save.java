@@ -21,6 +21,6 @@ public final class Save extends WorkerCollectionCommand {
             return new Response(Status.BAD_REQUEST, e.getMessage());
         }
 
-        return null;
+        return new Response(Status.OK, "Коллекция успешно сохранена.");
     }
 }
