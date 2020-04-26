@@ -21,12 +21,8 @@ public final class Controller {
     public Response handleQuery(Query query){
         try {
             Set<Integer> scriptsHashCodes = new HashSet<>();
-            System.out.println("перед созданием команд фэктори");
             CommandsFactory commandsFactory = new CommandsFactory(workerCollection, scriptsHashCodes);
-            System.out.println("перед созданием команды экзекьюта");
-
             Command command = commandsFactory.create(query.getCommandName(),query.getArguments());
-            System.out.println("команда создалась но не исполнилась" + System.lineSeparator());
             return command.execute();
         } catch (CommandCreationException | NullPointerException e){
             return new Response(Status.INTERNAL_SERVER_ERROR, e.getMessage());

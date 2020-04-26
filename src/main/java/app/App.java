@@ -10,26 +10,30 @@ import app.console.ConsoleWork;
 import app.controller.Controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public class App {
     private static final String PATH_TO_ID_GENERATOR = "./files/idGenerator";
 
 
     public static void main(String[] args) {
+
        try {
-           String path = System.getenv("WC_FILE");
-           File file = new File(path);
+           //String path = System.getenv("WC_FILE");TODO
+           //File file = new File(path);TODO
+           File file = new File("WC_FILE");
 
            IdGenerator idGenerator = IdGenerator.createIdGenerator(PATH_TO_ID_GENERATOR);
            WorkersFactory workersFactory = new WorkersFactory(idGenerator);
            WorkerCollection workerCollection;
 
+
            if (file.exists()) {
                workerCollection = WorkerCollection.load(file, workersFactory);
-               System.out.println("Файл существует");
            } else {
                workerCollection = new WorkerCollection(workersFactory);
-               System.out.println("Файла не существовало и щас создали");
            }
 
            Controller controller = new Controller(workerCollection);

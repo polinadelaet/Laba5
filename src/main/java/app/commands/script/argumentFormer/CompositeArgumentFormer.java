@@ -28,12 +28,11 @@ public class CompositeArgumentFormer extends ArgumentFormer {
 
             arguments.clear();
             String previousLine = script.getPreviousLine();
-        System.out.println("Вывод предыдущей линии " + previousLine);
+
             if (previousLine == null || previousLine.isEmpty()){
                 throw new ScriptException("Неправильный скрипт. Держи червя");
             }
             String[] firstLine = previousLine.split(" +");
-            System.out.println("Вывод первой линии" + firstLine[0]);
             //TODO: рефакторинг, нечитаемо
             //TODO: эти if-ы можно скрыть в иерархии ArgumentFormer, то есть сделать два аргумент формера вместо Composite
             if (firstLine[0].equals("filter_by_person")){
@@ -44,28 +43,23 @@ public class CompositeArgumentFormer extends ArgumentFormer {
                     System.out.println(line);
                     String[] subStrings = line.split("=");
                     checkArgument(subStrings, i);
-                    System.out.println(subStrings[1]);
                     arguments.add(subStrings[1]);
                     if (script.hasNextLine()) {
                         line = script.getNextLine();
-                    }System.out.println(arguments.toString());
+                    }
                 }
                 script.decreaseIndex();
-                System.out.println(script.getCurrentIndex());
             }
             if (firstLine[0].equals("add") | firstLine[0].equals("add_if_max") | firstLine[0].equals("remove_lower")){
                 script.increaseIndex();
                 String line = script.getNextLine();
-
                 for (int i = 0 ; i<10; i++){
-                    System.out.println(line);
                     String[] subStrings = line.split("=");
                     checkArgument(subStrings, i);
-                    System.out.println(subStrings[1]);
                     arguments.add(subStrings[1]);
                     if (script.hasNextLine()) {
                         line = script.getNextLine();
-                    }System.out.println(arguments.toString());
+                    }
                 }
                 script.decreaseIndex();
             }
@@ -75,20 +69,15 @@ public class CompositeArgumentFormer extends ArgumentFormer {
                 String line = script.getNextLine();
 
                 for (int i = 0 ; i<10; i++){
-                    System.out.println(line);
                     String[] subStrings = line.split("=");
                     checkArgument(subStrings, i);
-                    System.out.println(subStrings[1]);
                     arguments.add(subStrings[1]);
                     if (script.hasNextLine()) {
                         line = script.getNextLine();
-                    }System.out.println(arguments.toString());
+                    }
                 }
                 script.decreaseIndex();
             }
-        System.out.println("перед возвращением аргументов");
-        System.out.println(arguments.toString());
-        System.out.println(script.getCurrentIndex());
 
         return arguments;
     }
@@ -109,6 +98,7 @@ public class CompositeArgumentFormer extends ArgumentFormer {
 
     private void checkArgument(String[] subStrings, int i) throws ScriptException {
         if (subStrings[0].equals(fields.get(i))){
+
             if (fields.get(i).equals("name") && CheckField.invalidName(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
@@ -139,6 +129,7 @@ public class CompositeArgumentFormer extends ArgumentFormer {
             if (fields.get(i).equals("person_nationality") && CheckField.invalidPersonNationality(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
-        }throw new ScriptException("Неправильный скрипт.");
+
+        }
     }
 }

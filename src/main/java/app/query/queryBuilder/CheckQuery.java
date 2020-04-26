@@ -126,4 +126,8 @@ public final class CheckQuery {
     public static boolean invalidPersonNationality(String userInput){
         return isPersonNationalityIncorrect(userInput);
     }
+
+    public static boolean invalidId(String userInput){
+        return isIntFormatIncorrect(userInput);
+    }
 }

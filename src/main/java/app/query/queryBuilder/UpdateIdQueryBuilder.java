@@ -2,6 +2,7 @@ package app.query.queryBuilder;
 
 import app.console.ConsoleWork;
 import app.query.Query;
+import app.query.queryCreationException.QueryCreationException;
 
 import java.util.Map;
 
@@ -19,6 +20,7 @@ public final class UpdateIdQueryBuilder extends CompositeQueryBuilder{
     @Override
     public Query processCreation(String [] subStrings) {
 
+        arguments.clear();
         String id = subStrings[1];
 
         arguments.add(id);
@@ -28,21 +30,7 @@ public final class UpdateIdQueryBuilder extends CompositeQueryBuilder{
             consoleWork.printLine(fields.get(targetField));
             readFieldValueIntoArguments(targetField);
         }
-/*
-        while (true) {
-            String targetField = readTargetField();
 
-            if (targetField.equals("exit")) {
-                break;
-            }
-
-            boolean exitWasWritten = readFieldValueIntoArguments(targetField);
-
-            if (exitWasWritten) {
-                break;
-            }
-        }
-*/
         return new Query("update", arguments);
     }
 }

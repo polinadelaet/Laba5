@@ -15,6 +15,7 @@ public final class ClearQueryBuilder extends CompositeQueryBuilder {
     }
     @Override
     public Query processCreation(String[] subStrings) {
+        arguments.clear();
         return new Query("clear", arguments);
     }
 }

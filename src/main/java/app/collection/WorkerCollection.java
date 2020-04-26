@@ -105,10 +105,9 @@ public final class WorkerCollection {
         }
     }
 
-//TODO
 
     public void remove(Worker worker) throws WorkerCollectionException {
-        /*Worker targetWorker = null;
+        Worker targetWorker = null;
         for (Worker currentWorker: workers) {
             if (currentWorker.equals(worker)) {
 
@@ -123,8 +122,6 @@ public final class WorkerCollection {
         }
 
         workers.remove(targetWorker);
-*/
-        workers.remove(worker);
         collectionInfo.decreaseSize();
     }
 
@@ -141,12 +138,10 @@ public final class WorkerCollection {
         workerCollectionDTO.collectionInfo = collectionInfo;
         workerCollectionDTO.workers = workers;
         try{
-            System.out.println("зашли в сейв");
             JAXBContext jaxbContext = JAXBContext.newInstance(WorkerCollectionDTO.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             jaxbMarshaller.marshal(workerCollectionDTO, file);
-            System.out.println("сохранили");
         } catch (javax.xml.bind.JAXBException | IllegalArgumentException e ){
            e.printStackTrace();
             System.out.println(file.getAbsoluteFile());

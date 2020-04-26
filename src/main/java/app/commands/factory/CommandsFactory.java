@@ -53,7 +53,6 @@ public final class CommandsFactory {
         }
 
         if (executeScriptCommandsMap.containsKey(commandName)) {
-            System.out.println("скрипт в ЭкзекьютСкриптКоммандсМэп");
             return createExecuteScriptCommand(executeScriptCommandsMap.get(commandName), inputArguments);
         }
 
@@ -64,10 +63,9 @@ public final class CommandsFactory {
                                                                   List<String> inputArguments) throws CommandCreationException {
         try {
             Constructor<? extends WorkerCollectionCommand> constructor = commandClass.getConstructor(List.class, WorkerCollection.class);
-            System.out.println("перед возвращением конструктор нью инстанс");
             return constructor.newInstance(inputArguments, workerCollection);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             throw new CommandCreationException();
         }
     }

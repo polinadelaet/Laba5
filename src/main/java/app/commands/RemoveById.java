@@ -16,13 +16,12 @@ public final class RemoveById extends WorkerCollectionCommand {
 
     @Override
     public Response execute() {
-        //todo
         try {
             Iterator<String> iterator = inputArguments.iterator();
             Integer id = Integer.parseInt(iterator.next());
             workerCollection.remove(new Worker(id));
             return new Response(Status.OK, "Продукт успешно удален из коллекции.");
-        }catch (WorkerCollectionException e){
+        }catch (WorkerCollectionException | NumberFormatException e){
             return new Response(Status.BAD_REQUEST, e.getMessage());
         }
     }

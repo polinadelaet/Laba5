@@ -132,13 +132,5 @@ public abstract class CompositeQueryBuilder extends QueryBuilder {
             return false;
         }
     }
-    protected String readTargetField(){
-        while (true) {
-            String userInput = consoleWork.readLine();
-            if (fields.containsKey(userInput) || userInput.equals("exit")) {
-                return userInput;
-            }
-            consoleWork.printLine("Неверные данные, введите правильное название поля.");
-        }
-    }
+
 }

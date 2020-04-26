@@ -16,7 +16,7 @@ public final class PrintFieldDescendingEndDateQueryBuilder extends CompositeQuer
 
     @Override
     public Query processCreation(String [] subStrings) {
-
+        arguments.clear();
         return new Query("print_field_descending_end_date", arguments);
 
     }

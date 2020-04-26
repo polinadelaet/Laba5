@@ -24,7 +24,6 @@ public final class CountByEndDate extends WorkerCollectionCommand {
             GetQuery getByField = new GetByField(Worker.class.getDeclaredField("endDate"), endDate);
             List<Worker> resultWorkers = workerCollection.executeGetQuery(getByField);
             int count = resultWorkers.size();
-
             return new Response(app.response.Status.OK, "Количество элементов, поле endDate которых равно " + endDate + ": " + count + ".");
         } catch (WorkerCollectionException e){
             return new Response(app.response.Status.BAD_REQUEST, e.getMessage());

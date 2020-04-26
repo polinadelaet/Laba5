@@ -23,14 +23,11 @@ public class GetByField extends GetQuery {
             for (Worker worker: workers){
                 targetField.setAccessible(true);
                 if (targetField.get(worker).equals(value)) {
-                    //List<Worker> result = new ArrayList<>();
                     result.add(worker);
-                    //return result;
                 }
                 targetField.setAccessible(false);
             }
             return result;
-            //return new ArrayList<>();
         }
         catch (IllegalAccessException |  IllegalArgumentException e){
             throw new WorkerCollectionException(e);

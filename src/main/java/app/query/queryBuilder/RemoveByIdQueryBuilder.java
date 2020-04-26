@@ -15,7 +15,7 @@ public final class RemoveByIdQueryBuilder extends CompositeQueryBuilder {
     }
     @Override
     public Query processCreation(String [] subStrings) {
-
+        arguments.clear();
         String id = subStrings[1];
 
         arguments.add(id);

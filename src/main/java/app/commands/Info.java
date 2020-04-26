@@ -17,8 +17,7 @@ public final class Info extends WorkerCollectionCommand {
     public Response execute(){
         String message = "Тип коллекции: "+ workerCollection.getCollectionInfo().getCollectionType() + System.lineSeparator()
                 + "Дата инициализации коллекции: " + workerCollection.getCollectionInfo().getCreationDate() + System.lineSeparator()
-                + "Количество элементов коллекции: " + workerCollection.getCollectionInfo().getSize()
-        + "Количество элементов коллекции: " + workerCollection.getSize();
+                + "Количество элементов коллекции: " + workerCollection.getCollectionInfo().getSize();
         return new Response(Status.OK, message);
     }
 }

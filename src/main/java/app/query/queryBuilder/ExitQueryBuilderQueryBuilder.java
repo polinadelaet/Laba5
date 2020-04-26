@@ -16,6 +16,7 @@ public final class ExitQueryBuilderQueryBuilder extends CompositeQueryBuilder {
 
     @Override
     public Query processCreation(String[] subStrings) {
+        arguments.clear();
         return new Query("exit", arguments);
     }
 }

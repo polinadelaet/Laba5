@@ -151,6 +151,15 @@ public final class Worker implements Comparable<Worker>{
         return (int) (this.salary-o.salary);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Worker worker = (Worker) o;
+
+        return id == worker.id;
+    }
 
 }
 

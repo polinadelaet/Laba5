@@ -7,10 +7,7 @@ import app.query.queryCreationException.QueryCreationException;
 import app.response.Response;
 import app.response.Status;
 
-import java.io.EOFException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -24,7 +21,9 @@ public final class ConsoleWork {
     private final Controller controller;
     private final InputStream inputStream;
 
+
     public ConsoleWork(InputStream inputStream, OutputStream outputStream, Controller controller) {
+
 
         this.printWriter = new PrintWriter(outputStream);
         this.controller = controller;
@@ -64,7 +63,8 @@ public final class ConsoleWork {
 
     public void start() {
         while (true) {
-            printLine("Введите интересующую команду: ");
+            printLine("Добро пожаловать! Вы можете ввести команду help, " +
+                    "чтобы посмотреть доступные команды: ");
             try {
                 String line = readLine();
                 String[] subStrings = line.split(" +");
@@ -74,10 +74,7 @@ public final class ConsoleWork {
                 try {
                     QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
                     Query query = queryBuilder.create(subStrings);
-                    System.out.println("запрос создался");
-                    System.out.println(query.toString());
                     Response response = controller.handleQuery(query);
-                    System.out.println("получили респонз");
 
                     if (response.getStatus().equals(Status.OK)) {
                         printLine(response.getMessage() + System.lineSeparator() + "Команда успешно выполнена.");
@@ -92,10 +89,10 @@ public final class ConsoleWork {
                         printLine("Внутренняя ошибка сервера.");
                     }
                 } catch (NullPointerException | QueryCreationException e) {
-                    print("Вы неправильно ввели данные, введите еще раз ");
+                    print("Вы неправильно ввели данные, введите еще раз. ");
                 }
             }catch (NoSuchElementException e){
-                print("Вы неправильно ввели данные, введите еще раз ");
+                print("Вы неправильно ввели данные, введите еще раз. ");
                 skan = new Scanner(inputStream);
             }
         }

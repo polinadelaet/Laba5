@@ -20,12 +20,9 @@ public final class Add extends WorkerCollectionCommand {
         super(inputArguments, workerCollection);
     }
 
-
-
     @Override
     public Response execute() {
         Iterator <String> iterator = inputArguments.iterator();
-        //iterator.next();
         String name = iterator.next();
         Double x = Double.parseDouble(iterator.next());
         Integer y = Integer.parseInt(iterator.next());

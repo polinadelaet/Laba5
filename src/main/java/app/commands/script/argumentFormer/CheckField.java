@@ -92,7 +92,13 @@ public final class CheckField {
     }
 
     public static boolean invalidName(String userInput){
-        return userInput == null || userInput.trim().isEmpty();
+        if (userInput == null){
+            System.out.println("null");
+        }
+        if (userInput.isEmpty()){
+            System.out.println("empty");
+        }
+        return userInput == null | userInput.trim().isEmpty();
     }
 
     public static boolean invalidCoordinateX(String userInput){
