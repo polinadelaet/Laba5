@@ -1,9 +1,6 @@
 package app.commands.script;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,31 +27,56 @@ public final class ScriptReader {
                 lines.add(line);
             }*/ //ДЛЯ ЛИНУКСА
 
-            //***ДЛЯ WINDOWS********************************
-            List<String> lines = new ArrayList<>();
-            int symbol;
-            while ((symbol = inputStreamReader.read()) != -1){
-                String line = "";
-                while (((char) symbol != '\r') & ((char) symbol != '\n') ){
-                    line += (char) symbol;
-                    if ((symbol = inputStreamReader.read()) == -1){
-                        break;
-                    };
-                }
-                inputStreamReader.read();
-                lines.add(line);
-            }
-            //System.out.println(lines.toString());;
-
-            /*while (scanner.hasNextLine()){
-                lines.add(scanner.nextLine());
-            }*/
-
-            return new Script(lines);
+            return new Script(processReading(inputStreamReader));
         } catch (java.io.IOException e){
             throw new FileCreationException("Такого файла не существует.");
         }
+    }
 
+    private List<String> processReading(InputStreamReader inputStreamReader) throws IOException {
+        List<String> lines = new ArrayList<>();
+        StringBuilder lineBuilder = new StringBuilder();
 
+        int result = inputStreamReader.read();
+
+        while (!isEoF(result)){
+            char symbol = (char) result;
+
+            if (isEndOfLine(symbol)) {
+                addLine(lines, lineBuilder);
+                lineBuilder = new StringBuilder();
+
+                result = inputStreamReader.read();
+
+                continue;
+            }
+
+            lineBuilder.append(symbol);
+            result = inputStreamReader.read();
+        }
+
+        return lines;
+    }
+
+    private void addLine(List<String> lines, StringBuilder lineBuilder) {
+        String line = lineBuilder.toString();
+
+        if (extraKaretReturn(line)) {
+            line = line.replace("\r", "");
+        }
+
+        lines.add(line);
+    }
+
+    private boolean extraKaretReturn(String line) {
+        return line.endsWith("\r");
+    }
+
+    private boolean isEndOfLine(char symbol) {
+        return symbol == '\n';
+    }
+
+    private boolean isEoF(int result) {
+        return result == -1;
     }
 }
