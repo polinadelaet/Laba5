@@ -89,7 +89,10 @@ public final class ScriptExecutor {
                 } catch (CommandCreationException e) {
                     throw new ScriptException(e);
                 }
-            } else throw new ScriptException("Неправильный скрипт.");
+            } else {
+                System.out.println("ERROR: " + subStrings[0]);
+                throw new ScriptException("Неправильный скрипт.");
+            }
         }
         scriptsHashCodes.remove(script.hashCode());
 

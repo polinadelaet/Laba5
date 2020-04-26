@@ -28,7 +28,7 @@ public final class ConsoleWork {
         this.printWriter = new PrintWriter(outputStream);
         this.controller = controller;
         this.inputStream = inputStream;
-        skan = new Scanner(this.inputStream);
+        skan = new Scanner(inputStream);
 
         queryBuilderMap.put("help", new SimpleQueryBuilder("help", this));
         queryBuilderMap.put("info", new SimpleQueryBuilder("info", this));
@@ -49,7 +49,6 @@ public final class ConsoleWork {
 
     }
     public String readLine(){
-
         return skan.nextLine();
 
     }
@@ -62,9 +61,11 @@ public final class ConsoleWork {
     }
 
     public void start() {
+        printLine("Добро пожаловать! Вы можете ввести команду help, " +
+                "чтобы посмотреть доступные команды.");
         while (true) {
-            printLine("Добро пожаловать! Вы можете ввести команду help, " +
-                    "чтобы посмотреть доступные команды: ");
+            printLine("Введите команду: ");
+
             try {
                 String line = readLine();
                 String[] subStrings = line.split(" +");
@@ -91,9 +92,10 @@ public final class ConsoleWork {
                 } catch (NullPointerException | QueryCreationException e) {
                     print("Вы неправильно ввели данные, введите еще раз. ");
                 }
-            }catch (NoSuchElementException e){
+            } catch (NoSuchElementException e) {
+                e.printStackTrace();
                 print("Вы неправильно ввели данные, введите еще раз. ");
-                skan = new Scanner(inputStream);
+//                skan = new Scanner(inputStream);
             }
         }
     }

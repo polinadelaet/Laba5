@@ -20,6 +20,7 @@ dependencies {
 application {
     run.jvmArgs("-DtargetFile=path here")
     compileJava.options.encoding = "UTF-8"
+    run.standardInput = System.in
     mainClassName = "app.App"
 }
 

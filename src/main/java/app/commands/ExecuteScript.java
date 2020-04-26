@@ -2,6 +2,7 @@ package app.commands;
 
 import app.collection.WorkerCollection;
 import app.commands.script.FileCreationException;
+import app.commands.script.Script;
 import app.commands.script.ScriptExecutor;
 import app.commands.script.ScriptReader;
 import app.commands.script.scriptException.RecursionException;
@@ -26,7 +27,7 @@ public final class ExecuteScript extends WorkerCollectionCommand {
         try {
             ScriptReader scriptReader = new ScriptReader();
             ScriptExecutor scriptExecutor = new ScriptExecutor(workerCollection, scriptsHashCodes);
-            System.out.println(scriptReader.read(inputArguments.get(0)).getLines().toString());
+//            System.out.println(scriptReader.read(inputArguments.get(0)).getLines().toString());
 
             String message = scriptExecutor.execute(scriptReader.read(inputArguments.get(0)));
             return new Response(Status.OK, message);
