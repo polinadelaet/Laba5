@@ -64,25 +64,19 @@ public final class ScriptExecutor {
         if (!scriptsHashCodes.add(script.hashCode())){
             throw new RecursionException();
         }
-        System.out.println("МЫ В СКРИПТ ЭКЗЕКЬЮТОР" + script.getLines().toString());
+
         String message = "";
         while (script.hasNextLine()) {
-            System.out.println("имеет след линию");
             String firstLine = script.getNextLine();
-            System.out.println(firstLine);
-            System.out.println("вторая линия" + script.getLines().get(1));
-            System.out.println("третья линия" + script.getLines().get(2));
-            System.out.println(script.getLines().size());
             String[] subStrings = firstLine.split(" +");
             if (commandsName.contains(subStrings[0])) {
-                System.out.println("connnnnnntains");
+
                 ArgumentFormer argumentFormer = choiceArgumentFormer.get(subStrings[0]);
                 CommandsFactory commandsFactory = new CommandsFactory(workerCollection, scriptsHashCodes);
                 Command command;
 
                 try {
                     command = commandsFactory.create(subStrings[0], argumentFormer.collectArguments(script));
-
                     message += command.execute().getMessage() + System.lineSeparator();
                 } catch (RecursionException e) {
                     message += "Обнаруженно зацикливание" + System.lineSeparator();
@@ -90,12 +84,11 @@ public final class ScriptExecutor {
                     throw new ScriptException(e);
                 }
             } else {
-                System.out.println("ERROR: " + subStrings[0]);
+                //System.out.println("ERROR: " + subStrings[0]);
                 throw new ScriptException("Неправильный скрипт.");
             }
         }
         scriptsHashCodes.remove(script.hashCode());
-
         return message;
     }
 }

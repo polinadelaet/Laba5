@@ -8,14 +8,12 @@ import app.response.Response;
 import app.response.Status;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
 
 public final class ConsoleWork {
 
-    private final PrintWriter printWriter;
+    //private final PrintWriter printWriter;
+    private final BufferedOutputStream bufferedOutputStream;
     private Scanner skan;
     private final Map<String, QueryBuilder> queryBuilderMap = new HashMap<>();
     private final Controller controller;
@@ -25,7 +23,8 @@ public final class ConsoleWork {
     public ConsoleWork(InputStream inputStream, OutputStream outputStream, Controller controller) {
 
 
-        this.printWriter = new PrintWriter(outputStream);
+        //this.printWriter = new PrintWriter(outputStream);
+        this.bufferedOutputStream = new BufferedOutputStream(outputStream);
         this.controller = controller;
         this.inputStream = inputStream;
         skan = new Scanner(inputStream);
@@ -52,12 +51,28 @@ public final class ConsoleWork {
         return skan.nextLine();
 
     }
+
+
     public void print(String string){
-        printWriter.print(string);
+        byte[] result = string.getBytes();
+        try {
+            bufferedOutputStream.write(result);
+            bufferedOutputStream.flush();
+        }catch (java.io.IOException e){
+            System.out.println("Ошибка записи.");
+        }
     }
     public void printLine(String string){
-        printWriter.println(string);
-        printWriter.flush();
+
+        string+=System.lineSeparator();
+        byte[] result = string.getBytes();
+
+        try {
+            bufferedOutputStream.write(result);
+            bufferedOutputStream.flush();
+        }catch (java.io.IOException e){
+            System.out.println("Ошибка записи.");
+        }
     }
 
     public void start() {
@@ -73,6 +88,7 @@ public final class ConsoleWork {
                     continue;
                 }
                 try {
+
                     QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
                     Query query = queryBuilder.create(subStrings);
                     Response response = controller.handleQuery(query);
@@ -93,9 +109,8 @@ public final class ConsoleWork {
                     print("Вы неправильно ввели данные, введите еще раз. ");
                 }
             } catch (NoSuchElementException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 print("Вы неправильно ввели данные, введите еще раз. ");
-//                skan = new Scanner(inputStream);
             }
         }
     }

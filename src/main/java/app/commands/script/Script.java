@@ -36,6 +36,15 @@ public final class Script {
         }
     }
 
+
+    public String getLine() throws ScriptException {
+        try {
+            String line = lines.get(currentIndex);
+            return line;
+        }catch (IndexOutOfBoundsException e){
+            throw new ScriptException(e);
+        }
+    }
     public String getPreviousLine() throws ScriptException {
         try {
             if (currentIndex == 0){
@@ -63,4 +72,13 @@ public final class Script {
     public int getCurrentIndex() {
         return currentIndex;
     }
+
+    public void areLinesEnough(int number) throws ScriptException {
+        try {
+            lines.get(currentIndex + number);
+        }catch (IndexOutOfBoundsException e){
+            throw new ScriptException("Неправильный скрипт.");
+        }
+    }
+
 }

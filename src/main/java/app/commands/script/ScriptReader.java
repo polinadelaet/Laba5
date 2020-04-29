@@ -9,27 +9,23 @@ import java.util.Scanner;
 public final class ScriptReader {
 
     public Script read(String filePath) throws FileCreationException {
+
         File file = new File(filePath);
         try (FileInputStream fileInputStream = new FileInputStream(file);
              InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8)){
 
-            /*List<String> lines = new ArrayList<>();
-            int symbol;
-            while ((symbol = inputStreamReader.read()) != -1){
-                String line = "";
-
-                while ((char) symbol != '\n' ){
-                    line += (char) symbol;
-                    if ((symbol = inputStreamReader.read()) == -1){
-                        break;
-                    };
-                }
-                lines.add(line);
-            }*/ //ДЛЯ ЛИНУКСА
+           /*
+        try (Scanner scanner = new Scanner(new File(filePath))){
+            List<String> lines = new ArrayList<>();
+            while (scanner.hasNextLine()){
+                lines.add(scanner.nextLine());
+            }
+            return new Script(lines);
+*/
 
             return new Script(processReading(inputStreamReader));
         } catch (java.io.IOException e){
-            throw new FileCreationException("Такого файла не существует.");
+            throw new FileCreationException("Такого файла не существует или нет доступа к файлу.");
         }
     }
 
@@ -55,6 +51,9 @@ public final class ScriptReader {
             result = inputStreamReader.read();
         }
 
+        if(lineBuilder.length() != 0){
+            addLine(lines, lineBuilder);
+        }
         return lines;
     }
 
@@ -64,7 +63,6 @@ public final class ScriptReader {
         if (extraKaretReturn(line)) {
             line = line.replace("\r", "");
         }
-
         lines.add(line);
     }
 

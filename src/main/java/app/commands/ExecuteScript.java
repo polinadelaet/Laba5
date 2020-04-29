@@ -27,7 +27,6 @@ public final class ExecuteScript extends WorkerCollectionCommand {
         try {
             ScriptReader scriptReader = new ScriptReader();
             ScriptExecutor scriptExecutor = new ScriptExecutor(workerCollection, scriptsHashCodes);
-//            System.out.println(scriptReader.read(inputArguments.get(0)).getLines().toString());
 
             String message = scriptExecutor.execute(scriptReader.read(inputArguments.get(0)));
             return new Response(Status.OK, message);

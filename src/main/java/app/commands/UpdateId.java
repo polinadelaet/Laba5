@@ -22,13 +22,10 @@ public final class UpdateId extends WorkerCollectionCommand {
     public Response execute() {
 
         try {
-            System.out.println("зашли в команду апдейт айди");
             Integer id = Integer.parseInt(inputArguments.get(0));
-            System.out.println("id = " + id);
             Worker worker;
             GetByField getByField = new GetByField(Worker.class.getDeclaredField("id"), id);
             List<Worker> workers = workerCollection.executeGetQuery(getByField);
-            System.out.println(workers.get(0));
             worker = workers.get(0);
             worker.setName(inputArguments.get(1));
             Double coordinateX = Double.parseDouble(inputArguments.get(2));
@@ -47,7 +44,7 @@ public final class UpdateId extends WorkerCollectionCommand {
             workerCollection.update(worker);
             return new Response(Status.OK,"Worker обновлен успешно.");
         } catch (NoSuchFieldException | WorkerCollectionException |
-                NumberFormatException e) {
+                NumberFormatException | IndexOutOfBoundsException e) {
             return new Response(Status.BAD_REQUEST, "Элемента с таким id не существует");
         }
 

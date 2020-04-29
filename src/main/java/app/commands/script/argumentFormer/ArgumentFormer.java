@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ArgumentFormer {
+
     protected final List<String> arguments = new ArrayList<>();
 
     public abstract List<String> collectArguments(Script script) throws ScriptException;
+
 }

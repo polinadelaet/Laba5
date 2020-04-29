@@ -22,9 +22,8 @@ public class App {
 
     public static void main(String[] args) throws IOException {
        try {
-           //String path = System.getenv("WC_FILE");TODO
-           //File file = new File(path);TODO
-           File file = new File("WC_FILE");
+           String path = System.getenv("WC_FILE");
+           File file = new File(path);
 
            IdGenerator idGenerator = IdGenerator.createIdGenerator(PATH_TO_ID_GENERATOR);
            WorkersFactory workersFactory = new WorkersFactory(idGenerator);

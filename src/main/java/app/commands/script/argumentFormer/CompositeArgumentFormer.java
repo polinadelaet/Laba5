@@ -36,67 +36,76 @@ public class CompositeArgumentFormer extends ArgumentFormer {
             //TODO: рефакторинг, нечитаемо
             //TODO: эти if-ы можно скрыть в иерархии ArgumentFormer, то есть сделать два аргумент формера вместо Composite
             if (firstLine[0].equals("filter_by_person")){
+                if (firstLine.length != 1){
+                    throw new ScriptException("Неправильный скрипт.");
+                }
+                script.areLinesEnough(3);
                 script.increaseIndex();
-                String line = script.getNextLine();
+                String line = script.getLine();
 
                 for (int i = 7 ; i<10; i++){
-                    System.out.println(line);
+
                     String[] subStrings = line.split("=");
                     checkArgument(subStrings, i);
                     arguments.add(subStrings[1]);
+                    script.increaseIndex();
                     if (script.hasNextLine()) {
-                        line = script.getNextLine();
+                        line = script.getLine();
                     }
                 }
-                script.decreaseIndex();
+
             }
             if (firstLine[0].equals("add") | firstLine[0].equals("add_if_max") | firstLine[0].equals("remove_lower")){
-                script.increaseIndex();
-                String line = script.getNextLine();
-                for (int i = 0 ; i<10; i++){
-                    String[] subStrings = line.split("=");
-                    checkArgument(subStrings, i);
-                    arguments.add(subStrings[1]);
-                    if (script.hasNextLine()) {
-                        line = script.getNextLine();
-                    }
+
+                if (firstLine.length != 1){
+                    throw new ScriptException("Неправильный скрипт.");
                 }
-                script.decreaseIndex();
-            }
-            if ((firstLine[0].equals("update") | firstLine[0].equals("insert_at")) & firstLine.length == 2){
-                arguments.add(firstLine[1]);
+                script.areLinesEnough(10);
                 script.increaseIndex();
-                String line = script.getNextLine();
+                String line = script.getLine();
 
                 for (int i = 0 ; i<10; i++){
                     String[] subStrings = line.split("=");
                     checkArgument(subStrings, i);
                     arguments.add(subStrings[1]);
+                    script.increaseIndex();
+
                     if (script.hasNextLine()) {
-                        line = script.getNextLine();
+                        line = script.getLine();
                     }
                 }
-                script.decreaseIndex();
+            }
+            if ((firstLine[0].equals("update") | firstLine[0].equals("insert_at"))){
+                if (firstLine.length != 2 | CheckField.invalidId(firstLine[1])){
+                    throw new ScriptException("Неправильный скрипт.");
+                }
+
+                arguments.add(firstLine[1]);
+                script.areLinesEnough(10);
+                script.increaseIndex();
+                String line = script.getLine();
+
+                for (int i = 0 ; i<10; i++){
+                    String[] subStrings = line.split("=");
+                    checkArgument(subStrings, i);
+                    arguments.add(subStrings[1]);
+                    script.increaseIndex();
+                    if (script.hasNextLine()) {
+                        line = script.getLine();
+                    }
+                }
             }
 
         return arguments;
     }
 
-    private void checkArgumentFilterByPerson(String[] subStrings) throws ScriptException {
-        if (subStrings[0].equals(fields.get(currentIndexOfLine+7))){
-            if (fields.get(currentIndexOfLine+7).equals("person_weight") && CheckField.invalidPersonWeight(subStrings[1]) == true){
-                throw new ScriptException("Неправильный скрипт.");
-            }
-            if (fields.get(currentIndexOfLine+7).equals("person_hair_color") && CheckField.invalidPersonHairColor(subStrings[1]) == true){
-                throw new ScriptException("Неправильный скрипт.");
-            }
-            if (fields.get(currentIndexOfLine+7).equals("person_nationality") && CheckField.invalidPersonNationality(subStrings[1]) == true){
-                throw new ScriptException("Неправильный скрипт.");
-            }
-        }
-    }
+
 
     private void checkArgument(String[] subStrings, int i) throws ScriptException {
+        if (subStrings[0].equals("")){
+            throw new ScriptException("Неправильный скрипт.");
+        }
+
         if (subStrings[0].equals(fields.get(i))){
 
             if (fields.get(i).equals("name") && CheckField.invalidName(subStrings[1]) == true){
@@ -129,7 +138,6 @@ public class CompositeArgumentFormer extends ArgumentFormer {
             if (fields.get(i).equals("person_nationality") && CheckField.invalidPersonNationality(subStrings[1]) == true){
                 throw new ScriptException("Неправильный скрипт.");
             }
-
-        }
+        }else throw new ScriptException("Неправильный скрипт.");
     }
 }

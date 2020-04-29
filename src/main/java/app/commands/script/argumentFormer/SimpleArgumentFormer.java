@@ -11,16 +11,15 @@ public class SimpleArgumentFormer extends ArgumentFormer{
 
     @Override
     public List<String> collectArguments(Script script) throws ScriptException {
-        List<String> arguments = new ArrayList<>();
 
+            List<String> arguments = new ArrayList<>();
             String previousLine = script.getPreviousLine();
 
             if (previousLine == null || previousLine.isEmpty()){
                 throw new ScriptException("Неправильный скрипт. Держи червя");
             }
             String[] firstLine = previousLine.split(" +");
-
-            if (firstLine.length != 1 && firstLine.length != 2){
+            if (firstLine.length != 1 & firstLine.length != 2){
                 throw new ScriptException("Неправильный скрипт.");
             }
             if (firstLine.length == 2){
@@ -28,10 +27,29 @@ public class SimpleArgumentFormer extends ArgumentFormer{
                 arguments.add(firstLine[1]);
             }
             script.increaseIndex();
-        return arguments;
+            return arguments;
     }
 
     private void checkArgument(String[] firstLine) throws ScriptException {
+        if (firstLine[0].equals("help") && firstLine.length != 1){
+            throw new ScriptException("Неправильный скрипт.");
+        }
+        if (firstLine[0].equals("info") && firstLine.length != 1){
+            throw new ScriptException("Неправильный скрипт.");
+        }
+        if (firstLine[0].equals("show") && firstLine.length != 1){
+            throw new ScriptException("Неправильный скрипт.");
+        }
+        if (firstLine[0].equals("clear") && firstLine.length != 1){
+            throw new ScriptException("Неправильный скрипт.");
+        }
+        if (firstLine[0].equals("save") && firstLine.length != 1){
+            throw new ScriptException("Неправильный скрипт.");
+        }
+        if (firstLine[0].equals("exit") && firstLine.length != 1){
+            throw new ScriptException("Неправильный скрипт.");
+        }
+
         if (firstLine[0].equals("remove_by_id") && CheckField.invalidId(firstLine[1])){
             throw new ScriptException("Неправильный скрипт.");
         }

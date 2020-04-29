@@ -20,7 +20,6 @@ public final class ExecuteScriptQueryBuilder extends CompositeQueryBuilder {
         String file_name = subStrings[1];
 
         arguments.add(file_name);
-        System.out.println(arguments.toString());
         return new Query("execute_script", arguments);
 
     }

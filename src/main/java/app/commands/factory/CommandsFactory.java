@@ -65,7 +65,6 @@ public final class CommandsFactory {
             Constructor<? extends WorkerCollectionCommand> constructor = commandClass.getConstructor(List.class, WorkerCollection.class);
             return constructor.newInstance(inputArguments, workerCollection);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            //e.printStackTrace();
             throw new CommandCreationException();
         }
     }
