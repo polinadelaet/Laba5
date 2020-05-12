@@ -6,13 +6,11 @@ import app.collection.worker.IdGenerator;
 import app.collection.worker.factory.WorkersFactory;
 import app.collection.worker.loadingException.LoadingException;
 import app.collection.worker.savingException.SavingException;
-import app.console.ConsoleWork;
+import console.ConsoleWork;
 import app.controller.Controller;
+import server.Server;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.Scanner;
 
 public class App {
     private static final String PATH_TO_ID_GENERATOR = "./files/idGenerator";
@@ -38,9 +36,10 @@ public class App {
            }
 
            Controller controller = new Controller(workerCollection);
-           ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, controller);
-
-           consoleWork.start();
+           Server server = new Server(1000, 128, controller);
+           server.start();
+//           ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, controller);
+//           consoleWork.start();
 
 
        } catch (NullPointerException e){

@@ -4,7 +4,7 @@ import app.collection.WorkerCollection;
 import app.collection.getQuery.GetMax;
 import app.collection.worker.*;
 import app.collection.worker.workerCollectionException.WorkerCollectionException;
-import app.response.Response;
+import response.Response;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -39,12 +39,12 @@ public final class AddIfMax extends WorkerCollectionCommand {
             List<Worker> resultWorkers = workerCollection.executeGetQuery(getMax);
             if (resultWorkers.isEmpty() || worker.compareTo(resultWorkers.get(0)) > 0) {
                 workerCollection.add(name, coordinates, salary, startDate, endDate, status, person);
-                return new Response(app.response.Status.OK, "Элемент успешно добавлен в коллекцию.");
+                return new Response(response.Status.OK, "Элемент успешно добавлен в коллекцию.");
             }
 
-            return new Response(app.response.Status.BAD_REQUEST, "Элемент не был добавлен, так как он оказался меньше максимального.");
+            return new Response(response.Status.BAD_REQUEST, "Элемент не был добавлен, так как он оказался меньше максимального.");
         } catch (WorkerCollectionException e){
-            return new Response(app.response.Status.BAD_REQUEST,e.getMessage());
+            return new Response(response.Status.BAD_REQUEST,e.getMessage());
         }
 
     }

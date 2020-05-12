@@ -4,13 +4,11 @@ import app.collection.WorkerCollection;
 import app.collection.getQuery.GetByField;
 import app.collection.worker.*;
 import app.collection.worker.workerCollectionException.WorkerCollectionException;
-import app.response.Response;
-import app.response.Status;
+import response.Response;
+import response.Status;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.Iterator;
 import java.util.List;
 
 public final class UpdateId extends WorkerCollectionCommand {

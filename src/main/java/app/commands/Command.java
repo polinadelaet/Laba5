@@ -1,6 +1,6 @@
 package app.commands;
 
-import app.response.Response;
+import response.Response;
 
 import java.util.List;
 
