@@ -20,7 +20,7 @@ import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class WorkerCollection {
+public final class WorkerCollection{
     private List<Worker> workers;
     private CollectionInfo collectionInfo;
     private WorkersFactory workersFactory;
@@ -143,8 +143,6 @@ public final class WorkerCollection {
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             jaxbMarshaller.marshal(workerCollectionDTO, file);
         } catch (javax.xml.bind.JAXBException | IllegalArgumentException e ){
-           e.printStackTrace();
-            System.out.println(file.getAbsoluteFile());
             throw new SavingException("Ошибка сохранения в файл.");
         }
     }

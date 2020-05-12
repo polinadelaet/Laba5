@@ -13,7 +13,7 @@ public class IdGenerator implements Serializable {
     private final Queue<Integer> idCollection;
 
     /**
-     * Когда создаешь IdGenerator новый, не из файла.
+     * Когда создается новый IdGenerator, не из файла.
      */
     private IdGenerator() {
         idCollection = new ArrayDeque<>();

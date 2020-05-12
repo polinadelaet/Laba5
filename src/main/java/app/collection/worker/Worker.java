@@ -146,9 +146,14 @@ public final class Worker implements Comparable<Worker>{
         this.person = person;
     }
 
-    @Override
+    /*@Override
     public int compareTo(Worker o) {
         return (int) (this.salary-o.salary);
+    }*///сортировка по местоположению
+
+    @Override
+    public int compareTo(Worker o) {
+        return (int) (this.coordinates.getX() * this.coordinates.getY() - o.coordinates.getX()*o.coordinates.getY());
     }
 
     @Override

@@ -2,6 +2,7 @@ package app.commands.script;
 
 import app.commands.script.scriptException.ScriptException;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public final class Script {
@@ -53,6 +54,7 @@ public final class Script {
             String previousLine = lines.get(currentIndex - 1);
             currentIndex--;
             return previousLine;
+
         } catch (IndexOutOfBoundsException e){
             throw new ScriptException(e);
         }

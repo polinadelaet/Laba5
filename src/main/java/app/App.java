@@ -9,11 +9,9 @@ import app.collection.worker.savingException.SavingException;
 import app.console.ConsoleWork;
 import app.controller.Controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Scanner;
 
 public class App {
@@ -27,23 +25,31 @@ public class App {
 
            IdGenerator idGenerator = IdGenerator.createIdGenerator(PATH_TO_ID_GENERATOR);
            WorkersFactory workersFactory = new WorkersFactory(idGenerator);
-           WorkerCollection workerCollection;
+           WorkerCollection workerCollection = null;
 
 
            if (file.exists()) {
+               if (!file.canRead()){
+                   throw new FileNotFoundException("Нет доступа к файлу.");
+               }
                workerCollection = WorkerCollection.load(file, workersFactory);
            } else {
-               workerCollection = new WorkerCollection(workersFactory);
+               throw new LoadingException("Файл не найден.");
            }
 
            Controller controller = new Controller(workerCollection);
            ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, controller);
 
            consoleWork.start();
-       } catch ( LoadingException | SecurityException e) {
-           System.out.println("Файл не найден.");
-       } catch (SavingException e){
+
+
+       } catch (NullPointerException e){
+           System.out.println("Нужно установить имя файла.");
+        }catch (LoadingException | FileNotFoundException e) {
+           System.out.println(e.getMessage());
+       }catch (SavingException e){
            System.out.println("Айди не сохранены.");
        }
+
     }
 }
