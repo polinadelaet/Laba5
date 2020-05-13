@@ -29,12 +29,13 @@ public final class ConsoleWork {
     private Scanner skan;
     private final Map<String, QueryBuilder> queryBuilderMap = new HashMap<>();
     private final InputStream inputStream;
+    private final boolean isOnServer;
 
     private final ConnectionWorker connectionWorker;
     private final LoggerAdapter loggerAdapter = LoggerAdapter.createDefault(ConsoleWork.class.getSimpleName());
 
 
-    public ConsoleWork(InputStream inputStream, OutputStream outputStream, ConnectionWorker connectionWorker) {
+    public ConsoleWork(InputStream inputStream, OutputStream outputStream, ConnectionWorker connectionWorker, boolean isOnServer) {
 
 
         //this.printWriter = new PrintWriter(outputStream);
@@ -42,24 +43,27 @@ public final class ConsoleWork {
         this.inputStream = inputStream;
         skan = new Scanner(inputStream);
         this.connectionWorker = connectionWorker;
-
-        queryBuilderMap.put("help", new SimpleQueryBuilder("help", this));
-        queryBuilderMap.put("info", new SimpleQueryBuilder("info", this));
-        queryBuilderMap.put("show", new SimpleQueryBuilder("show", this));
-        queryBuilderMap.put("add", new AddQueryBuilder(this));
-        queryBuilderMap.put("update", new UpdateIdQueryBuilder(this));
-        queryBuilderMap.put("remove_by_id", new RemoveByIdQueryBuilder(this));
-        queryBuilderMap.put("clear", new ClearQueryBuilder(this));
-        queryBuilderMap.put("save", new SaveQueryBuilder(this));
-        queryBuilderMap.put("execute_script", new ExecuteScriptQueryBuilder(this));
-        queryBuilderMap.put("exit", new ExitQueryBuilderQueryBuilder(this));
-        queryBuilderMap.put("insert_at", new InsertAtIndexQueryBuilder(this));
-        queryBuilderMap.put("add_if_max", new AddIfMaxQueryBuilder(this));
-        queryBuilderMap.put("remove_lower", new RemoveLowerQueryBuilder(this));
-        queryBuilderMap.put("count_by_end_date", new CountByEndDateQueryBuilder(this));
-        queryBuilderMap.put("filter_by_person", new FilterByPersonQueryBuilder(this));
-        queryBuilderMap.put("print_field_descending_end_date", new PrintFieldDescendingEndDateQueryBuilder(this));
-
+        this.isOnServer = isOnServer;
+        if(!isOnServer) {
+            queryBuilderMap.put("help", new SimpleQueryBuilder("help", this));
+            queryBuilderMap.put("info", new SimpleQueryBuilder("info", this));
+            queryBuilderMap.put("show", new SimpleQueryBuilder("show", this));
+            queryBuilderMap.put("add", new AddQueryBuilder(this));
+            queryBuilderMap.put("update", new UpdateIdQueryBuilder(this));
+            queryBuilderMap.put("remove_by_id", new RemoveByIdQueryBuilder(this));
+            queryBuilderMap.put("clear", new ClearQueryBuilder(this));
+            queryBuilderMap.put("execute_script", new ExecuteScriptQueryBuilder(this));
+            queryBuilderMap.put("exit", new ExitQueryBuilderQueryBuilder(this));
+            queryBuilderMap.put("insert_at", new InsertAtIndexQueryBuilder(this));
+            queryBuilderMap.put("add_if_max", new AddIfMaxQueryBuilder(this));
+            queryBuilderMap.put("remove_lower", new RemoveLowerQueryBuilder(this));
+            queryBuilderMap.put("count_by_end_date", new CountByEndDateQueryBuilder(this));
+            queryBuilderMap.put("filter_by_person", new FilterByPersonQueryBuilder(this));
+            queryBuilderMap.put("print_field_descending_end_date", new PrintFieldDescendingEndDateQueryBuilder(this));
+        }else {
+            queryBuilderMap.put("save", new SaveQueryBuilder(this));
+            queryBuilderMap.put("exit", new ExitQueryBuilderQueryBuilder(this));
+        }
     }
     public String readLine(){
         return skan.nextLine();
@@ -90,8 +94,10 @@ public final class ConsoleWork {
     }
 
     public void start() {
-        printLine("Добро пожаловать! Вы можете ввести команду help, " +
-                "чтобы посмотреть доступные команды.");
+        if (!isOnServer) {
+            printLine("Добро пожаловать! Вы можете ввести команду help, " +
+                    "чтобы посмотреть доступные команды.");
+        }
         while (true) {
             printLine("Введите команду: ");
 

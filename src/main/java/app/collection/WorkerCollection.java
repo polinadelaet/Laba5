@@ -150,11 +150,16 @@ public final class WorkerCollection{
     public static WorkerCollection load(File file, WorkersFactory workersFactory) throws LoadingException {
         WorkerCollectionDTO workerCollectionDTO;
         try{
+            System.out.println("перед первым");
             JAXBContext jaxbContext = JAXBContext.newInstance(WorkerCollectionDTO.class);
+            System.out.println("перед вторым");
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            System.out.println("перед третьим");
             workerCollectionDTO = (WorkerCollectionDTO) unmarshaller.unmarshal(file);
+            System.out.println("после третьего");
         } catch (javax.xml.bind.JAXBException | IllegalArgumentException e){
-            throw new LoadingException("Ошибка выгрузки коллекции из файла");
+            e.printStackTrace();
+            throw new LoadingException("Ошибка выгрузки коллекции из файла.");
         }
 
         return new WorkerCollection(workerCollectionDTO, workersFactory);

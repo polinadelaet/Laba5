@@ -2,8 +2,11 @@ package server;
 
 import adapter.LoggerAdapter;
 import app.controller.Controller;
+import connection.Connection;
+import connection.SocketConnection;
 import connection.exception.ConnectionException;
 import connectionWorker.ConnectionWorker;
+import console.ConsoleWork;
 import message.EntityType;
 import message.Message;
 import message.exception.WrongTypeException;
@@ -34,6 +37,21 @@ public final class Server {
     }
 
     public void start() throws IOException{
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Connection connection;
+                try {
+                    connection = new SocketConnection("localhost", 8080, 128);
+                } catch (ConnectionException e) {
+                    System.out.println("Все плохо.");
+                    return;
+                }
+
+                ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, ConnectionWorker.createDefault(connection), true);
+                consoleWork.start();
+            }
+        }).start();
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.bind(new InetSocketAddress(port));
         while (true) {
