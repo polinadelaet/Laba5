@@ -6,6 +6,7 @@ import app.collection.worker.workerCollectionException.WorkerCollectionException
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GetByField extends GetQuery {
     private final Field targetField;
@@ -28,8 +29,7 @@ public class GetByField extends GetQuery {
                 targetField.setAccessible(false);
             }
             return result;
-        }
-        catch (IllegalAccessException |  IllegalArgumentException e){
+        } catch (IllegalAccessException |  IllegalArgumentException e){
             throw new WorkerCollectionException(e);
         }
 

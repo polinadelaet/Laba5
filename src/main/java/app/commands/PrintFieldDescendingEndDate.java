@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class PrintFieldDescendingEndDate extends WorkerCollectionCommand {
     public PrintFieldDescendingEndDate(List<String> inputArguments, WorkerCollection workerCollection) {
@@ -25,12 +26,9 @@ public final class PrintFieldDescendingEndDate extends WorkerCollectionCommand {
             GetQuery getAll = new GetAll();
             List<Worker> resultWorkers = workerCollection.executeGetQuery(getAll);
 
+
             if (resultWorkers.size() != 0) {
-                List<LocalDate> endDates = new ArrayList<>();
-                for (Worker worker : resultWorkers) {
-                    endDates.add(worker.getEndDate());
-                }
-                Collections.sort(endDates);
+                List<Worker> endDates = resultWorkers.stream().sorted().collect(Collectors.toList());
                 return new Response(Status.OK,endDates.toString());
             } return new Response(Status.BAD_REQUEST, "В коллекции нет элементов.");
 

@@ -1,9 +1,9 @@
 package queryBuilder.queryBuilder;
 
 
-import app.collection.worker.Color;
-import app.collection.worker.Country;
-import app.collection.worker.Status;
+import queryBuilder.queryBuilder.enumsOfCollection.ColorEn;
+import queryBuilder.queryBuilder.enumsOfCollection.CountryEn;
+import queryBuilder.queryBuilder.enumsOfCollection.StatusEn;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -58,7 +58,7 @@ public final class CheckQuery {
 
     private static boolean isStatusIncorrect(String userInput){
         try {
-            Status.valueOf(userInput);
+            StatusEn.valueOf(userInput);
             return false;
         } catch (IllegalArgumentException e){
             return true;
@@ -71,7 +71,7 @@ public final class CheckQuery {
 
     private static boolean isPersonHairColorIncorrect(String userInput){
         try {
-            Color.valueOf(userInput);
+            ColorEn.valueOf(userInput);
             return false;
         } catch (IllegalArgumentException e){
             return true;
@@ -80,7 +80,7 @@ public final class CheckQuery {
 
     private static boolean isPersonNationalityIncorrect(String userInput){
         try {
-            Country.valueOf(userInput);
+            CountryEn.valueOf(userInput);
             return false;
         } catch (IllegalArgumentException e){
             return true;

@@ -39,7 +39,7 @@ public final class Add extends WorkerCollectionCommand {
         try {
             workerCollection.add(name, coordinates, salary, startDate, endDate, status, person);
         } catch (WorkerCollectionException e) {
-            return new Response(Status.INTERNAL_SERVER_ERROR,"");
+            return new Response(Status.INTERNAL_ERROR,"");
         }
         return new Response(Status.OK, "Продукт успешно добавлен в коллекцию.");
     }

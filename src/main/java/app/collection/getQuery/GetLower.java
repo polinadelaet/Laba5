@@ -4,6 +4,7 @@ import app.collection.worker.Worker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GetLower extends GetQuery {
     private final Worker targetWorker;
@@ -14,12 +15,15 @@ public class GetLower extends GetQuery {
 
     @Override
     public List<Worker> execute(List<Worker> workers) {
-        List<Worker> result = new ArrayList<>();
-        for (Worker worker : workers) {
+        List<Worker> result;
+        /*for (Worker worker : workers) {
             if (worker.compareTo(targetWorker) < 0) {
                 result.add(worker);
             }
-        }
+        }*/
+
+
+        result = workers.stream().filter((s) -> s.compareTo(targetWorker) < 0).collect(Collectors.toList());
         return result;
     }
 }

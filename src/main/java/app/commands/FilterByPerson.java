@@ -11,6 +11,8 @@ import response.Response;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class FilterByPerson extends WorkerCollectionCommand {
     public FilterByPerson(List<String> inputArguments, WorkerCollection workerCollection) {
@@ -31,12 +33,11 @@ public final class FilterByPerson extends WorkerCollectionCommand {
 
             if (resultWorkers.size() != 0){
                 String message = "Элементы коллекции, значения полей person которых равно заданным:" + System.lineSeparator();
-                for (Worker worker: resultWorkers){
-
-                    if (weight.equals(worker.getPerson().getWeight())){
-                        message += worker.toString() + System.lineSeparator();
-                    }
+                List<Worker> result = resultWorkers.stream().filter((s) -> weight.equals(s.getPerson().getWeight())).collect(Collectors.toList());
+                for(Worker worker: result){
+                    message += worker.toString() + System.lineSeparator();
                 }
+
                 return new Response(response.Status.OK, message);
             } return new Response(response.Status.BAD_REQUEST, "В коллекции нет элементов, значечние поля person которых равно " + person + ".");
         } catch (WorkerCollectionException e){

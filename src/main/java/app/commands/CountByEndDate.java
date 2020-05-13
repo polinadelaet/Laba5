@@ -28,7 +28,7 @@ public final class CountByEndDate extends WorkerCollectionCommand {
         } catch (WorkerCollectionException e){
             return new Response(response.Status.BAD_REQUEST, e.getMessage());
         }  catch (NoSuchFieldException e) {
-            return new Response(Status.INTERNAL_SERVER_ERROR, "Внутрення ошибка сервера. Держи червя.");
+            return new Response(Status.INTERNAL_ERROR, "Внутрення ошибка сервера. Держи червя.");
         }
     }
 }

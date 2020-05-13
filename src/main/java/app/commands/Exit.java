@@ -12,6 +12,6 @@ public final class Exit extends Command {
 
     @Override
     public Response execute() {
-        return new Response(Status.TIME_TO_EXIT, "Программа завершена.");
+        return new Response(Status.OK, "Программа завершена.");//TODO: на что-то исправить статус
     }
 }
