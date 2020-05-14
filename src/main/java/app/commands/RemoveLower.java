@@ -18,7 +18,6 @@ public final class RemoveLower extends WorkerCollectionCommand {
 
     @Override
     public Response execute(){
-
         Iterator<String> iterator = inputArguments.iterator();
         String name = iterator.next();
         Double x = Double.parseDouble(iterator.next());
@@ -32,9 +31,10 @@ public final class RemoveLower extends WorkerCollectionCommand {
         Color hairColor = Color.valueOf(iterator.next());
         Country nationality = Country.valueOf(iterator.next());
         Person person = new Person(weight, hairColor, nationality);
-        Worker worker = new Worker(salary);
+        Worker worker = new Worker(coordinates);
         try {
             GetLower getLower = new GetLower(worker);
+
             List<Worker> resultWorkers = workerCollection.executeGetQuery(getLower);
             if (resultWorkers.size() != 0){
                 for (Worker targetWorker: resultWorkers){

@@ -109,17 +109,17 @@ public final class ConsoleWork {
                 }
 
                 if (subStrings[0].equals("exit")) {
-                    printLine("Гудбай, Америка.");
+                    printLine("Пока, пока :0");
                     System.exit(0);
                 }
 
                 try {
                     QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
                     Query query = queryBuilder.create(subStrings);
-
                     try {
                         connectionWorker.connect();
                         connectionWorker.send(new Message(EntityType.COMMAND_QUERY, Query.dtoOf(query)));
+                        loggerAdapter.info("Query was successfully send.");
                     } catch (SerializationException e) {
                         loggerAdapter.errorThrowable("Cannot send query", e);
                         printLine("Внутрення ошибка.");
@@ -133,6 +133,7 @@ public final class ConsoleWork {
                     Response response;
                     try {
                         response = connectionWorker.read().getResponse();
+                        loggerAdapter.info("Request received successfully.");
                     } catch (WrongTypeException | DeserializationException e) {
                         loggerAdapter.errorThrowable("Cannot read response", e);
                         printLine("Внутрення ошибка.");
@@ -150,7 +151,7 @@ public final class ConsoleWork {
                         printLine(response.getMessage());
                     }
                     if (response.getStatus().equals(Status.INTERNAL_ERROR)) {
-                        printLine("Внутренняя ошибка сервера.");
+                        printLine(response.getMessage()+"Внутренняя ошибка сервера.");
                     }
                 } catch (NullPointerException | QueryCreationException e) {
                     print("Вы неправильно ввели данные, введите еще раз. ");

@@ -70,6 +70,10 @@ public final class Worker implements Comparable<Worker>{
         this.salary = salary;
     }
 
+    public Worker(Coordinates coordinates){
+        this.coordinates = coordinates;
+    }
+
     public Worker(int id) {
         this.id = id;
     }

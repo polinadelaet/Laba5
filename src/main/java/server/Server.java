@@ -42,7 +42,7 @@ public final class Server {
             public void run() {
                 Connection connection;
                 try {
-                    connection = new SocketConnection("localhost", 8080, 128);
+                    connection = new SocketConnection("localhost", 52511, 128);
                 } catch (ConnectionException e) {
                     System.out.println("Все плохо.");
                     return;
@@ -73,6 +73,7 @@ public final class Server {
 
                 try {
                     connectionWorker.send(new Message(EntityType.RESPONSE, Response.dtoOf(response)));
+                    logger.info("Response has sent.");
                 } catch (SerializationException e) {
                     logger.errorThrowable("Cannot send response", e);
                 }
@@ -82,6 +83,7 @@ public final class Server {
 
                 try {
                     connectionWorker.send(new Message(EntityType.RESPONSE, Response.dtoOf(internalError)));
+                    logger.info("Response with internal_error has sent.");
                 } catch (ConnectionException | SerializationException ex) {
                     logger.fatalThrowable("You simply cannot see it... Take a worm", ex);
                     System.exit(1);

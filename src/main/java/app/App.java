@@ -37,7 +37,7 @@ public class App {
            }
 
            Controller controller = new Controller(workerCollection);
-           Server server = new Server(1000, 128, controller);
+           Server server = new Server(52511, 128, controller);
            server.start();
 //           ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, controller);
 //           consoleWork.start();

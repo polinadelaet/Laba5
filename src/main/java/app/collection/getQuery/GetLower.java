@@ -1,6 +1,7 @@
 package app.collection.getQuery;
 
 import app.collection.worker.Worker;
+import com.google.gson.internal.$Gson$Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,6 @@ public class GetLower extends GetQuery {
                 result.add(worker);
             }
         }*/
-
 
         result = workers.stream().filter((s) -> s.compareTo(targetWorker) < 0).collect(Collectors.toList());
         return result;
