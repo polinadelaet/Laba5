@@ -1,94 +1,111 @@
 package server;
 
 import adapter.LoggerAdapter;
-import app.controller.Controller;
-import connection.Connection;
-import connection.SocketConnection;
+import connection.SocketChannelConnection;
 import connection.exception.ConnectionException;
-import connectionWorker.ConnectionWorker;
-import console.ConsoleWork;
-import message.EntityType;
-import message.Message;
-import message.exception.WrongTypeException;
+import connectionService.ConnectionService;
+import connectionService.ConnectionWorker;
+import middleware.Middleware;
+import middleware.MiddlewareException;
 import query.Query;
 import response.Response;
-import response.Status;
-import serializer.exception.DeserializationException;
-import serializer.exception.SerializationException;
-
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public final class Server {
+    private static final LoggerAdapter LOGGER_ADAPTER = LoggerAdapter.createDefault(Server.class.getSimpleName());
+
+
     private final int port;
     private final int connectionBufferSize;
-    private final LoggerAdapter logger;
 
-    private final Controller controller;
+    private final Middleware rootMiddleware;
+    private final ExecutorService cachedThreadPool;
+    private final ExecutorService fixedThreadPool;
 
-    public Server(int port, int connectionBufferSize, Controller controller) {
+
+    public Server(int port,
+                  int connectionBufferSize,
+                  Middleware rootMiddleware,
+                  ExecutorService cachedThreadPool,
+                  ExecutorService fixedThreadPool) {
         this.port = port;
         this.connectionBufferSize = connectionBufferSize;
-        this.controller = controller;
-        this.logger = LoggerAdapter.createDefault(Server.class.getSimpleName());
+        this.rootMiddleware = rootMiddleware;
+        this.cachedThreadPool = cachedThreadPool;
+        this.fixedThreadPool = fixedThreadPool;
     }
 
-    public void start() throws IOException{
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Connection connection;
-                try {
-                    connection = new SocketConnection("localhost", 52511, 128);
-                } catch (ConnectionException e) {
-                    System.out.println("Все плохо.");
-                    return;
-                }
 
-                ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, ConnectionWorker.createDefault(connection), true);
-                consoleWork.start();
-            }
-        }).start();
+    public void start() throws IOException{
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    logger.errorThrowable(e);
+//                    System.exit(1);
+//                }
+//
+//                Connection connection;
+//                try {
+//                    connection = new SocketConnection("localhost", 8080, 128);
+//                } catch (ConnectionException e) {
+//                    System.out.println("Все плохо.");
+//                    return;
+//                }
+//
+//                ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, ConnectionWorker.createDefault(connection), true);
+//                consoleWork.start();
+//            }
+//        }).start();
+
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
         serverSocketChannel.bind(new InetSocketAddress(port));
         while (true) {
             SocketChannel socketChannel = serverSocketChannel.accept();
-            logger.info("Connection to server is successful");
+            SocketChannelConnection socketChannelConnection = new SocketChannelConnection(socketChannel, connectionBufferSize);
+            ConnectionWorker connectionWorker = ConnectionWorker.createDefault(socketChannelConnection);
+            ConnectionService connectionService = new ConnectionService(connectionWorker);
 
-            connection.SocketChannelConnection socketChannelConnection = new connection.SocketChannelConnection(socketChannel, connectionBufferSize);
-
-            connectionWorker.ConnectionWorker connectionWorker = ConnectionWorker.createDefault(socketChannelConnection);
-
-            try {
-                Query query = connectionWorker.read().getCommandQuery();
-
-                logger.debug("Query created: " + query);
-
-                Response response = controller.handleQuery(query);
-
-                logger.debug("Response created: " + response);
-
+            cachedThreadPool.execute(() -> {
+                Query query;
                 try {
-                    connectionWorker.send(new Message(EntityType.RESPONSE, Response.dtoOf(response)));
-                    logger.info("Response has sent.");
-                } catch (SerializationException e) {
-                    logger.errorThrowable("Cannot send response", e);
-                }
-            } catch (ConnectionException | DeserializationException | WrongTypeException e){
-                logger.errorThrowable("Cannot get query from client", e);
-                Response internalError = new Response(Status.INTERNAL_ERROR, "");
+                    query = connectionService.readQuery();
 
-                try {
-                    connectionWorker.send(new Message(EntityType.RESPONSE, Response.dtoOf(internalError)));
-                    logger.info("Response with internal_error has sent.");
-                } catch (ConnectionException | SerializationException ex) {
-                    logger.fatalThrowable("You simply cannot see it... Take a worm", ex);
-                    System.exit(1);
+                    fixedThreadPool.execute(() -> {
+                        Response response;
+                        try {
+                            response = rootMiddleware.handle(query);
+
+                            cachedThreadPool.execute(() -> {
+                                try {
+                                    connectionService.send(response);
+                                } catch (ConnectionException e) {
+                                    LOGGER_ADAPTER.errorThrowable(e);
+                                }
+                            });
+                        } catch (MiddlewareException e) {
+                            LOGGER_ADAPTER.errorThrowable(e);
+                            cachedThreadPool.execute(() -> {
+                                try {
+                                    connectionService.send(Response.createInternalError());
+                                } catch (ConnectionException ex) {
+                                    LOGGER_ADAPTER.errorThrowable(e);
+                                }
+                            });
+                        }
+                    });
+                } catch (ConnectionException e) {
+                    LOGGER_ADAPTER.errorThrowable(e);
                 }
-            }
+            });
         }
     }
 }

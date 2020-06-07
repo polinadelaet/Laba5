@@ -1,39 +1,64 @@
 package response;
 
-public final class Response {
-    private final Status status;
-    private final String message;
 
-    public Response(Status status, String message) {
-        this.status = status;
-        this.message = message;
+public class Response {
+    private Status status;
+
+    private String answer;
+
+    public Response() {
+    }
+
+    public static Response createInternalError() {
+        return new Response(Status.INTERNAL_ERROR, "");
+    }
+
+    public static Response createSuccessfully() {
+        return new Response(Status.OK, "");
+    }
+
+    public static Response createResponse(ResponseDTO responseDTO) {
+        Status status = Status.getInstance(Integer.parseInt(responseDTO.status));
+        return new Response(status,
+                            responseDTO.answer);
     }
 
     public static ResponseDTO dtoOf(Response response) {
         ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.status = response.status.toString();
-        responseDTO.answer = response.message;
-
+        responseDTO.status = response.getStatus().getResult() + "";
+        responseDTO.answer = response.getAnswer();
         return responseDTO;
     }
 
-    public static Response of(ResponseDTO responseDTO) {
-        return new Response(Status.valueOf(responseDTO.status), responseDTO.answer);
+
+    public Response(Status status,
+                    String answer) {
+        this.status = status;
+        this.answer = answer;
     }
 
     public Status getStatus() {
         return status;
     }
 
-    public String getMessage() {
-        return message;
+    public String getAnswer() {
+        return answer;
     }
+
 
     @Override
     public String toString() {
         return "Response{" +
                 "status=" + status +
-                ", message='" + message + '\'' +
+                ", answer='" + answer + '\'' +
                 '}';
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }

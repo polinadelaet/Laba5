@@ -33,7 +33,7 @@ public final class SocketConnection extends Connection{
     public void connect() throws ConnectionException {
         try {
             socket.connect(new InetSocketAddress(address, port));
-            socket.setSoTimeout(5000);
+            socket.setSoTimeout(60000);
         } catch (IOException e) {
             socket = new Socket();
             try {

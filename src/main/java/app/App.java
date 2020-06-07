@@ -6,7 +6,6 @@ import app.collection.worker.IdGenerator;
 import app.collection.worker.factory.WorkersFactory;
 import app.collection.worker.loadingException.LoadingException;
 import app.collection.worker.savingException.SavingException;
-import console.ConsoleWork;
 import app.controller.Controller;
 import server.Server;
 
@@ -39,7 +38,7 @@ public class App {
            Controller controller = new Controller(workerCollection);
            Server server = new Server(52511, 128, controller);
            server.start();
-//           ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, controller);
+//           ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, app.controller);
 //           consoleWork.start();
 
 

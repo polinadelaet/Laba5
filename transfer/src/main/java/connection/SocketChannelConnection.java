@@ -49,6 +49,7 @@ public final class SocketChannelConnection extends ChannelConnection {
         SocketChannel socketChannel = (SocketChannel) channel;
         try {
             socketChannel.write(ByteBuffer.wrap(bytes));
+//            socketChannel.socket().getInputStream();
         } catch (IOException | NotYetConnectedException | NonWritableChannelException e) {
             try {
                 channel.close();

@@ -4,7 +4,7 @@ import connection.Connection;
 import connection.SocketConnection;
 import connection.exception.ConnectionException;
 import connectionWorker.ConnectionWorker;
-import console.ConsoleWork;
+import app.console.ConsoleWork;
 
 public final class App {
 

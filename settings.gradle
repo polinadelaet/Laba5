@@ -2,4 +2,6 @@ rootProject.name = 'Laba5'
 include 'client'
 include 'transfer'
 include 'logger'
+include 'app.controller'
+include 'router'
 

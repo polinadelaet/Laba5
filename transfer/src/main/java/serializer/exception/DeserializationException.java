@@ -1,6 +1,6 @@
 package serializer.exception;
 
-public class DeserializationException extends Exception {
+public class DeserializationException extends RuntimeException {
     public DeserializationException(Throwable cause) {
         super(cause);
     }

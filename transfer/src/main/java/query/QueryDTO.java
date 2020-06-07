@@ -4,10 +4,17 @@ package query;
 import message.EntityDTO;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 
 public final class QueryDTO extends EntityDTO implements Serializable {
     public String commandName;
-    public List<String> arguments;
-    public String accessJWT;
+    public Map<String, String> arguments;
+
+    @Override
+    public String toString() {
+        return "QueryDTO{" +
+                "commandName='" + commandName + '\'' +
+                ", arguments=" + arguments +
+                '}';
+    }
 }

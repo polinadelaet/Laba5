@@ -20,6 +20,8 @@ dependencies {
     compile project(":transfer")
     compile project(":logger")
     compile project(":client")
+    compile project(":app.controller")
+    compile project(":router")
 }
 
 application {

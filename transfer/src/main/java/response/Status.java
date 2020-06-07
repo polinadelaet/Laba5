@@ -14,23 +14,34 @@ public enum Status {
     BAD_REQUEST        (400),
     FORBIDDEN          (403),
     PRECONDITION_FAILED(412),
-    I_AM_TEAPOT        (418),
 
     INTERNAL_ERROR     (500);
 
-    private final int statusCode;
 
-    Status(int statusCode) {
-        this.statusCode = statusCode;
+    private int result;
+
+
+    Status(int result) {
+        this.result = result;
     }
 
-    public static Status getInstance(int statusCode){
+    public int getResult() {
+        return result;
+    }
 
-        for (Status status: values()){
-            if (statusCode == status.statusCode){
+    public String getStringResult() {
+        return result + "";
+    }
+
+    public static Status getInstance(int result) {
+        Status[] statuses = values();
+
+        for (Status status : statuses) {
+            if (status.result == result) {
                 return status;
             }
         }
+
         return null;
     }
 }
