@@ -3,12 +3,13 @@ package app.commands;
 import response.Response;
 import response.Status;
 
+import java.util.HashMap;
 import java.util.List;
 
 public final class Help extends Command {
 
 
-    public Help(List<String> inputArguments) {
+    public Help(HashMap<String, String> inputArguments) {
         super(inputArguments);
     }
     @Override

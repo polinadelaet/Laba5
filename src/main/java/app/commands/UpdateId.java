@@ -9,10 +9,11 @@ import response.Status;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 public final class UpdateId extends WorkerCollectionCommand {
-    public UpdateId(List<String> inputArguments, WorkerCollection workerCollection) {
+    public UpdateId(HashMap<String, String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }
 
@@ -20,23 +21,24 @@ public final class UpdateId extends WorkerCollectionCommand {
     public Response execute() {
 
         try {
-            Integer id = Integer.parseInt(inputArguments.get(0));
+            //Integer id = Integer.parseInt(inputArguments.get(0));
+            Integer id = Integer.parseInt(inputArguments.get("id"));
             Worker worker;
             GetByField getByField = new GetByField(Worker.class.getDeclaredField("id"), id);
             List<Worker> workers = workerCollection.executeGetQuery(getByField);
             worker = workers.get(0);
-            worker.setName(inputArguments.get(1));
-            Double coordinateX = Double.parseDouble(inputArguments.get(2));
-            Integer coordinateY = Integer.parseInt(inputArguments.get(3));
+            worker.setName(inputArguments.get("name"));
+            Double coordinateX = Double.parseDouble(inputArguments.get("coordinate x"));
+            Integer coordinateY = Integer.parseInt(inputArguments.get("coordinate y"));
             worker.setCoordinates(new Coordinates(coordinateX, coordinateY));
 
-            worker.setSalary(Long.parseLong(inputArguments.get(4)));
-            worker.setStartDate(ZonedDateTime.parse(inputArguments.get(5)));
-            worker.setEndDate(LocalDate.parse(inputArguments.get(6)));
-            worker.setStatus(app.collection.worker.Status.valueOf(inputArguments.get(7)));
-            Double personWeight = Double.parseDouble(inputArguments.get(8));
-            Color hairColor = Color.valueOf(inputArguments.get(9));
-            Country nationality = Country.valueOf(inputArguments.get(10));
+            worker.setSalary(Long.parseLong(inputArguments.get("salary")));
+            worker.setStartDate(ZonedDateTime.parse(inputArguments.get("startDate")));
+            worker.setEndDate(LocalDate.parse(inputArguments.get("endDate")));
+            worker.setStatus(app.collection.worker.Status.valueOf(inputArguments.get("status")));
+            Double personWeight = Double.parseDouble(inputArguments.get("person weight"));
+            Color hairColor = Color.valueOf(inputArguments.get("person hairColor"));
+            Country nationality = Country.valueOf(inputArguments.get("person country"));
             worker.setPerson(new Person(personWeight, hairColor, nationality));
 
             workerCollection.update(worker);

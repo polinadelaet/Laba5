@@ -4,12 +4,13 @@ import app.collection.WorkerCollection;
 import response.Response;
 import response.Status;
 
+import java.util.HashMap;
 import java.util.List;
 
 public final class Info extends WorkerCollectionCommand {
 
 
-    public Info (List<String> inputArguments, WorkerCollection workerCollection) {
+    public Info (HashMap<String, String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }
 

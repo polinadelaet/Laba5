@@ -4,10 +4,11 @@ import app.collection.WorkerCollection;
 import response.Response;
 import response.Status;
 
+import java.util.HashMap;
 import java.util.List;
 
 public final class CLear extends WorkerCollectionCommand {
-    public CLear(List<String> inputArguments, WorkerCollection workerCollection) {
+    public CLear(HashMap<String, String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }
 

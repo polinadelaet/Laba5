@@ -23,7 +23,7 @@ public final class RemoveLowerQueryBuilder extends CompositeQueryBuilder {
             consoleWork.printLine(fields.get(targetField));
             readFieldValueIntoArguments(targetField);
         }
-        System.out.println(arguments);
+
         return new Query("remove_lower", arguments);
     }
 }

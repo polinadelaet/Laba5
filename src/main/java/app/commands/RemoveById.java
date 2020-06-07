@@ -6,19 +6,20 @@ import app.collection.worker.workerCollectionException.WorkerCollectionException
 import response.Response;
 import response.Status;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public final class RemoveById extends WorkerCollectionCommand {
-    public RemoveById(List<String> inputArguments, WorkerCollection workerCollection) {
+    public RemoveById(HashMap<String, String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }
 
     @Override
     public Response execute() {
         try {
-            Iterator<String> iterator = inputArguments.iterator();
-            Integer id = Integer.parseInt(iterator.next());
+
+            Integer id = Integer.parseInt(inputArguments.get("id"));
             workerCollection.remove(new Worker(id));
             return new Response(Status.OK, "Продукт успешно удален из коллекции.");
         }catch (WorkerCollectionException | NumberFormatException e){

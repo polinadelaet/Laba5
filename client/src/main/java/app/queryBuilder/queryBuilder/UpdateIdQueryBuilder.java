@@ -20,7 +20,7 @@ public final class UpdateIdQueryBuilder extends CompositeQueryBuilder{
         arguments.clear();
         String id = subStrings[1];
 
-        arguments.add(id);
+        arguments.put("id", id);
 
         for (int i = 0; i<10; i++){
             String targetField = nameOfField.get(i);

@@ -18,8 +18,8 @@ public final class CountByEndDateQueryBuilder extends CompositeQueryBuilder{
     public Query processCreation(String [] subStrings) {
         arguments.clear();
         String endDate = subStrings[1];
-
-        arguments.add(endDate);
+        CheckQuery.invalidEndDate(endDate);
+        arguments.put("endDate", endDate);
         return new Query("count_by_end_date", arguments);
 
     }

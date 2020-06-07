@@ -17,7 +17,7 @@ public final class InsertAtIndexQueryBuilder extends CompositeQueryBuilder{
 
         String index = subStrings[1];
         arguments.clear();
-        arguments.add(index);
+        arguments.put("index", index);
 
         for (int i = 0; i<10; i++){
             String targetField = nameOfField.get(i);

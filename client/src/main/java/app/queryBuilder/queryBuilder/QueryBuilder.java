@@ -4,17 +4,20 @@ import query.Query;
 import app.queryBuilder.queryCreationException.QueryCreationException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class QueryBuilder {
 
     protected final ConsoleWork consoleWork;
 
-    protected List<String> arguments;
+    //protected List<String> arguments;
+    protected HashMap<String, String> arguments;
 
     public QueryBuilder(ConsoleWork consoleWork) {
         this.consoleWork = consoleWork;
-        arguments = new ArrayList<>();
+        //arguments = new ArrayList<>();
+        arguments = new HashMap<>();
     }
 
     protected abstract int getSubStringsLegalLength();

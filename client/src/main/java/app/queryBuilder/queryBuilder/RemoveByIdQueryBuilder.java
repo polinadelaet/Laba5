@@ -18,7 +18,7 @@ public final class RemoveByIdQueryBuilder extends CompositeQueryBuilder {
         arguments.clear();
         String id = subStrings[1];
 
-        arguments.add(id);
+        arguments.put("id", id);
         return new Query("remove_by_id", arguments);
 
     }

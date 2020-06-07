@@ -9,6 +9,7 @@ import app.commands.script.scriptException.ScriptException;
 import response.Response;
 import response.Status;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ public final class ExecuteScript extends WorkerCollectionCommand {
 
     private final Set<Integer> scriptsHashCodes;
 
-    public ExecuteScript(List<String> inputArguments, WorkerCollection workerCollection, Set<Integer> scriptsHashCodes) {
+    public ExecuteScript(HashMap<String, String> inputArguments, WorkerCollection workerCollection, Set<Integer> scriptsHashCodes) {
         super(inputArguments, workerCollection);
         this.scriptsHashCodes = scriptsHashCodes;
     }
@@ -27,7 +28,7 @@ public final class ExecuteScript extends WorkerCollectionCommand {
             ScriptReader scriptReader = new ScriptReader();
             ScriptExecutor scriptExecutor = new ScriptExecutor(workerCollection, scriptsHashCodes);
 
-            String message = scriptExecutor.execute(scriptReader.read(inputArguments.get(0)));
+            String message = scriptExecutor.execute(scriptReader.read(inputArguments.get("file_name")));
             return new Response(Status.OK, message);
         }catch (RecursionException e){
             return new Response(Status.BAD_REQUEST,"Рекурсия.");

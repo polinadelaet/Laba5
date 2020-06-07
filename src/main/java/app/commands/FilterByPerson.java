@@ -9,23 +9,25 @@ import app.collection.worker.Worker;
 import app.collection.worker.workerCollectionException.WorkerCollectionException;
 import response.Response;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class FilterByPerson extends WorkerCollectionCommand {
-    public FilterByPerson(List<String> inputArguments, WorkerCollection workerCollection) {
+    public FilterByPerson(HashMap<String, String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }
 
     @Override
     public Response execute() {
 
-        Iterator<String> iterator = inputArguments.iterator();
-        Double weight = Double.parseDouble(iterator.next());
-        Color hairColor = Color.valueOf(iterator.next());
-        Country nationality = Country.valueOf(iterator.next());
+
+        Double weight = Double.parseDouble(inputArguments.get("person weight"));
+        Color hairColor = Color.valueOf(inputArguments.get("person hairColor"));
+        Country nationality = Country.valueOf(inputArguments.get("person country"));
+
         Person person = new Person(weight, hairColor, nationality);
         try {
             GetAll getAll = new GetAll();

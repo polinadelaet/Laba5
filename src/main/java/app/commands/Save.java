@@ -6,9 +6,10 @@ import response.Response;
 import response.Status;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 public final class Save extends WorkerCollectionCommand {
-    public Save(List<String> inputArguments, WorkerCollection workerCollection) {
+    public Save(HashMap<String, String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }
 

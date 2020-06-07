@@ -9,16 +9,18 @@ import response.Response;
 import response.Status;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 
 public final class CountByEndDate extends WorkerCollectionCommand {
-    public CountByEndDate(List<String> inputArguments, WorkerCollection workerCollection) {
+    public CountByEndDate(HashMap<String,String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }
 
     @Override
     public Response execute() {
-        LocalDate endDate = LocalDate.parse(inputArguments.get(0));
+
+        LocalDate endDate = LocalDate.parse(inputArguments.get("endDate"));
 
         try {
             GetQuery getByField = new GetByField(Worker.class.getDeclaredField("endDate"), endDate);

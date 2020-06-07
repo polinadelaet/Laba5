@@ -11,11 +11,12 @@ import response.Status;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class PrintFieldDescendingEndDate extends WorkerCollectionCommand {
-    public PrintFieldDescendingEndDate(List<String> inputArguments, WorkerCollection workerCollection) {
+    public PrintFieldDescendingEndDate(HashMap<String, String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }
 

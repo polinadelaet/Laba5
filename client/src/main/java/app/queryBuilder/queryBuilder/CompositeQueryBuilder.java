@@ -29,7 +29,6 @@ public abstract class CompositeQueryBuilder extends QueryBuilder {
         add(personWeight);
         add(personHairColor);
         add(personCountry);
-
     }};
     protected final Map<String, String> fields = new HashMap<String, String>(){{
         put(name, "Введите имя: ");
@@ -128,7 +127,8 @@ public abstract class CompositeQueryBuilder extends QueryBuilder {
                     continue;
                 }
             }
-            arguments.add(userInput);
+            arguments.put(targetField, userInput);
+            //arguments.add(userInput);
             return false;
         }
     }
