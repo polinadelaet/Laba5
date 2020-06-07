@@ -1,4 +1,4 @@
-package controller.components.serviceMediator;
+package app.controller.components.serviceMediator;
 
 public interface Service {
 }

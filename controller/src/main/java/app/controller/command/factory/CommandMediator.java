@@ -1,13 +1,13 @@
-package controller.command.factory;
+package app.controller.command.factory;
 
-import controller.command.Command;
+import app.controller.command.Command;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
 /**
- * This class determines command which are available for the controller.
+ * This class determines command which are available for the app.controller.
  * Note! Query will be handled if and only if there are a factory for this query.name.
  */
 public final class CommandMediator {

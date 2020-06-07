@@ -1,7 +1,7 @@
-package controller.command.wish;
+package app.controller.command.wish;
 
-import controller.components.serviceMediator.Service;
-import controller.components.serviceMediator.ServiceMediator;
+import app.controller.components.serviceMediator.Service;
+import app.controller.components.serviceMediator.ServiceMediator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

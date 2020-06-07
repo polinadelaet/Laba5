@@ -1,4 +1,4 @@
-package controller.command.factory.exception;
+package app.controller.command.factory.exception;
 
 public class CommandCreationException extends Exception {
     public CommandCreationException() {

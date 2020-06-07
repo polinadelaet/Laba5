@@ -1,14 +1,14 @@
-package screens;
+package app.screens;
 
+import adapter.LoggerAdapter;
 import app.Console;
 import app.Viewer;
-import controller.Controller;
-import manager.LogManager;
+import app.controller.Controller;
 import response.Response;
 import response.Status;
 
 public final class MainScreen extends ConsoleScreen {
-    private static final LogManager LOG_MANAGER = LogManager.createDefault(MainScreen.class);
+    private static final LoggerAdapter LOGGER_ADAPTER = LoggerAdapter.createDefault(MainScreen.class.getSimpleName());
 
 
     public MainScreen(Console console, Viewer viewer, Controller controller) {
@@ -23,7 +23,7 @@ public final class MainScreen extends ConsoleScreen {
 
 
     protected void analyseResponse(Response response) {
-        LOG_MANAGER.debug("Server answered: " + response);
+        LOGGER_ADAPTER.debug("Server answered: " + response);
 
         if (response.getStatus().equals(Status.BAD_REQUEST)) {
             console.writeLine(viewer.showBadRequestErrorMessage());
@@ -31,7 +31,7 @@ public final class MainScreen extends ConsoleScreen {
             console.writeLine(viewer.showOfferToRepeatInput());
         }
 
-        if (response.getStatus().equals(Status.SUCCESSFULLY)) {
+        if (response.getStatus().equals(Status.OK)) {
             console.writeLine(response.getAnswer());
         }
 

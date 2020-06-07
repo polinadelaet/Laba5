@@ -1,4 +1,4 @@
-package queryBuilder.queryCreationException;
+package app.queryBuilder.queryCreationException;
 
 public final class QueryCreationException extends Exception{
     public QueryCreationException(String message) {

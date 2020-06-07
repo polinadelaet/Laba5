@@ -1,12 +1,11 @@
-package controller.services.connectionService;
+package app.controller.services.connectionService;
 
 import adapter.LoggerAdapter;
+import app.controller.command.exception.CommandExecutionException;
+import app.controller.components.serviceMediator.Service;
 import connection.exception.ConnectionException;
 import connection.exception.NotYetConnectedException;
 import connectionService.ConnectionWorker;
-import controller.command.exception.CommandExecutionException;
-import controller.components.serviceMediator.Service;
-import manager.LogManager;
 import message.EntityType;
 import message.Message;
 import query.Query;

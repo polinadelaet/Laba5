@@ -1,9 +1,9 @@
-package queryBuilder.queryBuilder;
+package app.queryBuilder.queryBuilder;
 
 
-import queryBuilder.queryBuilder.enumsOfCollection.ColorEn;
-import queryBuilder.queryBuilder.enumsOfCollection.CountryEn;
-import queryBuilder.queryBuilder.enumsOfCollection.StatusEn;
+import app.queryBuilder.queryBuilder.enumsOfCollection.ColorEn;
+import app.queryBuilder.queryBuilder.enumsOfCollection.CountryEn;
+import app.queryBuilder.queryBuilder.enumsOfCollection.StatusEn;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;

@@ -1,4 +1,4 @@
-package controller.components.serviceMediator;
+package app.controller.components.serviceMediator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

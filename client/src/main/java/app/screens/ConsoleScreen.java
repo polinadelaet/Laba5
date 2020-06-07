@@ -1,13 +1,15 @@
-package screens;
+package app.screens;
 
 import adapter.LoggerAdapter;
+import app.Console;
 import app.Exceptions.ConsoleException;
+import app.Viewer;
 import connection.exception.ConnectionException;
 import connection.exception.NotYetConnectedException;
-import controller.Controller;
-import controller.command.exception.CommandExecutionException;
-import controller.exception.ControllerException;
-import controller.services.exitingDirector.INeedExiting;
+import app.controller.Controller;
+import app.controller.command.exception.CommandExecutionException;
+import app.controller.exception.ControllerException;
+import app.controller.services.exitingDirector.INeedExiting;
 import message.exception.WrongTypeException;
 import query.Query;
 import response.Response;
@@ -15,12 +17,11 @@ import router.screen.Screen;
 import router.screen.ScreenContext;
 import router.screen.ScreenMemento;
 
-import java.io.Console;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class defines a "screen" which can be used in the console app.
+ * This class defines a "screen" which can be used in the app.console app.
  * Uses The Router framework
  */
 public abstract class ConsoleScreen implements Screen, INeedExiting {

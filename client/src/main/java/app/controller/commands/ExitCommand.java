@@ -1,7 +1,7 @@
-package controller.commands;
+package app.controller.commands;
 
-import controller.command.Command;
-import controller.services.exitingDirector.ExitingDirector;
+import app.controller.command.Command;
+import app.controller.services.exitingDirector.ExitingDirector;
 import org.apache.commons.configuration2.Configuration;
 import response.Response;
 import response.Status;
@@ -24,6 +24,6 @@ public final class ExitCommand extends Command {
     @Override
     protected Response processExecution() {
         exitingDirector.exit();
-        return new Response(Status.SUCCESSFULLY, "");
+        return new Response(Status.OK, "");
     }
 }

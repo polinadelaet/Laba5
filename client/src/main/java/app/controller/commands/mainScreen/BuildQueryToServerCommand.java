@@ -1,4 +1,4 @@
-package controller.commands.mainScreen;
+package app.controller.commands.mainScreen;
 
 import adapter.LoggerAdapter;
 import app.Console;
@@ -11,8 +11,9 @@ import app.query.CommandName;
 import app.query.CommandType;
 import app.query.queryBuilder.QueryBuilder;
 import app.query.queryBuilder.QueryBuilderFactory;
-import controller.command.Command;
-import controller.command.exception.CommandExecutionException;
+import app.controller.command.Command;
+import app.controller.command.exception.CommandExecutionException;
+import app.queryBuilder.queryBuilder.*;
 import org.apache.commons.configuration2.Configuration;
 import query.Query;
 import response.Response;
@@ -27,7 +28,7 @@ public final class BuildQueryToServerCommand extends Command {
     private static final LoggerAdapter LOG_MANAGER = LoggerAdapter.createDefault(BuildQueryToServerCommand.class.getSimpleName());
 
 
-    private QueryBuilderFactory queryBuilderFactory;
+    private Map<String, QueryBuilder> queryBuilderMap;
     private Validator validator;
     private Interpretator interpretator;
     private ConnectionService connectionService;
@@ -41,6 +42,27 @@ public final class BuildQueryToServerCommand extends Command {
                                      Map<String, String> arguments,
                                      Configuration configuration) {
         super(commandName, arguments, configuration);
+
+        if(!isOnServer) {
+            queryBuilderMap.put("help", new SimpleQueryBuilder("help", this));
+            queryBuilderMap.put("info", new SimpleQueryBuilder("info", this));
+            queryBuilderMap.put("show", new SimpleQueryBuilder("show", this));
+            queryBuilderMap.put("add", new AddQueryBuilder(this));
+            queryBuilderMap.put("update", new UpdateIdQueryBuilder(this));
+            queryBuilderMap.put("remove_by_id", new RemoveByIdQueryBuilder(this));
+            queryBuilderMap.put("clear", new ClearQueryBuilder(this));
+            queryBuilderMap.put("execute_script", new ExecuteScriptQueryBuilder(this));
+            queryBuilderMap.put("exit", new ExitQueryBuilderQueryBuilder(this));
+            queryBuilderMap.put("insert_at", new InsertAtIndexQueryBuilder(this));
+            queryBuilderMap.put("add_if_max", new AddIfMaxQueryBuilder(this));
+            queryBuilderMap.put("remove_lower", new RemoveLowerQueryBuilder(this));
+            queryBuilderMap.put("count_by_end_date", new CountByEndDateQueryBuilder(this));
+            queryBuilderMap.put("filter_by_person", new FilterByPersonQueryBuilder(this));
+            queryBuilderMap.put("print_field_descending_end_date", new PrintFieldDescendingEndDateQueryBuilder(this));
+        }else {
+            queryBuilderMap.put("save", new SaveQueryBuilder(this));
+            queryBuilderMap.put("exit", new ExitQueryBuilderQueryBuilder(this));
+        }
     }
 
     @Override
@@ -49,27 +71,8 @@ public final class BuildQueryToServerCommand extends Command {
 
         String[] subStrings = getSubStrings(userInput);
 
-        try {
-            validator.validateCommandName(subStrings[0]);
-        } catch (InputException e) {
-            LOG_MANAGER.error("An error occurred entering the command...");
-            return new Response(Status.BAD_REQUEST, "No such command");
-        }
-
-        CommandName commandName = CommandName.getCommandNameEnum(subStrings[0]);
-        CommandType commandType = interpretator.interpretateCommandType(commandName);
-
-        List<String> commandList = Arrays.asList(subStrings);
-        try {
-            validator.validateNumberOfArguments(commandName, commandList);
-        } catch (InputException e) {
-            return new Response(Status.BAD_REQUEST, e.getMessage());
-        }
-
-        Map<String, String> arguments = new HashMap<>();
-        if (commandType.equals(CommandType.COMPOUND_COMMAND)) {
-            arguments = getArgumentsOfCompoundCommands(commandName);
-        }
+        QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
+        Query query = queryBuilder.create(subStrings);
         arguments.put("login", this.arguments.get("login"));
         arguments.put("password", this.arguments.get("password"));
 

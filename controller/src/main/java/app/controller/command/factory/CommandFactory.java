@@ -1,7 +1,7 @@
-package controller.command.factory;
+package app.controller.command.factory;
 
-import controller.command.Command;
-import controller.command.factory.exception.CommandCreationException;
+import app.controller.command.Command;
+import app.controller.command.factory.exception.CommandCreationException;
 import org.apache.commons.configuration2.Configuration;
 
 import java.lang.reflect.Constructor;

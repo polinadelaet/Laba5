@@ -1,4 +1,4 @@
-package queryBuilder.queryBuilder.enumsOfCollection;
+package app.queryBuilder.queryBuilder.enumsOfCollection;
 
 public enum ColorEn {
     GREEN,

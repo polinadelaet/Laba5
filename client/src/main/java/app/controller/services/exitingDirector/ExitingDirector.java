@@ -1,6 +1,6 @@
-package controller.services.exitingDirector;
+package app.controller.services.exitingDirector;
 
-import controller.components.serviceMediator.Service;
+import app.controller.components.serviceMediator.Service;
 
 import java.util.List;
 

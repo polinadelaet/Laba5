@@ -1,4 +1,4 @@
-package console;
+package app.console;
 
 import adapter.LoggerAdapter;
 import connection.exception.ConnectionException;
@@ -7,8 +7,8 @@ import message.EntityType;
 import message.Message;
 import message.exception.WrongTypeException;
 import query.Query;
-import queryBuilder.queryBuilder.*;
-import queryBuilder.queryCreationException.QueryCreationException;
+import app.queryBuilder.queryBuilder.*;
+import app.queryBuilder.queryCreationException.QueryCreationException;
 import response.Response;
 import response.Status;
 import serializer.exception.DeserializationException;

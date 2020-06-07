@@ -1,6 +1,6 @@
-package controller.components.serviceMediator.sharedData;
+package app.controller.components.serviceMediator.sharedData;
 
-import controller.components.serviceMediator.Service;
+import app.controller.components.serviceMediator.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Set;
  * <br></br>
  * <br></br>
  * NOTE: This service will be added automatically by ControllerBuilder if you use
- * {@link controller.ControllerBuilder#buildServiceMediator(Set) ControllerBuilder.buildServiceMediator()}.
+ * {@link app.controller.ControllerBuilder#buildServiceMediator(Set) ControllerBuilder.buildServiceMediator()}.
  * So do not create this service by yourself.
  */
 public final class SharedDataService implements Service {

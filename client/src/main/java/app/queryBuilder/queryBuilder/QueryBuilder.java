@@ -1,7 +1,7 @@
-package queryBuilder.queryBuilder;
-import console.ConsoleWork;
+package app.queryBuilder.queryBuilder;
+import app.console.ConsoleWork;
 import query.Query;
-import queryBuilder.queryCreationException.QueryCreationException;
+import app.queryBuilder.queryCreationException.QueryCreationException;
 
 import java.util.ArrayList;
 import java.util.List;

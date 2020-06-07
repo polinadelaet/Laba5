@@ -1,4 +1,4 @@
-package controller.command.exception;
+package app.controller.command.exception;
 
 public class WrongServiceException extends CommandExecutionException {
     public WrongServiceException() {

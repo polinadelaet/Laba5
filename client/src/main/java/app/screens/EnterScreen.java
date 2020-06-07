@@ -1,8 +1,8 @@
-package screens;
+package app.screens;
 
 import app.Console;
 import app.Viewer;
-import controller.Controller;
+import app.controller.Controller;
 import response.Response;
 import response.Status;
 
@@ -20,7 +20,7 @@ public final class EnterScreen extends ConsoleScreen {
 
     @Override
     protected void analyseResponse(Response response) {
-        if (response.getStatus().equals(Status.SUCCESSFULLY)) {
+        if (response.getStatus().equals(Status.OK)) {
             String[] subStrings = response.getAnswer().split(" +");
 
             screenContext.add("login", subStrings[0]);

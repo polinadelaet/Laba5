@@ -1,6 +1,6 @@
-package controller.commands.mainScreen;
+package app.controller.commands.mainScreen;
 
-import controller.command.Command;
+import app.controller.command.Command;
 import org.apache.commons.configuration2.Configuration;
 import response.Response;
 import response.Status;

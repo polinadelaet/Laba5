@@ -1,4 +1,4 @@
-package controller.command.exception;
+package app.controller.command.exception;
 
 public class CommandExecutionException extends Exception {
     public CommandExecutionException() {

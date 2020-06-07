@@ -1,6 +1,6 @@
-package queryBuilder.queryBuilder;
+package app.queryBuilder.queryBuilder;
 
-import console.ConsoleWork;
+import app.console.ConsoleWork;
 import query.Query;
 
 public final class PrintFieldDescendingEndDateQueryBuilder extends CompositeQueryBuilder {

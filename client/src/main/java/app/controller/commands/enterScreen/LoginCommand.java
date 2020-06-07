@@ -1,8 +1,8 @@
-package controller.commands.enterScreen;
+package app.controller.commands.enterScreen;
 
-import controller.command.Command;
-import controller.command.exception.CommandExecutionException;
-import controller.services.connectionService.ConnectionService;
+import app.controller.command.Command;
+import app.controller.command.exception.CommandExecutionException;
+import app.controller.services.connectionService.ConnectionService;
 import org.apache.commons.configuration2.Configuration;
 import query.Query;
 import response.Response;

@@ -1,11 +1,11 @@
-package controller.command;
+package app.controller.command;
 
-import controller.AbstractController;
-import controller.command.exception.CommandExecutionException;
-import controller.command.exception.WrongServiceException;
-import controller.command.wish.Wish;
-import controller.components.serviceMediator.Service;
-import controller.exception.ControllerException;
+import app.controller.AbstractController;
+import app.controller.command.exception.CommandExecutionException;
+import app.controller.command.exception.WrongServiceException;
+import app.controller.command.wish.Wish;
+import app.controller.components.serviceMediator.Service;
+import app.controller.exception.ControllerException;
 import org.apache.commons.configuration2.Configuration;
 import response.Response;
 
@@ -38,7 +38,7 @@ public abstract class Command {
 
 
     /**
-     * Will be used by controller for injecting services.
+     * Will be used by app.controller for injecting services.
      */
     public final Set<Wish> getWishes() {
         return wishes;
@@ -145,9 +145,9 @@ public abstract class Command {
 
     /**
      * Use this method if you want to execute other command.
-     * @param otherCommandName - has to be registered in the controller.
+     * @param otherCommandName - has to be registered in the app.controller.
      * @param arguments - arguments for command.
-     * @return - response or null if controller cannot execute this command.
+     * @return - response or null if app.controller cannot execute this command.
      * @throws CommandExecutionException - in case of any exceptions.
      */
     @Nullable
