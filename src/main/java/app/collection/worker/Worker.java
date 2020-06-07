@@ -20,6 +20,7 @@ import java.util.Date;
 public final class Worker implements Comparable<Worker>{
 
     private int id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    private int userId;
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
     @XmlJavaTypeAdapter(DateFormatter.class)
@@ -37,6 +38,7 @@ public final class Worker implements Comparable<Worker>{
     public String toString() {
         return "Worker{" +
                 "id=" + id +
+                "userId=" + userId +
                 ", name='" + name + '\'' +
                 ", coordinates=" + coordinates +
                 ", creationDate=" + creationDate +
@@ -48,8 +50,9 @@ public final class Worker implements Comparable<Worker>{
                 '}';
     }
 
-    public Worker(int id, String name, Coordinates coordinates, Date creationDate, long salary, ZonedDateTime startDate, LocalDate endDate, Status status, Person person) {
+    public Worker(int id, int userId, String name, Coordinates coordinates, Date creationDate, long salary, ZonedDateTime startDate, LocalDate endDate, Status status, Person person) {
         this.id = id;
+        this.userId = userId;
         this.name = name;
         this.coordinates = coordinates;
         this.creationDate = creationDate;
@@ -76,6 +79,10 @@ public final class Worker implements Comparable<Worker>{
 
     public int getId() {
         return id;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     public String getName() {

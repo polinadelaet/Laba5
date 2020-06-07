@@ -21,7 +21,7 @@ public final class MessageDeserializer implements JsonDeserializer<Message> {
 
         JsonElement jsonEntityDTO = json.getAsJsonObject().getAsJsonObject("entityDTO");
         EntityDTO entityDTO = null;
-        if (entityType.equals(EntityType.COMMAND_QUERY)) {
+        if (entityType.equals(EntityType.QUERY)) {
             entityDTO = context.deserialize(jsonEntityDTO, QueryDTO.class);
         }
         if (entityType.equals(EntityType.RESPONSE)) {

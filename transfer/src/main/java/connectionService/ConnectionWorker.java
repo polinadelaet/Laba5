@@ -1,4 +1,4 @@
-package connectionWorker;
+package connectionService;
 
 import adapter.LoggerAdapter;
 import connection.Connection;
@@ -18,19 +18,18 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class ConnectionWorker {
+    private static final LoggerAdapter LOGGER_ADAPTER = LoggerAdapter.createDefault(ConnectionWorker.class.getSimpleName());
+
+
     private final Connection connection;
 
     private final ISerializer serializer;
     private final IChunker chunker;
 
-    private final LoggerAdapter loggerAdapter;
-
 
     private ConnectionWorker(Connection connection,
                              ISerializer serializer,
                              IChunker chunker) {
-        loggerAdapter = LoggerAdapter.createDefault(ConnectionWorker.class.getSimpleName());
-
         this.connection = connection;
 
         this.serializer = serializer;
@@ -68,17 +67,13 @@ public final class ConnectionWorker {
         }
 
         byte[] bytes = serializer.toByteArray(message);
-//        loggerAdapter.debug("Got bytes from Serializer, size: " + bytes.length);
-//        loggerAdapter.debug("Got bytes from Serializer: " + Arrays.toString(bytes));
         List<byte[]> chunks = chunker.split(bytes);
-//        loggerAdapter.debug("Got chunks form Chunker, list size: " + chunks.size());
 
         for (byte[] chunk : chunks) {
-//            loggerAdapter.debug("Chunk: " + Arrays.toString(chunk));
             connection.write(chunk);
         }
 
-        loggerAdapter.info("SUCCESSFULLY sent message.");
+        LOGGER_ADAPTER.debug("SUCCESSFULLY sent message: " + message);
     }
 
     public Message read() throws ConnectionException, DeserializationException {
@@ -91,22 +86,23 @@ public final class ConnectionWorker {
         byte[] chunk = connection.read();
 
         while (!Arrays.equals(chunk, chunker.getKeyWord())) {
-//            loggerAdapter.info((new String(chunk, StandardCharsets.UTF_8)).trim());
-//            loggerAdapter.debug("Chunk: " + Arrays.toString(chunk));
             chunks.add(chunk);
             chunk = connection.read();
         }
 
-//        loggerAdapter.debug("Got chunks from client, size: " + chunks.size());
-//        loggerAdapter.debug("First chuck: " + Arrays.toString(chunks.get(0)));
-
         byte[] bytes = chunker.join(chunks);
-//        loggerAdapter.debug((new String(bytes, StandardCharsets.UTF_8)).trim());
-//        loggerAdapter.debug("Join chunks, bytes size: " + bytes.length);
 
         Message message = serializer.fromByteArray(bytes, Message.class);
-        loggerAdapter.info("SUCCESSFULLY read message.");
+        LOGGER_ADAPTER.debug("SUCCESSFULLY read message: " + message);
 
         return message;
+    }
+
+    public void close() throws ConnectionException {
+        connection.close();
+    }
+
+    public boolean isOpen() {
+        return connection.isOpen();
     }
 }

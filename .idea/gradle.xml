@@ -10,7 +10,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/client" />
+            <option value="$PROJECT_DIR$/controller" />
             <option value="$PROJECT_DIR$/logger" />
+            <option value="$PROJECT_DIR$/router" />
             <option value="$PROJECT_DIR$/transfer" />
           </set>
         </option>

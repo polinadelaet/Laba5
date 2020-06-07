@@ -31,17 +31,22 @@ public final class Message implements Serializable {
 
     public Response getResponse() throws WrongTypeException {
         if (entityType.equals(EntityType.RESPONSE)) {
-            return Response.of((ResponseDTO) entityDTO);
+            return Response.createResponse((ResponseDTO) entityDTO);
         }
 
         throw new WrongTypeException();
     }
 
-    public Query getCommandQuery() throws WrongTypeException {
-        if (entityType.equals(EntityType.COMMAND_QUERY)) {
-            return Query.of((QueryDTO) entityDTO);
+    public Query getQuery() throws WrongTypeException {
+        if (entityType.equals(EntityType.QUERY)) {
+            return Query.createQuery((QueryDTO) entityDTO);
         }
 
         throw new WrongTypeException();
+    }
+
+    @Override
+    public String toString() {
+        return entityDTO.toString();
     }
 }
