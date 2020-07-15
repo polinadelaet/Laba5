@@ -44,6 +44,7 @@ public class App {
            System.out.println("Файл не найден.");
        } catch (SavingException e){
            System.out.println("Айди не сохранены.");
+           System.out.println("999");
        }
     }
 }
