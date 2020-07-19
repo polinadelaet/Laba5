@@ -1,11 +1,9 @@
-package app.query;
+package query;
 
-import java.io.Serializable;
 import java.util.List;
 
-public final class Query implements Serializable {
+public final class Query {
 
-    private static final long serialVersionUID = 3838L;
     private final String commandName;
     private final List<String> arguments;
 

@@ -1,40 +1,35 @@
-package app.console;
+package console;
 
-import app.connection.ConnectionException;
-import app.connection.ServerConnection;
-import app.controller.Controller;
-import app.query.Query;
-import app.query.queryBuilder.*;
-import app.query.queryCreationException.QueryCreationException;
-import app.response.Response;
-import app.response.Status;
+import connection.ClientConnection;
+import query.Query;
+import query.queryBuilder.*;
+import query.queryCreationException.QueryCreationException;
+import response.Response;
+import response.Status;
 
-import java.io.*;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.util.*;
+import java.io.BufferedOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 public final class ConsoleWork {
 
-    //private final PrintWriter printWriter;
     private final BufferedOutputStream bufferedOutputStream;
     private Scanner skan;
     private final Map<String, QueryBuilder> queryBuilderMap = new HashMap<>();
     private final InputStream inputStream;
-    private final ServerConnection serverConnection;
-    private Selector selector;
-    private ServerSocketChannel server;
+    private final ClientConnection clientConnection;
 
 
-    public ConsoleWork(InputStream inputStream, OutputStream outputStream,
-                       ServerConnection serverConnection) {
+    public ConsoleWork(InputStream inputStream, OutputStream outputStream, ClientConnection clientConnection) {
 
-
-        //this.printWriter = new PrintWriter(outputStream);
         this.bufferedOutputStream = new BufferedOutputStream(outputStream);
         this.inputStream = inputStream;
         skan = new Scanner(inputStream);
-        this.serverConnection = serverConnection;
+        this.clientConnection = clientConnection;
 
         queryBuilderMap.put("help", new SimpleQueryBuilder("help", this));
         queryBuilderMap.put("info", new SimpleQueryBuilder("info", this));
@@ -54,6 +49,7 @@ public final class ConsoleWork {
         queryBuilderMap.put("print_field_descending_end_date", new PrintFieldDescendingEndDateQueryBuilder(this));
 
     }
+
     public String readLine(){
         return skan.nextLine();
 
@@ -83,12 +79,11 @@ public final class ConsoleWork {
     }
 
     public void start() {
-        this.selector = Selector.open();
-        this.server = serverConnection.initServerChannel(selector); //создаем канал для сервера
 
-        printLine("Сервер запущен! Доступные команды:" + System.lineSeparator() + "       * exit"
-                + System.lineSeparator() + "       * save");
+        printLine("Добро пожаловать! Вы можете ввести команду help, " +
+                "чтобы посмотреть доступные команды.");
         while (true) {
+            printLine("Введите команду: ");
 
             try {
                 String line = readLine();
@@ -100,14 +95,10 @@ public final class ConsoleWork {
 
                     QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
                     Query query = queryBuilder.create(subStrings);
+                    clientConnection.writeDataToSocket();
+                    Response response = null; //todo дописать и принять респонс от сервера
                     // запрос мы должны отправить
-
-
-                    // TODO СЕРВЕРНАЯ ЧАСТЬ
-
-                    // не печатаем а отправляем на клиент
-                    Response response = controller.handleQuery(query);// на сервере выполняем
-
+                    // принимаем response
                     if (response.getStatus().equals(Status.OK)) {
                         printLine(response.getMessage() + System.lineSeparator() + "Команда успешно выполнена.");
                     }
@@ -120,13 +111,12 @@ public final class ConsoleWork {
                     if (response.getStatus().equals(Status.INTERNAL_SERVER_ERROR)) {
                         printLine("Внутренняя ошибка сервера.");
                     }
+
                 } catch (NullPointerException | QueryCreationException e) {
                     print("Вы неправильно ввели данные, введите еще раз. ");
-                } catch (ConnectionException e){
-
                 }
             } catch (NoSuchElementException e) {
-                print("Вы неправильно ввели команду, введите еще раз. ");
+                print("Вы неправильно ввели данные, введите еще раз. ");
             }
         }
     }

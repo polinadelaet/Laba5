@@ -6,6 +6,7 @@ import app.collection.worker.IdGenerator;
 import app.collection.worker.factory.WorkersFactory;
 import app.collection.worker.loadingException.LoadingException;
 import app.collection.worker.savingException.SavingException;
+import app.connection.ServerConnection;
 import app.console.ConsoleWork;
 import app.controller.Controller;
 
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.channels.ServerSocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
@@ -35,9 +37,10 @@ public class App {
            } else {
                workerCollection = new WorkerCollection(workersFactory);
            }
-
+           ServerSocketChannel server = new ServerSocketChannel;
            Controller controller = new Controller(workerCollection);
-           ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, controller);
+           ServerConnection serverConnection = new ServerConnection(controller);
+           ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, serverConnection);
 
            consoleWork.start();
        } catch ( LoadingException | SecurityException e) {
@@ -47,4 +50,7 @@ public class App {
            System.out.println("999");
        }
     }
+    /***
+     * тут в общем нужно написать Server.start
+     */
 }
