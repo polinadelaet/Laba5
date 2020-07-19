@@ -1,6 +1,8 @@
 package app.response;
 
-public final class Response {
+import java.io.Serializable;
+
+public final class Response implements Serializable {
     private final Status status;
     private final String message;
 

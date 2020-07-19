@@ -17,7 +17,7 @@ public final class Save extends WorkerCollectionCommand {
         try {
             String path = System.getenv("WC_FILE");
             workerCollection.save(new File(path));
-        }catch (SavingException e){
+        } catch (SavingException e){
             return new Response(Status.BAD_REQUEST, e.getMessage());
         }
 

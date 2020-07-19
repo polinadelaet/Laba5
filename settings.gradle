@@ -1,4 +1,3 @@
 rootProject.name = 'Laba5'
-include 'client'
 include 'Client'
 

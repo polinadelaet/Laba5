@@ -20,37 +20,37 @@ import java.util.Scanner;
 
 public class App {
     private static final String PATH_TO_ID_GENERATOR = "./files/idGenerator";
-
+    private static final String PATH_TO_WORKERCOLLECTION = "./files/workerCollection";
 
     public static void main(String[] args) throws IOException {
        try {
-           String path = System.getenv("WC_FILE");
-           File file = new File(path);
 
+           //String path = System.getenv("WC_FILE");
+           File file = new File(PATH_TO_WORKERCOLLECTION);
            IdGenerator idGenerator = IdGenerator.createIdGenerator(PATH_TO_ID_GENERATOR);
            WorkersFactory workersFactory = new WorkersFactory(idGenerator);
-           WorkerCollection workerCollection;
-
+           WorkerCollection workerCollection = null;
 
            if (file.exists()) {
+               if (!file.canRead()){
+                   System.out.println("Нет прав на чтение файла коллекции.");
+                   System.exit(0);
+               }
                workerCollection = WorkerCollection.load(file, workersFactory);
-           } else {
+           }
+           if (!file.exists()){
                workerCollection = new WorkerCollection(workersFactory);
            }
-           ServerSocketChannel server = new ServerSocketChannel;
+
            Controller controller = new Controller(workerCollection);
            ServerConnection serverConnection = new ServerConnection(controller);
            ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, serverConnection);
-
            consoleWork.start();
-       } catch ( LoadingException | SecurityException e) {
+
+       } catch ( LoadingException e) {
            System.out.println("Файл не найден.");
        } catch (SavingException e){
-           System.out.println("Айди не сохранены.");
-           System.out.println("999");
+           System.out.println("ID воркеров не сохранены.");
        }
     }
-    /***
-     * тут в общем нужно написать Server.start
-     */
 }

@@ -3,13 +3,10 @@ package app.connection;
 import app.controller.Controller;
 import app.query.Query;
 import app.response.Response;
-import app.response.Status;
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
@@ -85,8 +82,7 @@ public class ServerConnection {
             throw new ConnectionException();
         }
     }
-    private Query readQueryFromSocket(SocketChannel channel){
-        //зарегать как write
+    private Query readQueryFromSocket(SocketChannel channel) throws ConnectionException {
         ByteBuffer buffer = ByteBuffer.allocate(1024*1024);
        try {
            channel.read(buffer);
@@ -95,30 +91,29 @@ public class ServerConnection {
            Query query = (Query) objectInputStream.readObject();
            buffer.clear();
            return query;
-       }catch (IOException e){}
-        catch (java.lang.ClassNotFoundException e){}
+       }catch (java.lang.ClassNotFoundException | IOException e){
+           throw new ConnectionException();
+       }
+
         //todo: написать говно для чтения, сюда буфер и тд
     }
 
     private void writeDataToSocket(SocketChannel channel, Response response){
-        ByteBuffer buffer = ByteBuffer.allocate(1024*1024);
-        channel.write(buffer);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//todo ошибки обработать
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
 
+            objectOutputStream.writeObject(response);
+            objectOutputStream.flush();
+            channel.write(ByteBuffer.wrap(byteArrayOutputStream.toByteArray()));
+        } catch (IOException e){
+            e.getStackTrace();
+            //todo
+        }
     }
-    private String responseToAnswer(Response response){
-        String answer = " ";
-        if (response.getStatus().equals(Status.OK)) {
-            return answer = response.getMessage() + System.lineSeparator() + "Команда успешно выполнена.";
-        }
-        if (response.getStatus().equals(Status.TIME_TO_EXIT)) {
-            System.exit(0);
-        }
-        if (response.getStatus().equals(Status.BAD_REQUEST)) {
-            printLine(response.getMessage());
-        }
-        if (response.getStatus().equals(Status.INTERNAL_SERVER_ERROR)) {
-            printLine("Внутренняя ошибка сервера.");
-        }
 
+    public Controller getController() {
+        return controller;
     }
 }

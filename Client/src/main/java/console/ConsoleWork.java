@@ -95,7 +95,7 @@ public final class ConsoleWork {
 
                     QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
                     Query query = queryBuilder.create(subStrings);
-                    clientConnection.writeDataToSocket();
+                    //clientConnection.writeDataToSocket();
                     Response response = null; //todo дописать и принять респонс от сервера
                     // запрос мы должны отправить
                     // принимаем response

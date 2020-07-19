@@ -1,3 +1,4 @@
+import connection.ClientConnection;
 import console.ConsoleWork;
 import java.io.IOException;
 
@@ -7,8 +8,8 @@ public class App {
 
     public static void main(String[] args) throws IOException {
 
-
-        ConsoleWork consoleWork = new ConsoleWork(System.in, System.out);
+        ClientConnection clientConnection = new ClientConnection();
+        ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, clientConnection);
 
         consoleWork.start();
 
