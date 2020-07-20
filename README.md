@@ -14,3 +14,13 @@
 
 5.  В скрипте, запускающем приложение прописываем:
 >   **java -classpath "./log4j-core-2.13.3.jar" -jar Laba5-1.0-SNAPSHOT.jar**
+
+https://howtodoinjava.com/log4j2/log4j-2-xml-configuration-example/
+[ApacheLog4jCore](https://howtodoinjava.com/log4j2/log4j-2-xml-configuration-example/). 
+
+
+[A](https://mkyong.com/logging/apache-log4j-2-tutorials/). 
+
+[ApacheLog4jCore](https://www.scalyr.com/blog/maven-log4j2-project/). 
+
+[ApacheLog4jCore](https://howtodoinjava.com/log4j2/log4j-2-xml-configuration-example/). 
