@@ -1,0 +1,1 @@
+java -cp Client-1.0-SNAPSHOT.jar;Transfer-1.0-SNAPSHOT.jar App

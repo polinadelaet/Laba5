@@ -1,6 +1,8 @@
 package response;
 
 public final class Response {
+
+    private static final long serialVersionUID = 433L;
     private final Status status;
     private final String message;
 

@@ -21,4 +21,6 @@ public final class Query implements Serializable {
     public List<String> getArguments() {
         return arguments;
     }
+
+
 }

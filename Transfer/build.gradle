@@ -13,11 +13,10 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile project(':Transfer')
 }
 
 jar {
     manifest{
-        attributes 'Main-Class':'App'
+        attributes 'Main-Class':'Appk'
     }
 }

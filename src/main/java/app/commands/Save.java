@@ -8,6 +8,9 @@ import app.response.Status;
 import java.io.File;
 import java.util.List;
 public final class Save extends WorkerCollectionCommand {
+
+    private static final String PATH_TO_WORKERCOLLECTION = "./files/workerCollection";
+
     public Save(List<String> inputArguments, WorkerCollection workerCollection) {
         super(inputArguments, workerCollection);
     }

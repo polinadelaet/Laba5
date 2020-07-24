@@ -1,3 +1,4 @@
 rootProject.name = 'Laba5'
 include 'Client'
+include 'Transfer'
 

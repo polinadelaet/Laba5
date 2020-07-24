@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Client" />
+            <option value="$PROJECT_DIR$/Transfer" />
           </set>
         </option>
         <option name="useQualifiedModuleNames" value="true" />

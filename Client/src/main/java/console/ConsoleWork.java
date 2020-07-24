@@ -1,9 +1,9 @@
 package console;
 
 import connection.ClientConnection;
-import query.Query;
 import query.queryBuilder.*;
-import query.queryCreationException.QueryCreationException;
+import reer.Kyk;
+import response.Kek;
 import response.Response;
 import response.Status;
 
@@ -38,7 +38,7 @@ public final class ConsoleWork {
         queryBuilderMap.put("update", new UpdateIdQueryBuilder(this));
         queryBuilderMap.put("remove_by_id", new RemoveByIdQueryBuilder(this));
         queryBuilderMap.put("clear", new ClearQueryBuilder(this));
-        queryBuilderMap.put("save", new SaveQueryBuilder(this));
+        //queryBuilderMap.put("save", new SaveQueryBuilder(this));
         queryBuilderMap.put("execute_script", new ExecuteScriptQueryBuilder(this));
         queryBuilderMap.put("exit", new ExitQueryBuilderQueryBuilder(this));
         queryBuilderMap.put("insert_at", new InsertAtIndexQueryBuilder(this));
@@ -80,10 +80,11 @@ public final class ConsoleWork {
 
     public void start() {
 
-        printLine("Добро пожаловать! Вы можете ввести команду help, " +
-                "чтобы посмотреть доступные команды.");
+        printLine("Welcome! You can enter the command help, to see the available commands.");
+
         while (true) {
-            printLine("Введите команду: ");
+
+            printLine("Enter the command: ");
 
             try {
                 String line = readLine();
@@ -91,14 +92,22 @@ public final class ConsoleWork {
                 if (subStrings.length == 0) {
                     continue;
                 }
-                try {
 
+                if (subStrings[0].equals("exit")) {
+                    System.exit(0);
+                }
+
+                try {
                     QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
-                    Query query = queryBuilder.create(subStrings);
-                    //clientConnection.writeDataToSocket();
-                    Response response = null; //todo дописать и принять респонс от сервера
-                    // запрос мы должны отправить
-                    // принимаем response
+                    //Query query =
+                    //Query query = queryBuilder.create(subStrings);
+                    //System.out.println(query.getCommandName().toString());
+                    //Response response = clientConnection.writeDataToSocket(query);
+                    Kyk kyk = new Kyk("sd", 23);
+                    //Kek kek = new Kek("df", 23);
+                    clientConnection.writeData(kyk);
+                    Response response = null;
+
                     if (response.getStatus().equals(Status.OK)) {
                         printLine(response.getMessage() + System.lineSeparator() + "Команда успешно выполнена.");
                     }
@@ -109,14 +118,16 @@ public final class ConsoleWork {
                         printLine(response.getMessage());
                     }
                     if (response.getStatus().equals(Status.INTERNAL_SERVER_ERROR)) {
-                        printLine("Внутренняя ошибка сервера.");
+                        printLine("Internal Server Error.");
                     }
 
-                } catch (NullPointerException | QueryCreationException e) {
-                    print("Вы неправильно ввели данные, введите еще раз. ");
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    print("NQ/You entered data are incorrect, please try again. ");
                 }
             } catch (NoSuchElementException e) {
-                print("Вы неправильно ввели данные, введите еще раз. ");
+                e.printStackTrace();
+                print("You entered data are incorrect, please try again. ");
             }
         }
     }
