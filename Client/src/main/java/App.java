@@ -14,8 +14,4 @@ public class App {
         consoleWork.start();
 
     }
-
-    /***
-     * тут в общем нужно написать client.start
-     */
 }

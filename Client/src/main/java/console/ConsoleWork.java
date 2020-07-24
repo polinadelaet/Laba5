@@ -3,7 +3,6 @@ package console;
 import connection.ClientConnection;
 import query.queryBuilder.*;
 import reer.Kyk;
-import response.Kek;
 import response.Response;
 import response.Status;
 
@@ -99,13 +98,9 @@ public final class ConsoleWork {
 
                 try {
                     QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
-                    //Query query =
-                    //Query query = queryBuilder.create(subStrings);
-                    //System.out.println(query.getCommandName().toString());
-                    //Response response = clientConnection.writeDataToSocket(query);
-                    Kyk kyk = new Kyk("sd", 23);
-                    //Kek kek = new Kek("df", 23);
-                    clientConnection.writeData(kyk);
+                    //Kyk kyk = new Kyk("sd", 23);
+                    String string = "kyky";
+                    clientConnection.writeData(string);
                     Response response = null;
 
                     if (response.getStatus().equals(Status.OK)) {

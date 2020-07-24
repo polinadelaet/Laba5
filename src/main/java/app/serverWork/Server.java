@@ -4,16 +4,13 @@ package app.serverWork;
 import app.connection.ConnectionException;
 import app.console.ConsoleWork;
 import app.controller.Controller;
-import app.query.Query;
 import app.response.Response;
 import reer.Kyk;
-import response.Kek;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -26,7 +23,6 @@ public class Server {
     private final Controller controller;
     private final String host = "localhost";
     private final int port = 49999;
-
 
     public Server(Controller controller) {
         this.controller = controller;
@@ -81,10 +77,10 @@ public class Server {
                     } else if (key.isReadable()) {
                         System.out.println("ключ читаем");
                         SocketChannel channel = (SocketChannel) key.channel();
-                       // Query query = readQueryFromSocket(channel);
-                        Kyk kyk =  readQueryFromSocket(channel);
-                        System.out.println(kyk.toString());
-                        System.out.println(kyk.getName()+" ___"+kyk.getAge());
+                        String string =  readQueryFromSocket(channel);
+                        System.out.println(string);
+                        wait(12244L);
+                        //System.out.println(kyk.getName()+" ___"+kyk.getAge());
                         //response = controller.handleQuery(query);
                         //System.out.println(response.toString());
                         channel.register(selector, SelectionKey.OP_WRITE);
@@ -94,7 +90,7 @@ public class Server {
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             consoleWork.printLine("ioe exception");
         } catch (ConnectionException e) {
@@ -102,22 +98,25 @@ public class Server {
         }
 
     }
-    private Kyk readQueryFromSocket(SocketChannel channel) throws ConnectionException {
+    private String readQueryFromSocket(SocketChannel channel) throws ConnectionException {
         ByteBuffer buffer = ByteBuffer.allocate(1024*1024);
         try {
-            channel.read(buffer);
+
+            int byytes = channel.read(buffer);
+            System.out.println(byytes);
+
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(buffer.array());
             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+            String string = (String) objectInputStream.readObject();
+            System.out.println(string);
+            return string;
 
-            Kyk query = (Kyk) objectInputStream.readObject();
-            System.out.println(query.getName());
 
-            return query;
+
         }catch (java.lang.ClassNotFoundException | IOException e){
             e.printStackTrace();
             System.out.println("110");
         }
-return null;
-        //todo: написать говно для чтения, сюда буфер и тд
+            return null;
     }
 }
