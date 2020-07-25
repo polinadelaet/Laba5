@@ -2,8 +2,8 @@ package app.commands;
 
 import app.collection.WorkerCollection;
 import app.collection.worker.savingException.SavingException;
-import app.response.Response;
-import app.response.Status;
+import response.Response;
+import response.Status;
 
 import java.io.File;
 import java.util.List;

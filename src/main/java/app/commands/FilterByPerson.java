@@ -8,8 +8,8 @@ import app.collection.worker.Country;
 import app.collection.worker.Person;
 import app.collection.worker.Worker;
 import app.collection.worker.workerCollectionException.WorkerCollectionException;
-import app.response.Response;
-import app.response.Status;
+import response.Response;
+import response.Status;
 
 import java.util.Iterator;
 import java.util.List;
@@ -39,10 +39,10 @@ public final class FilterByPerson extends WorkerCollectionCommand {
                         message += worker.toString() + System.lineSeparator();
                     }
                 }
-                return new Response(app.response.Status.OK, message);
-            } return new Response(app.response.Status.BAD_REQUEST, "В коллекции нет элементов, значечние поля person которых равно " + person + ".");
+                return new Response(Status.OK, message);
+            } return new Response(Status.BAD_REQUEST, "В коллекции нет элементов, значечние поля person которых равно " + person + ".");
         } catch (WorkerCollectionException e){
-            return new Response(app.response.Status.BAD_REQUEST, e.getMessage());
+            return new Response(Status.BAD_REQUEST, e.getMessage());
         }
     }
 }

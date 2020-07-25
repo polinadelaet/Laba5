@@ -1,6 +1,9 @@
-package app.response;
+package response;
 
-public enum Status {
+import java.io.Serializable;
+
+public enum Status implements Serializable {
+
     OK(200),
     BAD_REQUEST(400),
     INTERNAL_SERVER_ERROR(500),

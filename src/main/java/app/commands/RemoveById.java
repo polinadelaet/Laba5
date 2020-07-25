@@ -3,8 +3,8 @@ package app.commands;
 import app.collection.WorkerCollection;
 import app.collection.worker.Worker;
 import app.collection.worker.workerCollectionException.WorkerCollectionException;
-import app.response.Response;
-import app.response.Status;
+import response.Response;
+import response.Status;
 
 import java.util.Iterator;
 import java.util.List;

@@ -2,11 +2,11 @@ package app.console;
 
 
 import app.controller.Controller;
-import app.query.Query;
 import app.query.queryBuilder.*;
 import app.query.queryCreationException.QueryCreationException;
-import app.response.Response;
-import app.response.Status;
+import query.Query;
+import response.Response;
+import response.Status;
 
 import java.io.*;
 import java.util.*;
@@ -92,7 +92,6 @@ public final class ConsoleWork {
             printLine(response.getMessage());
         }
         if (response.getStatus().equals(Status.INTERNAL_SERVER_ERROR)) {
-            printLine(response.getMessage());
             printLine("Internal Server Error.");
         }
     }

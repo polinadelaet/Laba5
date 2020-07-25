@@ -4,13 +4,10 @@ import app.collection.WorkerCollection;
 import app.collection.getQuery.GetByField;
 import app.collection.worker.*;
 import app.collection.worker.workerCollectionException.WorkerCollectionException;
-import app.response.Response;
-import app.response.Status;
+import response.Response;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.Iterator;
 import java.util.List;
 
 public final class UpdateId extends WorkerCollectionCommand {
@@ -42,10 +39,10 @@ public final class UpdateId extends WorkerCollectionCommand {
             worker.setPerson(new Person(personWeight, hairColor, nationality));
 
             workerCollection.update(worker);
-            return new Response(Status.OK,"Worker обновлен успешно.");
+            return new Response(response.Status.OK,"Worker обновлен успешно.");
         } catch (NoSuchFieldException | WorkerCollectionException |
                 NumberFormatException | IndexOutOfBoundsException e) {
-            return new Response(Status.BAD_REQUEST, "Элемента с таким id не существует");
+            return new Response(response.Status.BAD_REQUEST, "Элемента с таким id не существует");
         }
 
     }

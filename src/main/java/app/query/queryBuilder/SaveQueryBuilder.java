@@ -1,7 +1,7 @@
 package app.query.queryBuilder;
 
 import app.console.ConsoleWork;
-import app.query.Query;
+import query.Query;
 
 
 public final class SaveQueryBuilder extends CompositeQueryBuilder{

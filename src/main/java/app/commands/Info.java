@@ -1,8 +1,8 @@
 package app.commands;
 
 import app.collection.WorkerCollection;
-import app.response.Response;
-import app.response.Status;
+import response.Response;
+import response.Status;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package app.query.queryBuilder;
 import app.console.ConsoleWork;
-import app.query.Query;
 import app.query.queryCreationException.QueryCreationException;
+import query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public abstract class QueryBuilder {
         int legalSubStringsLength = getSubStringsLegalLength();
 
         if (subStrings.length != legalSubStringsLength) {
-            throw new QueryCreationException("Должно быть " + legalSubStringsLength + " аргументов на одной строчке с именем команды.");
+            throw new QueryCreationException("Should be " + legalSubStringsLength + " аrguments on one line with the command name.");
         }
     }
 

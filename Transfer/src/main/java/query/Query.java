@@ -1,4 +1,4 @@
-package app.query;
+package query;
 
 import java.io.Serializable;
 import java.util.List;

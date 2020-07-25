@@ -1,6 +1,6 @@
 package app.query.queryBuilder;
 import app.console.ConsoleWork;
-import app.query.Query;
+import query.Query;
 
 public class SimpleQueryBuilder extends CompositeQueryBuilder {
 

@@ -1,8 +1,10 @@
 package console;
 
 import connection.ClientConnection;
+import connection.clientConnectionException.ClientConnectionException;
+import query.Query;
 import query.queryBuilder.*;
-import reer.Kyk;
+import query.queryCreationException.QueryCreationException;
 import response.Response;
 import response.Status;
 
@@ -37,7 +39,6 @@ public final class ConsoleWork {
         queryBuilderMap.put("update", new UpdateIdQueryBuilder(this));
         queryBuilderMap.put("remove_by_id", new RemoveByIdQueryBuilder(this));
         queryBuilderMap.put("clear", new ClearQueryBuilder(this));
-        //queryBuilderMap.put("save", new SaveQueryBuilder(this));
         queryBuilderMap.put("execute_script", new ExecuteScriptQueryBuilder(this));
         queryBuilderMap.put("exit", new ExitQueryBuilderQueryBuilder(this));
         queryBuilderMap.put("insert_at", new InsertAtIndexQueryBuilder(this));
@@ -51,9 +52,7 @@ public final class ConsoleWork {
 
     public String readLine(){
         return skan.nextLine();
-
     }
-
 
     public void print(String string){
         byte[] result = string.getBytes();
@@ -64,11 +63,10 @@ public final class ConsoleWork {
             System.out.println("Ошибка записи.");
         }
     }
-    public void printLine(String string){
 
+    public void printLine(String string){
         string+=System.lineSeparator();
         byte[] result = string.getBytes();
-
         try {
             bufferedOutputStream.write(result);
             bufferedOutputStream.flush();
@@ -97,14 +95,14 @@ public final class ConsoleWork {
                 }
 
                 try {
+
                     QueryBuilder queryBuilder = queryBuilderMap.get(subStrings[0]);
-                    //Kyk kyk = new Kyk("sd", 23);
-                    String string = "kyky";
-                    clientConnection.writeData(string);
-                    Response response = null;
+                    Query query = queryBuilder.create(subStrings);
+                    clientConnection.writeQuery(query);
+                    Response response = clientConnection.receiveResponse();
 
                     if (response.getStatus().equals(Status.OK)) {
-                        printLine(response.getMessage() + System.lineSeparator() + "Команда успешно выполнена.");
+                        printLine(response.getMessage() + System.lineSeparator() + "The command completed successfully.");
                     }
                     if (response.getStatus().equals(Status.TIME_TO_EXIT)) {
                         System.exit(0);
@@ -115,14 +113,13 @@ public final class ConsoleWork {
                     if (response.getStatus().equals(Status.INTERNAL_SERVER_ERROR)) {
                         printLine("Internal Server Error.");
                     }
-
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    print("NQ/You entered data are incorrect, please try again. ");
+                } catch (NullPointerException | QueryCreationException e) {
+                    printLine("You entered data are incorrect, please try again. ");
+                } catch (ClientConnectionException e) {
+                    printLine(e.getMessage());
                 }
             } catch (NoSuchElementException e) {
-                e.printStackTrace();
-                print("You entered data are incorrect, please try again. ");
+                printLine("You entered data are incorrect, please try again. ");
             }
         }
     }

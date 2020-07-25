@@ -7,8 +7,8 @@ import app.commands.script.ScriptExecutor;
 import app.commands.script.ScriptReader;
 import app.commands.script.scriptException.RecursionException;
 import app.commands.script.scriptException.ScriptException;
-import app.response.Response;
-import app.response.Status;
+import response.Response;
+import response.Status;
 
 import java.util.List;
 import java.util.Set;

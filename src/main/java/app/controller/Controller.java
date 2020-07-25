@@ -4,14 +4,15 @@ import app.collection.WorkerCollection;
 import app.commands.Command;
 import app.commands.factory.CommandCreationException;
 import app.commands.factory.CommandsFactory;
-import app.query.Query;
-import app.response.Response;
-import app.response.Status;
+import query.Query;
+import response.Response;
+import response.Status;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public final class Controller {
+
     private final WorkerCollection workerCollection;
 
     public Controller(WorkerCollection workerCollection) {

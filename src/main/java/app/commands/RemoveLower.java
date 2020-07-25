@@ -4,7 +4,7 @@ import app.collection.WorkerCollection;
 import app.collection.getQuery.GetLower;
 import app.collection.worker.*;
 import app.collection.worker.workerCollectionException.WorkerCollectionException;
-import app.response.Response;
+import response.Response;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -40,10 +40,10 @@ public final class RemoveLower extends WorkerCollectionCommand {
                 for (Worker targetWorker: resultWorkers){
                     workerCollection.remove(targetWorker);
                 }
-                return new Response(app.response.Status.OK, "Элементы коллекции успешно удалены.");
-            } return new Response(app.response.Status.BAD_REQUEST, "Элементы не были удалены, так как они все не меньше заданного");
+                return new Response(response.Status.OK, "Элементы коллекции успешно удалены.");
+            } return new Response(response.Status.BAD_REQUEST, "Элементы не были удалены, так как они все не меньше заданного");
         } catch (WorkerCollectionException e){
-            return new Response(app.response.Status.BAD_REQUEST, e.getMessage());
+            return new Response(response.Status.BAD_REQUEST, e.getMessage());
         }
     }
 }

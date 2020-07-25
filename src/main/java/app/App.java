@@ -8,6 +8,7 @@ import app.collection.worker.loadingException.LoadingException;
 import app.collection.worker.savingException.SavingException;
 import app.controller.Controller;
 import app.serverWork.Server;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -15,7 +16,7 @@ public class App {
 
     private static final String PATH_TO_ID_GENERATOR = "./files/idGenerator";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
        try {
 
            String path = System.getenv("WC_FILE");

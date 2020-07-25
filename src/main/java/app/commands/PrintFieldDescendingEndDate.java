@@ -5,8 +5,8 @@ import app.collection.getQuery.GetAll;
 import app.collection.getQuery.GetQuery;
 import app.collection.worker.Worker;
 import app.collection.worker.workerCollectionException.WorkerCollectionException;
-import app.response.Response;
-import app.response.Status;
+import response.Response;
+import response.Status;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public final class PrintFieldDescendingEndDate extends WorkerCollectionCommand {
             } return new Response(Status.BAD_REQUEST, "В коллекции нет элементов.");
 
         } catch (WorkerCollectionException e){
-            return new Response(app.response.Status.BAD_REQUEST, e.getMessage());
+            return new Response(Status.BAD_REQUEST, e.getMessage());
         }
 
 

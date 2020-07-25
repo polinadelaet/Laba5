@@ -1,40 +1,50 @@
 package connection;
 
-import reer.Kyk;
+import connection.clientConnectionException.ClientConnectionException;
+import connection.clientConnectionException.CreateClientConnectionException;
+import query.Query;
 import response.Response;
+
 import java.io.*;
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 public class ClientConnection {
 
     private final String host = "localhost";
-    private final int port = 49999;
+    private final int port = 49998;
+    private SocketChannel socketChannel;
 
-    public void writeData(String string) {
+    private SocketChannel createChannel() throws CreateClientConnectionException {
         try {
-            SocketChannel myClient = SocketChannel.open(new InetSocketAddress(host, port));
-            ObjectOutputStream  oos = new ObjectOutputStream(myClient.socket().getOutputStream());
-            oos.writeObject(string);
-            oos.close();
+            SocketChannel socketChannel = SocketChannel.open();
+            socketChannel.connect(new InetSocketAddress(host, port));
+            return socketChannel;
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CreateClientConnectionException("Failed to create a communication channel with the server.");
         }
     }
 
-    private Response readResponseFromSocket(SocketChannel socketChannel){
-        ByteBuffer buffer = ByteBuffer.allocate(1024*1024);
-        Response response = null;
+
+    public void writeQuery(Query query) throws ClientConnectionException {
         try {
-            socketChannel.read(buffer);
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(buffer.array());
-            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-            response = (Response) objectInputStream.readObject();
-            buffer.clear();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("kdkjdk");
+            socketChannel = createChannel();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socketChannel.socket().getOutputStream());
+            objectOutputStream.writeObject(query);
+        } catch (CreateClientConnectionException e) {
+            throw new ClientConnectionException(e.getMessage());
+        } catch (IOException e) {
+            throw new ClientConnectionException("Failed to transfer data to Server over the network.");
         }
-        return response;
+    }
+
+    public Response receiveResponse() throws ClientConnectionException {
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(socketChannel.socket().getInputStream());
+            Response response = (Response) objectInputStream.readObject();
+            return response;
+        } catch (IOException | ClassNotFoundException e) {
+            throw new ClientConnectionException("Failed to get data from Server.");
+        }
     }
 }

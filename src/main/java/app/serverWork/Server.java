@@ -1,35 +1,37 @@
 package app.serverWork;
 
-
 import app.connection.ConnectionException;
+import app.connection.CreateConnectionException;
 import app.console.ConsoleWork;
 import app.controller.Controller;
-import app.response.Response;
-import reer.Kyk;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import query.Query;
+import response.Response;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.Iterator;
 
 public class Server {
 
     private final Controller controller;
     private final String host = "localhost";
-    private final int port = 49999;
+    private final int port = 49998;
+    private SocketChannel socketChannel;
+    private ConsoleWork consoleWork;
+    private ServerSocketChannel serverSocketChannel;
+    private static final Logger log = LogManager.getLogger(Server.class);
 
     public Server(Controller controller) {
         this.controller = controller;
     }
 
     public void start () {
-        ConsoleWork consoleWork = new ConsoleWork(System.in, System.out, controller);
+        consoleWork = new ConsoleWork(System.in, System.out, controller);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -39,84 +41,57 @@ public class Server {
 
 
         try {
+            serverSocketChannel = ServerSocketChannel.open();
+            log.info("ServerSocketChannel is opened.");
+            serverSocketChannel.bind(new InetSocketAddress(host, port));
+            log.debug("The server was bind to host: " + host +
+                        " and port: " + port);
+        } catch (IOException e) {
+            consoleWork.printLine("This port for Server is busy.");
+        }
 
-            Selector selector = Selector.open();
-            consoleWork.printLine("selector is opened.");
-            ServerSocketChannel server = ServerSocketChannel.open();
-            server.configureBlocking(false);
-            server.bind(new InetSocketAddress(host, port));
-            server.register(selector, SelectionKey.OP_ACCEPT);
-
-            while (true) {
-                consoleWork.printLine("entered into while true.");
-
-                int select = selector.select(); // количество челиков ожидающих соединение
-                if (select == 0){
-                    System.out.println("==0");
-                    return;
-                }
-                Iterator<SelectionKey> selectionKeyIterator = selector.selectedKeys().iterator();
-                System.out.println("ключи = " + selectionKeyIterator.toString());
-                while (selectionKeyIterator.hasNext()){
-                    System.out.println("Зашли в вайл там где хэз некст итератора");
-                    Response response = null;
-                    SelectionKey key = selectionKeyIterator.next();
-                    System.out.println(key.toString());
-                    selectionKeyIterator.remove();
-
-                    if (key.isAcceptable()) {
-                        SocketChannel client = server.accept();
-                        System.out.println("Accepted connection from " + client);
-                        client.configureBlocking(false);
-                        System.out.println("клиент читаемый ли ключ: " + key.isReadable());
-                        //client.register(selector,SelectionKey.OP_READ); // зарегали канал и для сервера и для клиента в одном селекторе
-                        client.register(selector, SelectionKey.OP_READ);
-
-                        System.out.println("клиент читаемый ли ключ: " + key.isReadable());
-                        //continue;
-                    } else if (key.isReadable()) {
-                        System.out.println("ключ читаем");
-                        SocketChannel channel = (SocketChannel) key.channel();
-                        String string =  readQueryFromSocket(channel);
-                        System.out.println(string);
-                        wait(12244L);
-                        //System.out.println(kyk.getName()+" ___"+kyk.getAge());
-                        //response = controller.handleQuery(query);
-                        //System.out.println(response.toString());
-                        channel.register(selector, SelectionKey.OP_WRITE);
-                    } else if (key.isWritable()) {
-                        System.out.println("ключ записываем");
-
-                    }
-                }
+        while (true) {
+            try {
+                Query query = receiveQuery();
+                log.debug("A query was receive from a client.");
+                Response response = controller.handleQuery(query);
+                log.debug("Response was send to a client.");
+                sendResponse(response);
+            } catch (ConnectionException e) {
+                consoleWork.printLine(e.getMessage());
             }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            consoleWork.printLine("ioe exception");
-        } catch (ConnectionException e) {
-            e.printStackTrace();
         }
-
     }
-    private String readQueryFromSocket(SocketChannel channel) throws ConnectionException {
-        ByteBuffer buffer = ByteBuffer.allocate(1024*1024);
+
+    private SocketChannel createSocketChannel() throws CreateConnectionException {
         try {
-
-            int byytes = channel.read(buffer);
-            System.out.println(byytes);
-
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(buffer.array());
-            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-            String string = (String) objectInputStream.readObject();
-            System.out.println(string);
-            return string;
-
-
-
-        }catch (java.lang.ClassNotFoundException | IOException e){
-            e.printStackTrace();
-            System.out.println("110");
+            socketChannel = serverSocketChannel.accept();
+            log.info("Connection established from..." + socketChannel.getRemoteAddress());
+            return socketChannel;
+        } catch (IOException e) {
+            throw new CreateConnectionException("Failed to accept connection from client.");
         }
-            return null;
+    }
+
+    private Query receiveQuery() throws ConnectionException {
+        try {
+            socketChannel = createSocketChannel();
+            ObjectInputStream objectInputStream = new ObjectInputStream(socketChannel.socket().getInputStream());
+            return (Query) objectInputStream.readObject();
+        } catch (CreateConnectionException e) {
+            throw new ConnectionException(e.getMessage());
+        } catch (IOException | ClassNotFoundException e) {
+            throw new ConnectionException("Failed to get query from Client.");
+        }
+    }
+
+    private void sendResponse(Response response) throws ConnectionException {
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socketChannel.socket().getOutputStream());
+            objectOutputStream.writeObject(response);
+            socketChannel.close();
+        } catch (IOException e) {
+            throw new ConnectionException("Failed to transfer response to Client over the network.");
+        }
     }
 }

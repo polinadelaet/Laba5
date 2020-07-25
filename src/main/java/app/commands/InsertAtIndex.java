@@ -6,8 +6,8 @@ import app.collection.worker.Coordinates;
 import app.collection.worker.Country;
 import app.collection.worker.Person;
 import app.collection.worker.workerCollectionException.WorkerCollectionException;
-import app.response.Response;
-import app.response.Status;
+import response.Response;
+import response.Status;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
